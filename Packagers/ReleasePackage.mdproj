@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ItemType>PackagingProject</ItemType>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{160233B9-C072-4542-B37A-E0B1379F04BF}</ProjectGuid>
+    <Packages>
+      <Packages>
+        <Package name="Release">
+          <Builder targetFile="..\Releases\EditorExtensions.zip" platform="Windows" configuration="Release" ctype="BinariesZipPackageBuilder">
+            <ChildEntries>
+              <SolutionItemReference path="..\EditorExtensions\EditorExtensions.csproj" />
+            </ChildEntries>
+            <ExcludedFiles>
+              <File>EditorExtensions,ProgramFiles,UnityEngine.UI.dll</File>
+              <File>EditorExtensions,ProgramFiles,Assembly-CSharp-firstpass.dll</File>
+              <File>EditorExtensions,ProgramFiles,UnityEngine.dll</File>
+              <File>EditorExtensions,ProgramFiles,Assembly-CSharp.dll</File>
+            </ExcludedFiles>
+            <RootEntry path="..\EditorExtensions.sln" id=":root:" />
+          </Builder>
+        </Package>
+      </Packages>
+    </Packages>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ReleaseVersion>2.0</ReleaseVersion>
+  </PropertyGroup>
+</Project>

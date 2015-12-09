@@ -1,0 +1,19 @@
+﻿Stock editor keymappings v0.90
+
+Editor_pitchUp S
+Editor_pitchDown W
+Editor_yawLeft A
+Editor_yawRight D
+Editor_rollLeft Q
+Editor_rollRight E
+Editor_resetRotation Space
+Editor_modePlace Alpha1
+Editor_modeOffset Alpha2
+Editor_modeRotate Alpha3
+Editor_modeRoot Alpha4
+Editor_coordSystem F (Absolute/Local coord mode)
+Editor_toggleSymMethod R
+Editor_toggleSymMode X
+Editor_toggleAngleSnap C
+Editor_fineTweak LeftShift
+
