@@ -10,9 +10,9 @@ namespace EditorExtensionsRedux
 
 		public static AppLauncherButton Instance;
 
-		const string texPathDefault = "EditorExtensions/Textures/AppLauncherIcon";
-		const string texPathOn = "EditorExtensions/Textures/AppLauncherIcon-On";
-		const string texPathOff = "EditorExtensions/Textures/AppLauncherIcon-Off";
+		const string texPathDefault = "EditorExtensionsRedux/Textures/AppLauncherIcon";
+		const string texPathOn = "EditorExtensionsRedux/Textures/AppLauncherIcon-On";
+		const string texPathOff = "EditorExtensionsRedux/Textures/AppLauncherIcon-Off";
 
 		private void Start ()
 		{

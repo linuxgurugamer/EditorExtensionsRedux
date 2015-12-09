@@ -4,12 +4,13 @@
     <Files>
       <File FileName="C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets" Line="1" Column="1" />
       <File FileName="Utility.cs" Line="1" Column="1" />
-      <File FileName="..\README.md" Line="11" Column="30" />
-      <File FileName="deploy.bat" Line="11" Column="19" />
+      <File FileName="..\README.md" Line="6" Column="1" />
+      <File FileName="deploy.bat" Line="1" Column="1" />
       <File FileName="deploy-mac.sh" Line="1" Column="1" />
       <File FileName="License.txt" Line="1" Column="1" />
       <File FileName="buildRelease.bat" Line="1" Column="1" />
-      <File FileName="EditorExtensionsRedux.version" Line="23" Column="4" />
+      <File FileName="EditorExtensionsRedux.version" Line="11" Column="4" />
+      <File FileName="AppLauncherButton.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

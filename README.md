@@ -1,4 +1,8 @@
-## Editor Extensions v3.00 For KSP v1.0.5
+## Editor Extensions v3.01 For KSP v1.0.5
+
+### Changes in v3.00 - 9 December 2015
+## Editor Extensions v3.01 For KSP v1.0.5
+Fixed missing icon in editor
 
 ### Changes in v3.00 - 9 December 2015
 * Recompiled for 1.0.5
