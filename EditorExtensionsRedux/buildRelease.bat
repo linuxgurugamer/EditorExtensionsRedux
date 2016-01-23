@@ -28,12 +28,17 @@ set /p VERSION= "Enter version: "
 mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux
 mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures
 
+del %HOMEDIR%\install\GameData\EditorExtensionsRedux
+del %HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures
+
+
 copy /Y "%~dp0bin\Debug\EditorExtensionsRedux.dll" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
 copy /Y "%~dp0bin\Debug\Textures\*.png" "%HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures"
-copy /Y "%~dp0bin\Debug\EditorExtensionsRedux.version" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
+copy /Y "EditorExtensionsRedux.version" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
 
 copy /Y "%~dp0bin\Debug\License.txt" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
 copy /Y "%~dp0bin\Debug\README.md" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
+copy /Y MiniAVC.dll  "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
 
 %HOMEDRIVE%
 cd %HOMEDIR%\install
