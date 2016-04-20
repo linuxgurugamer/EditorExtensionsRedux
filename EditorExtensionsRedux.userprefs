@@ -1,0 +1,27 @@
+﻿<Properties StartupItem="Packagers\BetaPackage.mdproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="EditorExtensionsRedux\EditorExtensionsRedux.version">
+    <Files>
+      <File FileName="EditorExtensionsRedux\SelectRoot2Behaviour.cs" Line="63" Column="12" />
+      <File FileName="EditorExtensionsRedux\NoOffsetLimits\NoOffsetLimitsBehaviour.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\buildRelease.bat" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\deploy.bat" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\Config\ConfigManager.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\EditorExtensionsRedux.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\Logging.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\AppLauncherButton.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\Config\ConfigData.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\PartInfoWindow.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\EditorExtensionsRedux.version" Line="10" Column="12" />
+      <File FileName="EditorExtensionsRedux\StripSymmetry\Enums.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\StripSymmetry\ExtensionMethods.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\Utility.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\StripSymmetry\Hotkey.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\SettingsWindow.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

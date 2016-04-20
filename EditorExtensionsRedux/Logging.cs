@@ -13,7 +13,7 @@ namespace EditorExtensionsRedux
 		{
 			UnityEngine.Debug.Log (MessagePrefix + message);
 		}
-
+		[ConditionalAttribute("DEBUG")]
 		public static void Info(string message)
 		{
 			UnityEngine.Debug.Log (MessagePrefix + message);

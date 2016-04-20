@@ -231,9 +231,9 @@ namespace EditorExtensionsRedux
 				GUILayout.Label ("part.collider not null");
 			}
 
-			if (part.gameObject != null && part.gameObject.collider != null) {
-				GUILayout.Label ("part.gameObject.collider not null");
-			}
+//			if (part.gameObject != null && part.gameObject.collider != null) {
+//				GUILayout.Label ("part.gameObject.collider not null");
+//			}
 
 			GUILayout.Label ("isAttached " + part.isAttached.ToString ());
 			GUILayout.Label ("attRotation: " + part.attRotation.ToString (vectFormat));

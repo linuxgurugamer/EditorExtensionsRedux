@@ -27,6 +27,9 @@ set /p VERSION= "Enter version: "
 
 mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux
 mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures
+mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux\PluginData
+mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux\PluginData\StripSymmetry
+
 
 del %HOMEDIR%\install\GameData\EditorExtensionsRedux
 del %HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures
@@ -39,6 +42,8 @@ copy /Y "EditorExtensionsRedux.version" "%HOMEDIR%\install\GameData\EditorExtens
 copy /Y "%~dp0bin\Debug\License.txt" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
 copy /Y "%~dp0bin\Debug\README.md" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
 copy /Y MiniAVC.dll  "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
+
+copy /y "StripSymmetry\Gamedata\StripSymmetry\plugins\PluginData\StripSymmetry\config.xml"  "%HOMEDIR%\install\GameData\EditorExtensionsRedux\PluginData\StripSymmetry"
 
 %HOMEDRIVE%
 cd %HOMEDIR%\install

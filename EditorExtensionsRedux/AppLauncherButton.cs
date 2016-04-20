@@ -1,12 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using KSP.UI.Screens;
 
 namespace EditorExtensionsRedux
 {
 	[KSPAddon (KSPAddon.Startup.EditorAny, false)]
 	public class AppLauncherButton : MonoBehaviour
 	{
-		private ApplicationLauncherButton button;
+		private ApplicationLauncherButton button = null;
 
 		public static AppLauncherButton Instance;
 
@@ -45,20 +46,30 @@ namespace EditorExtensionsRedux
 
 		private void OnGuiAppLauncherReady ()
 		{
-			try {
-				this.button = ApplicationLauncher.Instance.AddModApplication (
-					() => { EditorExtensions.Instance.Show (); }, 	//RUIToggleButton.onTrue
-					() => { EditorExtensions.Instance.Hide (); },	//RUIToggleButton.onFalse
-					() => { EditorExtensions.Instance.ShowMenu (); }, //RUIToggleButton.OnHover
-					() => { EditorExtensions.Instance.HideMenu (); }, //RUIToggleButton.onHoverOut
-					null, //RUIToggleButton.onEnable
-					null, //RUIToggleButton.onDisable
-					ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH, //visibleInScenes
-					GameDatabase.Instance.GetTexture (texPathDefault, false) //texture
-				);
-				Log.Debug ("Added ApplicationLauncher button");
-			} catch (Exception ex) {
-				Log.Error ("Error adding ApplicationLauncher button: " + ex.Message);
+			if (this.button == null) {
+				try {
+					this.button = ApplicationLauncher.Instance.AddModApplication (
+						() => {
+							EditorExtensions.Instance.Show ();
+						}, 	//RUIToggleButton.onTrue
+						() => {
+							EditorExtensions.Instance.Hide ();
+						},	//RUIToggleButton.onFalse
+						() => {
+							EditorExtensions.Instance.ShowMenu ();
+						}, //RUIToggleButton.OnHover
+						() => {
+							EditorExtensions.Instance.HideMenu ();
+						}, //RUIToggleButton.onHoverOut
+						null, //RUIToggleButton.onEnable
+						null, //RUIToggleButton.onDisable
+						ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH, //visibleInScenes
+						GameDatabase.Instance.GetTexture (texPathDefault, false) //texture
+					);
+					Log.Debug ("Added ApplicationLauncher button");
+				} catch (Exception ex) {
+					Log.Error ("Error adding ApplicationLauncher button: " + ex.Message);
+				}
 			}
 
 		}
@@ -76,14 +87,17 @@ namespace EditorExtensionsRedux
 
 			try {
 				if (EditorLogic.fetch != null) {
-					if (EditorExtensions.Instance.Visible && this.button.State != RUIToggleButton.ButtonState.TRUE) {
+//					if (EditorExtensions.Instance.Visible && this.button.State != RUIToggleButton.ButtonState.TRUE) {
+					if (EditorExtensions.Instance.Visible && !this.button.enabled) {
 						this.button.SetTrue ();
 						//this.button.SetTexture(GameDatabase.Instance.GetTexture (texPathOn, false));
-					} else if (!EditorExtensions.Instance.Visible && this.button.State != RUIToggleButton.ButtonState.FALSE) {
+//					} else if (!EditorExtensions.Instance.Visible && this.button.State != RUIToggleButton.ButtonState.FALSE) {
+					} else if (!EditorExtensions.Instance.Visible && this.button.enabled) {
 						this.button.SetFalse ();
 						//this.button.SetTexture(GameDatabase.Instance.GetTexture (texPathOff, false));
 					}
-				} else if (this.button.State != RUIToggleButton.ButtonState.DISABLED) {
+//				} else if (this.button.State != RUIToggleButton.ButtonState.DISABLED) {
+				} else if (this.button.enabled) {
 					this.button.Disable ();
 				}
 			} catch (Exception ex) {

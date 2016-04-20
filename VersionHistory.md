@@ -1,4 +1,13 @@
-﻿## Editor Extensions v3.00 For KSP v1.0.5
+﻿##
+##
+## Editor Extensions v3.02 For KSP v1.1
+## Changes in 3.0.2
+Recompiled for 1.1
+Rewrote all Reflection code in Strip Symmetry, Select RootPart and NoOffsetLimits
+Added Strip Symmetry
+Added NoOffsetLimits
+
+## Editor Extensions v3.00 For KSP v1.0.5
 
 ### Changes in v3.00 - 9 December 2015
 * Recompiled for 1.0.5

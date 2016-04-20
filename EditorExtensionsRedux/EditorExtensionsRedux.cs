@@ -6,6 +6,7 @@ using System.Net;
 using System.Reflection;
 using KSP.IO;
 using UnityEngine;
+//using UnityEngine.UI;
 
 namespace EditorExtensionsRedux
 {
@@ -164,8 +165,8 @@ namespace EditorExtensionsRedux
 		//Unity update
 		void Update ()
 		{
-			if (editor.shipNameField.Focused || editor.shipDescriptionField.Focused)
-				return;
+			//if (editor.shipNameField.Focused || editor.shipDescriptionField.Focused)
+			//	return;
 
 			//ignore hotkeys while settings window is open
 			//if (_settingsWindow != null && _settingsWindow.enabled)
@@ -557,7 +558,7 @@ namespace EditorExtensionsRedux
 				stretchWidth = true,
 				stretchHeight = true,
 				alignment = TextAnchor.MiddleCenter,
-				fontSize = 18,
+				fontSize = FONTSIZE,
 				fontStyle = FontStyle.Bold,
 				name = "SymmetryLabel"
 			};
@@ -580,7 +581,7 @@ namespace EditorExtensionsRedux
 		public void Hide ()
 		{
 			this.Visible = false;
-			Log.Debug ("Hide()");
+			//Log.Debug ("Hide()");
 			//if (_settingsWindow.enabled) {
 			//	_settingsWindow.enabled = false;
 			//}
@@ -659,33 +660,89 @@ namespace EditorExtensionsRedux
 
 		#region Snap labels
 
+		const int FONTSIZE = 14;
+
 		string symmetryLabelValue = string.Empty;
 		//symmetry & angle sprite/label size and position
-		const int advancedModeOffset = 34;
-		const int angleSnapLabelSize = 43;
-		const int angleSnapLabelLeftOffset = 209;
-		const int angleSnapLabelBottomOffset = 61;
-		const int symmetryLabelSize = 56;
-		const int symmetryLabelLeftOffset = 152;
-		const int symmetryLabelBottomOffset = 63;
-		Rect angleSnapLabelRect = new Rect () {
+
+		//const int advancedModeOffset = 34;
+		//const int angleSnapLabelSize = 43;
+		 int advancedModeOffset = 34;
+		 int angleSnapLabelSize = 33;
+
+		//const int angleSnapLabelLeftOffset = 209;
+		//const int angleSnapLabelBottomOffset = 61;
+		 int angleSnapLabelLeftOffset = 231;
+		 int angleSnapLabelBottomOffset = 52;
+
+		//const int symmetryLabelSize = 56;
+		 int symmetryLabelSize = 43;
+
+		//const int symmetryLabelLeftOffset = 152;
+		//const int symmetryLabelBottomOffset = 63;
+		 int symmetryLabelLeftOffset = 175;
+		 int symmetryLabelBottomOffset = 50;
+
+
+		Rect angleSnapLabelRect; /* = new Rect () {
 			xMin = angleSnapLabelLeftOffset,
 			xMax = angleSnapLabelLeftOffset + angleSnapLabelSize,
 			yMin = Screen.height - angleSnapLabelBottomOffset,
 			yMax = Screen.height - angleSnapLabelBottomOffset + angleSnapLabelSize
-		};
-		Rect symmetryLabelRect = new Rect () {
+		}; */
+		Rect symmetryLabelRect; /* = new Rect () {
 			xMin = symmetryLabelLeftOffset,
 			xMax = symmetryLabelLeftOffset + symmetryLabelSize,
 			yMin = Screen.height - symmetryLabelBottomOffset,
 			yMax = Screen.height - symmetryLabelBottomOffset + symmetryLabelSize
-		};
+		};*/
 
+		void AdjustSnapLocations()
+		{
+			//symmetry & angle sprite/label size and position
+			symmetryLabelStyle.fontSize = (int)Math.Round(FONTSIZE * GameSettings.UI_SCALE);
+			osdLabelStyle.fontSize = (int)Math.Round(22 * GameSettings.UI_SCALE);
+
+			//const int advancedModeOffset = 34;
+			//const int angleSnapLabelSize = 43;
+			advancedModeOffset = (int)Math.Floor(33 * GameSettings.UI_SCALE);
+			angleSnapLabelSize = (int)Math.Floor(33* GameSettings.UI_SCALE);
+
+			//const int angleSnapLabelLeftOffset = 209;
+			//const int angleSnapLabelBottomOffset = 61;
+			angleSnapLabelLeftOffset = (int)Math.Floor(231* GameSettings.UI_SCALE);
+			angleSnapLabelBottomOffset = (int)Math.Floor(52* GameSettings.UI_SCALE);
+
+			//const int symmetryLabelSize = 56;
+			symmetryLabelSize = (int)Math.Floor(43* GameSettings.UI_SCALE);
+
+			//const int symmetryLabelLeftOffset = 152;
+			//const int symmetryLabelBottomOffset = 63;
+			symmetryLabelLeftOffset = (int)Math.Floor(175* GameSettings.UI_SCALE);
+			symmetryLabelBottomOffset = (int)Math.Floor(50* GameSettings.UI_SCALE);
+
+
+			 angleSnapLabelRect = new Rect () {
+				xMin = angleSnapLabelLeftOffset,
+				xMax = angleSnapLabelLeftOffset + angleSnapLabelSize,
+				yMin = Screen.height - angleSnapLabelBottomOffset,
+				yMax = Screen.height - angleSnapLabelBottomOffset + angleSnapLabelSize
+			};
+			 symmetryLabelRect = new Rect () {
+				xMin = symmetryLabelLeftOffset,
+				xMax = symmetryLabelLeftOffset + symmetryLabelSize,
+				yMin = Screen.height - symmetryLabelBottomOffset,
+				yMax = Screen.height - symmetryLabelBottomOffset + symmetryLabelSize
+			};
+		}
 		/// <summary>
 		/// Hides the stock angle & symmetry sprites and replaces with textual labels
 		/// </summary>
 		private void ShowSnapLabels ()
 		{
+			if (editor == null)
+				return;
+			AdjustSnapLocations ();
 			//editor.symmetryButton.transform.position?
 
 			//Only show angle/symmetry sprites on parts tab
@@ -727,8 +784,9 @@ namespace EditorExtensionsRedux
 
 				} else {
 					//angle snap is off, show stock sprite
-					editor.angleSnapSprite.PlayAnim (0);
+//					editor.angleSnapSprite.PlayAnim (0);
 					//editor.angleSnapSprite.Hide (false);
+					editor.angleSnapSprite.SetState (0);
 					editor.angleSnapSprite.gameObject.SetActive (true);
 				}
 			}

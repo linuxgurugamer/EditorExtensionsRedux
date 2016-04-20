@@ -1,14 +1,17 @@
-﻿using System;
+﻿#if true
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 using System.Reflection;
 
-namespace SelectRoot2 {
+//using EditorExtensionsRedux;
+
+namespace EditorExtensionsRedux.SelectRoot2 {
 	[KSPAddon(KSPAddon.Startup.EditorAny, false)]
 	public class SelectRoot2Behaviour : MonoBehaviour {
-		private Log log;
+	//	private Log log;
 
 		private delegate void CleanupFn();
 		private CleanupFn OnCleanup;
@@ -16,7 +19,7 @@ namespace SelectRoot2 {
 		/**
 		 * The stock root selection has two states: 
 		 *  - st_root_unselected: Active after switching to root mode. Waits for mouse up, picks part and sets SelectedPart.
-		 *  - st_root: The state after the first click.
+		 *  - st_root_select: The state after the first click.
 		 *  
 		 * Skip straight to st_root state by adding an event to st_root_unselected with 
 		 * always true condition that sets up SelectedPart and transitions to st_root.
@@ -24,11 +27,11 @@ namespace SelectRoot2 {
 		 * Needs to run after EditorLogic#Start() so the states are initialized.
 		 */
 		public void Start() {
-			log = new Log(this.GetType().Name);
-			log.Debug("Start");
+			//log = new Log(this.GetType().Name);
+			Log.Info("Start");
 
 			// Oh god, so much dirty reflection. Please don't sue me, Squad :(
-			KerbalFSM editorFSM = (KerbalFSM)Refl.GetValue(EditorLogic.fetch, "\u0001");
+			//KerbalFSM editorFSM = (KerbalFSM)Refl.GetValue(EditorLogic.fetch, "\u0001");
 
 			{
 				// Skip first click in root selection mode:
@@ -40,65 +43,86 @@ namespace SelectRoot2 {
 					return EditorReRootUtil.GetRootCandidates(EditorLogic.RootPart.GetComponentsInChildren<Part>()).Any();
 				};
 				skipFirstClickEvent.OnEvent = () => {
-					Refl.SetValue(EditorLogic.fetch, "\u0003", EditorLogic.RootPart); // SelectedPart
+					Refl.SetValue(EditorLogic.fetch, "selectedPart", EditorLogic.RootPart); // SelectedPart
 				};
-				KFSMState st_root = (KFSMState)Refl.GetValue(EditorLogic.fetch, "\u001c");
-				skipFirstClickEvent.GoToStateOnEvent = st_root;
+				KFSMState st_root_select = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_root_select");
+				skipFirstClickEvent.GoToStateOnEvent = st_root_select;
 
-				KFSMState st_root_unselected = (KFSMState)Refl.GetValue(EditorLogic.fetch, "\u001b");
+				KFSMState st_root_unselected = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_root_unselected");
 				InjectEvent(st_root_unselected, skipFirstClickEvent);
-
+			
 				// Fix ability to select if already hovering:
 				KFSMStateChange fixAlreadyHoveringPartFn = (from) => {
 					Part partUnderCursor = GetPartUnderCursor();
-					var selectors = (List<PartSelector>)Refl.GetValue(EditorLogic.fetch, "\u0020\u0002");
-					var selectorUnderCursor = selectors.Find(x => (Part)Refl.GetValue(x, "\u0001") == partUnderCursor);
-					if(selectorUnderCursor) {
+					var selectors = EditorLogic.SortedShipList;
+				
+					//EditorLogic.fetch.Lock (true, true, true, "SelectRoot2");
+
+					var selectorUnderCursor = selectors.Find(x => (Part)x == partUnderCursor);
+					if(selectorUnderCursor) 
 						Refl.Invoke(selectorUnderCursor, "OnMouseEnter");
-					}
 				};
-				st_root.OnEnter += fixAlreadyHoveringPartFn;
+				st_root_select.OnEnter += fixAlreadyHoveringPartFn;
 				OnCleanup += () => {
-					st_root.OnEnter -= fixAlreadyHoveringPartFn;
+					st_root_select.OnEnter -= fixAlreadyHoveringPartFn;
 				};
 
 				// Provide a more meaningful message after our changes:
 				KFSMStateChange postNewMessageFn = (from) => {
-					var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "\u000e");
-					ScreenMessages.PostScreenMessage("Select a new root part", template, true);
+					var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
+					ScreenMessages.PostScreenMessage("Select a new root part", template);
 				};
-				st_root.OnEnter += postNewMessageFn;
+				st_root_select.OnEnter += postNewMessageFn;
 				OnCleanup += () => {
-					st_root.OnEnter -= postNewMessageFn;
+					st_root_select.OnEnter -= postNewMessageFn;
 				};
 			}
-
+#if true
+			
 			// Drop the new root part after selection:
 			{
 				KFSMEvent dropNewRootPartEvent = new KFSMEvent("SelectRoot2_dropNewRootPartEvent");
 				dropNewRootPartEvent.OnCheckCondition = (state) => {
-					return editorFSM.lastEventName.Equals("on_rootSelect");
+					return EditorLogic.fetch.lastEventName.Equals("on_rootSelect");
 				};
 				dropNewRootPartEvent.OnEvent = () => {
 					// Normally the backup is triggered in on_partDropped#OnCheckCondition()
 					// But we skip that, so do backup here instead.
+
 					EditorLogic.fetch.SetBackup();
 					// Normally triggered in on_partDropped#OnEvent().
-					// TODO: Do we actually need this?
 					GameEvents.onEditorPartEvent.Fire(ConstructionEventType.PartDropped, EditorLogic.SelectedPart);
+					var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
+					//ScreenMessages.PostScreenMessage(String.Empty, template);
+					if (template != null)
+						ScreenMessages.PostScreenMessage("New Root selected and dropped", template);
+					else
+						ScreenMessages.PostScreenMessage("New Root selected and dropped");
 
-					var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "\u000e");
-					ScreenMessages.PostScreenMessage(String.Empty, template, true);
+					EditorLogic.SelectedPart.gameObject.SetLayerRecursive(0, 1 << 21);
+#if false
+					
+					Part[] parts = EditorLogic.RootPart.GetComponentsInChildren<Part>();
+					foreach (var p in parts)
+					{
+						Log.Info(p.ToString() + "p.enabled: " + p.enabled.ToString());
 
+						//Log.Info(p.ToString() + "p.frozen: " + p.active .ToString());
+					}
+#endif
+					//EditorLogic.fetch.Unlock("SelectRoot2");
 				};
-				KFSMState st_idle = (KFSMState)Refl.GetValue(EditorLogic.fetch, "\u0015");
+
+				// problem is with the following line
+				KFSMState st_idle = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_idle");
 				dropNewRootPartEvent.GoToStateOnEvent = st_idle;
 
-				KFSMState st_place = (KFSMState)Refl.GetValue(EditorLogic.fetch, "\u0016");
+				KFSMState st_place = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_place");
 				InjectEvent(st_place, dropNewRootPartEvent);
-			}
 
-			log.Debug("Setup complete..");
+			}
+#endif
+			Log.Info("Setup complete..");
 		}
 
 		private Part GetPartUnderCursor() {
@@ -115,42 +139,21 @@ namespace SelectRoot2 {
 			state.AddEvent(injectedEvent);
 			OnCleanup += () => {
 				((List<KFSMEvent>)Refl.GetValue(state, "stateEvents")).Remove(injectedEvent);
-				log.Debug("Removed event {0} from state {0}", injectedEvent.name, state.name);
+				Log.Info("Removed event " + injectedEvent.name + " from state " +  state.name);
 			};
-			log.Debug("Injected event {0} into state {0}", injectedEvent.name, state.name);
+			Log.Info("Injected event " + injectedEvent.name + " into state " + state.name);
 		}
 
 		public void OnDestroy() {
-			log.Debug("OnDestroy");
+			Log.Info("OnDestroy");
 			if(OnCleanup != null) OnCleanup();
-			log.Debug("Cleanup complete.");
+			Log.Info("Cleanup complete.");
 		}
 	}
 
 	#region Utils
 
-	public class Log {
-		private static readonly string ns = typeof(Log).Namespace;
-		private readonly string id = String.Format("{0:X8}", Guid.NewGuid().GetHashCode());
-		private readonly string name;
-
-		public Log(string name) {
-			this.name = name;
-		}
-
-		private void Print(string level, string message, params object[] values) {
-			MonoBehaviour.print("[" + name + ":" + level + ":" + id + "]  " + String.Format(message, values));
-		}
-
-		public void Debug(string message, params object[] values) {
-			Print("DEBUG", message, values);
-		}
-
-		public void Warn(string message, params object[] values) {
-			Print("WARN", message, values);
-		}
-	}
-
+#if false
 	public static class Refl {
 		public static FieldInfo GetField(object obj, string name) {
 			var f = obj.GetType().GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -172,6 +175,7 @@ namespace SelectRoot2 {
 			return GetMethod(obj, name).Invoke(obj, args);
 		}
 	}
-
+#endif
 	#endregion
 }
+#endif

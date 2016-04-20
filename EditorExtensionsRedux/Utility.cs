@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using UnityEngine;
 
 namespace EditorExtensionsRedux
@@ -32,5 +33,27 @@ namespace EditorExtensionsRedux
 	//			hl.ConstantOn(XKCDColors.Rust);
 	//			hl.SeeThroughOn();
 	//		}
+
+	public static class Refl {
+		public static FieldInfo GetField(object obj, string name) {
+			var f = obj.GetType().GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			if(f == null) throw new Exception("No such field: " + obj.GetType() + "#" + name);
+			return f;
+		}
+		public static object GetValue(object obj, string name) {
+			return GetField(obj, name).GetValue(obj);
+		}
+		public static void SetValue(object obj, string name, object value) {
+			GetField(obj, name).SetValue(obj, value);
+		}
+		public static MethodInfo GetMethod(object obj, string name) {
+			var m = obj.GetType().GetMethod(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			if(m == null) throw new Exception("No such method: " + obj.GetType() + "#" + name);
+			return m;
+		}
+		public static object Invoke(object obj, string name, params object[] args) {
+			return GetMethod(obj, name).Invoke(obj, args);
+		}
+	}
 }
 

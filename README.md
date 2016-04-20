@@ -1,37 +1,12 @@
-## Editor Extensions v3.01 For KSP v1.0.5
+﻿##
+##
+## Editor Extensions v3.02 For KSP v1.1
+## Changes in 3.0.2
 
-### Changes in v3.00 - 9 December 2015
-## Editor Extensions v3.01 For KSP v1.0.5
-Fixed missing icon in editor
-
-### Changes in v3.00 - 9 December 2015
-* Recompiled for 1.0.5
-* Merged with SelectRoot mod, written by FW Industries
-
-
-## Editor Extensions v2.12 For KSP v1.0.3
-
-### Changes in v2.12 - 23 June 2015
-* Fixed conflict with new angle snap behavior in KSP v1.0.3 editor. May introduce a flicker/twitch when changing angles, but has no negative effect.
-
-### Changes in v2.11 - 22 June 2015
-* Fixed conflict with new symmetry mode behavior in KSP v1.0.3 editor. May introduce a flicker/twitch when changing symmetry modes 1-8, but has no negative effect.
-* Recompiled against KSP v1.0.3 binaries
-* skipped v2.9/.10 due to deployment/versioning issues
-
-### Changes in v2.8 - 21 May 2015
-* New strut and fuel line alignment logic
-* U snaps strut/fuel line directly between parts, with each end at nearest top, bottom, middle or one-quarter position.
-* Alt/Mod-U aligns strut at current height straight between parts, does not snap height on either end.
-* Vertical/Horizontal alignment takes no action if part is currently attached to a node (green ball)
-* Numpad . (period) centers camera around part under cursor. Incomplete feature - while refocused part dragging is offset. Hitting period with no part under cursor resets back to normal.
-
-####[Download v2.12 via GitHub](https://github.com/MachXXV/EditorExtensions/releases/download/v2.12/EditorExtensions_v2.12.zip)
-
-####Alternate Downloads
-* [KerbalStuff](https://kerbalstuff.com/mod/442)
-* [Curseforge](http://kerbal.curseforge.com/ksp-mods/230776)
-* Via the [KSP CKAN Package Manager](http://forum.kerbalspaceprogram.com/threads/100067)
+Includes submods:
+	Strip Symmetry
+	No Offset Limits
+	SelectRoot2Behaviour
 
 ### Features
 * Allows custom levels of radial symmetry beyond the stock limitations.
@@ -65,6 +40,18 @@ Fixed missing icon in editor
 * **T** 			- Attachment mode: Toggle between surface and node attachment modes for all parts, and when a part is selected, will toggle surface attachment even when that part's config usually does not allow it.
 * **Alt+Z** 		- Toggle part clipping (CAUTION: This is a cheat option)
 * **Space** 		- When no part is selected, resets camera pitch and heading (straight ahead and level)
+
+#### Strip Symmetry
+* Alt-Shift left-click on the part and symmetry will be stripped from it
+
+#### No Offset Limits
+* The offset tool now does not have any limits.  Nothing needs to be done, this just works
+
+#### Select Root 2 Behaviour
+* This simplifies the select root functionality.  No need to click the same part multiple times.
+* **4**			- Activates the stock code, or click on the select-root icon
+			  Click on the part you want to be the new root.  It will be made root AND will be selected,
+			  so you need to position the ship and click to drop it
 
 In this version there is also a still-incomplete feature: A part-zoom/part camera orbit - the numpad . key will focus and orbit the camera around the part under the mouse. hitting numpad . again with no part under the mouse will reset the camera back to normal. Currently in the focus mode dragging parts gets skewed so it is only good for viewing the part from another perspective, and not editing or moving parts.
 
