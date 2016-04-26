@@ -13,6 +13,14 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 	public class SelectRoot2Behaviour : MonoBehaviour {
 	//	private Log log;
 
+		const int SELECTEDPART = 13;
+		const int ST_ROOT_SELECT = 77;
+		const int ST_ROOT_UNSELECTED = 76;
+		const int MODEMSG = 60;
+		const int ST_IDLE = 70;
+		const int ST_PLACE = 71;
+		const int ONMOUSEISOVER = 250;
+
 		private delegate void CleanupFn();
 		private CleanupFn OnCleanup;
 
@@ -42,15 +50,21 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 					// Thanks Kerbas_ad_astra, http://forum.kerbalspaceprogram.com/threads/43208?p=1948755#post1948755
 					return EditorReRootUtil.GetRootCandidates(EditorLogic.RootPart.GetComponentsInChildren<Part>()).Any();
 				};
+
+
 				skipFirstClickEvent.OnEvent = () => {
-					Refl.SetValue(EditorLogic.fetch, "selectedPart", EditorLogic.RootPart); // SelectedPart
+					//Refl.SetValue(EditorLogic.fetch, "selectedPart", EditorLogic.RootPart); // SelectedPart
+					Refl.SetValue(EditorLogic.fetch, SELECTEDPART, EditorLogic.RootPart); // SelectedPart
 				};
-				KFSMState st_root_select = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_root_select");
+				//KFSMState st_root_select = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_root_select");
+				KFSMState st_root_select = (KFSMState)Refl.GetValue(EditorLogic.fetch, ST_ROOT_SELECT);
 				skipFirstClickEvent.GoToStateOnEvent = st_root_select;
 
-				KFSMState st_root_unselected = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_root_unselected");
-				InjectEvent(st_root_unselected, skipFirstClickEvent);
-			
+
+				//KFSMState st_root_unselected = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_root_unselected");
+				KFSMState st_root_unselected = (KFSMState)Refl.GetValue (EditorLogic.fetch, ST_ROOT_UNSELECTED);
+				InjectEvent (st_root_unselected, skipFirstClickEvent);
+
 				// Fix ability to select if already hovering:
 				KFSMStateChange fixAlreadyHoveringPartFn = (from) => {
 					Part partUnderCursor = GetPartUnderCursor();
@@ -60,20 +74,26 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 
 					var selectorUnderCursor = selectors.Find(x => (Part)x == partUnderCursor);
 					if(selectorUnderCursor) 
-						Refl.Invoke(selectorUnderCursor, "OnMouseEnter");
+					{
+//						Refl.Invoke(selectorUnderCursor, "OnMouseIsOver");
+						Refl.Invoke(selectorUnderCursor, ONMOUSEISOVER);
+					}
 				};
 				st_root_select.OnEnter += fixAlreadyHoveringPartFn;
 				OnCleanup += () => {
+					Log.Info("SelectRoot OnCleanup 1");
 					st_root_select.OnEnter -= fixAlreadyHoveringPartFn;
 				};
 
 				// Provide a more meaningful message after our changes:
 				KFSMStateChange postNewMessageFn = (from) => {
-					var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
+					//var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
+					var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, MODEMSG);
 					ScreenMessages.PostScreenMessage("Select a new root part", template);
 				};
 				st_root_select.OnEnter += postNewMessageFn;
 				OnCleanup += () => {
+					Log.Info("SelectRoot OnCleanup 2");
 					st_root_select.OnEnter -= postNewMessageFn;
 				};
 			}
@@ -92,7 +112,8 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 					EditorLogic.fetch.SetBackup();
 					// Normally triggered in on_partDropped#OnEvent().
 					GameEvents.onEditorPartEvent.Fire(ConstructionEventType.PartDropped, EditorLogic.SelectedPart);
-					var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
+					//var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
+					var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, MODEMSG);
 					//ScreenMessages.PostScreenMessage(String.Empty, template);
 					if (template != null)
 						ScreenMessages.PostScreenMessage("New Root selected and dropped", template);
@@ -114,11 +135,15 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 				};
 
 				// problem is with the following line
-				KFSMState st_idle = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_idle");
+				//KFSMState st_idle = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_idle");
+				KFSMState st_idle = (KFSMState)Refl.GetValue(EditorLogic.fetch, ST_IDLE);
 				dropNewRootPartEvent.GoToStateOnEvent = st_idle;
 
-				KFSMState st_place = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_place");
+
+				//KFSMState st_place = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_place");
+				KFSMState st_place = (KFSMState)Refl.GetValue(EditorLogic.fetch, ST_PLACE);
 				InjectEvent(st_place, dropNewRootPartEvent);
+					
 
 			}
 #endif
@@ -134,48 +159,38 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 			}
 			return null;
 		}
+		const int GET_STATEEVENTS = 0;
 
 		private void InjectEvent(KFSMState state, KFSMEvent injectedEvent) {
 			state.AddEvent(injectedEvent);
 			OnCleanup += () => {
-				((List<KFSMEvent>)Refl.GetValue(state, "stateEvents")).Remove(injectedEvent);
-				Log.Info("Removed event " + injectedEvent.name + " from state " +  state.name);
+//				((List<KFSMEvent>)Refl.GetValue(state, "stateEvents")).Remove(injectedEvent);
+				Log.Info("SelectRoot OnCleanup 3");
+				List<KFSMState> kfsmstatelist = (List<KFSMState>)Refl.GetValue(state, GET_STATEEVENTS);
+#if false
+				foreach(var kfsmstate in kfsmstatelist)
+				{
+					if (kfsmstate == state)
+					{
+						state.
+						kfsmstatelist.Remove(injectedEvent);
+						Log.Info("Removed event " + injectedEvent.name + " from state " +  state.name);
+						return;
+					}
+				}
+#endif
+
+
 			};
 			Log.Info("Injected event " + injectedEvent.name + " into state " + state.name);
 		}
 
 		public void OnDestroy() {
-			Log.Info("OnDestroy");
+			Log.Info("SelectRoot OnDestroy");
 			if(OnCleanup != null) OnCleanup();
 			Log.Info("Cleanup complete.");
 		}
 	}
 
-	#region Utils
-
-#if false
-	public static class Refl {
-		public static FieldInfo GetField(object obj, string name) {
-			var f = obj.GetType().GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-			if(f == null) throw new Exception("No such field: " + obj.GetType() + "#" + name);
-			return f;
-		}
-		public static object GetValue(object obj, string name) {
-			return GetField(obj, name).GetValue(obj);
-		}
-		public static void SetValue(object obj, string name, object value) {
-			GetField(obj, name).SetValue(obj, value);
-		}
-		public static MethodInfo GetMethod(object obj, string name) {
-			var m = obj.GetType().GetMethod(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-			if(m == null) throw new Exception("No such method: " + obj.GetType() + "#" + name);
-			return m;
-		}
-		public static object Invoke(object obj, string name, params object[] args) {
-			return GetMethod(obj, name).Invoke(obj, args);
-		}
-	}
-#endif
-	#endregion
 }
 #endif

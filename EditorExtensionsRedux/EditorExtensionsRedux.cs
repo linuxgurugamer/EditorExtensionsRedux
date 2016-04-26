@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text;
+
 using System.Reflection;
 using KSP.IO;
 using UnityEngine;
@@ -18,6 +20,7 @@ namespace EditorExtensionsRedux
 		public bool Visible { get; set; }
 
 		#region member vars
+
 
 		const string ConfigFileName = "config.xml";
 		const string DegreesSymbol = "\u00B0";
@@ -40,7 +43,7 @@ namespace EditorExtensionsRedux
 		bool zoomSelected = false;
 		#endregion
 
-		public EditorExtensions (){}
+	//	public EditorExtensions (){}
 
 		//Unity initialization call, called first
 		public void Awake ()
@@ -48,6 +51,81 @@ namespace EditorExtensionsRedux
 			Log.Debug ("Awake()");
 			Log.Debug ("launchSiteName: " + EditorLogic.fetch.launchSiteName);
 		}
+
+		#if DEBUG
+		// http://stackoverflow.com/a/1615860
+		private static string EncodeNonAsciiCharacters(string value) {
+			StringBuilder sb = new StringBuilder();
+			foreach(char c in value) {
+				// This character is too big for ASCII
+				string encodedValue = "\\u" + ((int)c).ToString("x4");
+				sb.Append(encodedValue);
+			}
+			return sb.ToString();
+		}
+
+		void localdumpReflection()
+		{
+			//Log.Debug("States:");
+			//foreach (var f in EditorLogic.fetch.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)) {
+			//	if (f.FieldType == typeof(KFSMState)) {
+			//		Log.Debug ("State: " + ((KFSMState)f.GetValue (EditorLogic.fetch)).name + " + " + EncodeNonAsciiCharacters (f.Name));
+			//	}
+			//}
+			//Log.Debug("Events:");
+			//foreach (var f in EditorLogic.fetch.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)) {
+			//	if (f.FieldType == typeof(KFSMEvent)) {
+			//		Log.Debug ("State: " + ((KFSMEvent)f.GetValue (EditorLogic.fetch)).name + " + " +  EncodeNonAsciiCharacters (f.Name));
+			//	}
+			//}
+
+			//Log.Debug("State/Event enumeration done.");
+			EditorLogic el = EditorLogic.fetch;
+			int c = 0;
+			foreach (FieldInfo FI in el.GetType().GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)) {
+				Log.Info ("EditorLogic Field name[" + c.ToString() + "]: " + FI.Name + "    Fieldtype: " + FI.FieldType.ToString());
+				c++;
+			}
+
+			KFSMEvent ke = new KFSMEvent("a");
+			c = 0;
+			foreach (FieldInfo FI in ke.GetType().GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)) {
+				Log.Info ("KFSMEvent KFSMEvent Field name[" + c.ToString() + "]: " + FI.Name + "    Fieldtype: " + FI.FieldType.ToString());
+				c++;
+			}
+
+			MethodInfo[] leMethods = typeof(EditorLogic).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			c = 0;
+			foreach (MethodInfo FI in leMethods) {
+				Log.Info ("MethodInfo  EditorLogic methods name[" + c.ToString() + "]: " + FI.Name );
+				c++;
+			}
+
+			MethodInfo[] parts = typeof(Part).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			c = 0;
+			foreach (MethodInfo FI in parts) {
+				Log.Info ("MethodInfo  Part  name[" + c.ToString() + "]: " + FI.Name );
+				c++;
+			}
+
+			MethodInfo[] kfe = typeof(KFSMEvent).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			c = 0;
+			foreach (MethodInfo FI in kfe) {
+				Log.Info ("MethodInfo KFSMEvent  methods name[" + c.ToString() + "]: " + FI.Name );
+				c++;
+			}
+
+
+			MethodInfo[] ks = typeof(KFSMState).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			c = 0;
+			foreach (MethodInfo FI in ks) {
+				Log.Info ("MethodInfo KFSMState  methods name[" + c.ToString() + "]: " + FI.Name + "   " + FI.ToString() );
+				c++;
+			}
+
+
+		}
+		#endif
 
 		//Unity, called after Awake()
 		public void Start()
@@ -59,6 +137,9 @@ namespace EditorExtensionsRedux
 			InitializeGUI ();
 			GameEvents.onEditorPartEvent.Add (EditorPartEvent);
 			GameEvents.onEditorSymmetryModeChange.Add (EditorSymmetryModeChange);
+			#if DEBUG
+			localdumpReflection ();
+			#endif
 		}
 
 		//Unity OnDestroy

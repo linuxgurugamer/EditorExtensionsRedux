@@ -109,7 +109,7 @@ namespace EditorExtensionsRedux.StripSymmetry
                 }
             }
             return obj;
-        }
+        } 
 
         /// <summary>
         /// Reads destination exponentValue from the ConfigNode and magically converts it to the type you ask. Tested for float, boolean and double[]. Anything else is at your own risk.

@@ -1,7 +1,7 @@
 ﻿##
 ##
 ## Editor Extensions v3.02 For KSP v1.1
-## Changes in 3.0.2
+## Changes in 3.2.2
 
 Includes submods:
 	Strip Symmetry
@@ -43,6 +43,7 @@ Includes submods:
 
 #### Strip Symmetry
 * Alt-Shift left-click on the part and symmetry will be stripped from it
+  ***On Linux, the keys are:  Left-Alt Left-Shift Left-Click
 
 #### No Offset Limits
 * The offset tool now does not have any limits.  Nothing needs to be done, this just works
@@ -50,8 +51,8 @@ Includes submods:
 #### Select Root 2 Behaviour
 * This simplifies the select root functionality.  No need to click the same part multiple times.
 * **4**			- Activates the stock code, or click on the select-root icon
-			  Click on the part you want to be the new root.  It will be made root AND will be selected,
-			  so you need to position the ship and click to drop it
+			      Click on the part you want to be the new root.  It will be made root AND will be selected,
+			      so you need to position the ship and click to drop it
 
 In this version there is also a still-incomplete feature: A part-zoom/part camera orbit - the numpad . key will focus and orbit the camera around the part under the mouse. hitting numpad . again with no part under the mouse will reset the camera back to normal. Currently in the focus mode dragging parts gets skewed so it is only good for viewing the part from another perspective, and not editing or moving parts.
 
@@ -59,7 +60,7 @@ In this version there is also a still-incomplete feature: A part-zoom/part camer
 In your KSP GameData folder, delete any existing EditorExtensions folder.
 Download the zip file to your KSP GameData folder and unzip.
 
-[KSP Forum Thread](http://forum.kerbalspaceprogram.com/threads/38768)
+[KSP Forum Thread](http://forum.kerbalspaceprogram.com/index.php?/topic/127378-editor-extensions-redux-301-released-with-selectroot-merge-stripsymmetry-nooffsetlimits/)
 
 Released under MIT license.
 Source available at GitHub: [https://github.com/MachXXV/EditorExtensions](https://github.com/MachXXV/EditorExtensions)

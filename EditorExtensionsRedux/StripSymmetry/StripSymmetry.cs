@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using UnityEngine;
 using System.Reflection;
 
@@ -11,11 +12,13 @@ namespace EditorExtensionsRedux.StripSymmetry
     public class StripSymmetry : MonoBehaviour
     {
         private readonly OSD _osd = new OSD();
-        private readonly Hotkey _hotkey = new Hotkey("triggerWith", "LeftAlt+LeftShift+Mouse0");
+		bool stripIsActive = false;
+ //       private readonly Hotkey _hotkey = new Hotkey("triggerWith", "LeftAlt+LeftShift+Mouse0");
+	//	private KeyCode triggerWith = KeyCode.LeftShift | KeyCode.LeftAlt | KeyCode.LeftControl | KeyCode.Mouse0;
 
         public void Awake()
         {
-            _hotkey.Load();
+            //b_hotkey.Load();
         }
 
         public void OnGUI()
@@ -36,9 +39,14 @@ namespace EditorExtensionsRedux.StripSymmetry
                 return;
             if (editor.editorScreen != EditorScreen.Parts)
                 return;
-
-            if (!_hotkey.IsTriggered)
-                return;
+			
+			if (!Input.GetKey (KeyCode.Mouse0) || !Input.GetKey(KeyCode.LeftShift) || !Input.GetKey(KeyCode.LeftAlt) ) {
+				stripIsActive = false;
+				return;
+			}
+			Log.Info ("Trying to strip symmetry  stripIsActive:" + stripIsActive.ToString());
+//            if (!_hotkey.IsTriggered)
+  //              return;
 
             var p = GetPartUnderCursor(editor.ship);
             if (p == null)
@@ -46,13 +54,17 @@ namespace EditorExtensionsRedux.StripSymmetry
 
             print(String.Format("({0}).symMethod = {1}", p.partInfo.title, p.symMethod));
             print(String.Format("({0}).symmetryCounterparts.Count = {1}", p.partInfo.title, p.symmetryCounterparts.Count));
-            if (p.symmetryCounterparts.Count == 0)
+            if (p.symmetryCounterparts.Count == 0 && !stripIsActive)
             {
                 _osd.Error("Part has no symmetry: " + p.partInfo.title);
+				stripIsActive = true;
                 return;
             }
-            _osd.Info("Removing symmetry...");
-            RemoveSymmetry(p);
+			if (!stripIsActive) {
+				_osd.Info ("Removing symmetry...");
+				stripIsActive = true;
+				RemoveSymmetry (p);
+			}
         }
 
         private static Part GetPartUnderCursor(IShipconstruct ship)

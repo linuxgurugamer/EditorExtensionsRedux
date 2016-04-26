@@ -35,12 +35,12 @@ del %HOMEDIR%\install\GameData\EditorExtensionsRedux
 del %HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures
 
 
-copy /Y "%~dp0bin\Debug\EditorExtensionsRedux.dll" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
-copy /Y "%~dp0bin\Debug\Textures\*.png" "%HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures"
+copy /Y "%~dp0bin\Release\EditorExtensionsRedux.dll" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
+copy /Y "%~dp0bin\Release\Textures\*.png" "%HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures"
 copy /Y "EditorExtensionsRedux.version" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
 
-copy /Y "%~dp0bin\Debug\License.txt" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
-copy /Y "%~dp0bin\Debug\README.md" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
+copy /Y "License.txt" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
+copy /Y "..\README.md" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
 copy /Y MiniAVC.dll  "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
 
 copy /y "StripSymmetry\Gamedata\StripSymmetry\plugins\PluginData\StripSymmetry\config.xml"  "%HOMEDIR%\install\GameData\EditorExtensionsRedux\PluginData\StripSymmetry"

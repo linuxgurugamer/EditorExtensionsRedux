@@ -1,4 +1,5 @@
-﻿using System.Runtime.Hosting;
+﻿#if false
+using System.Runtime.Hosting;
 using KSP.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,3 +83,4 @@ namespace EditorExtensionsRedux.StripSymmetry
         }
     }
 }
+#endif
