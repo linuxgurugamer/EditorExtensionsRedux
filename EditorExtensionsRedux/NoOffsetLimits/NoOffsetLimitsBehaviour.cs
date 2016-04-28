@@ -15,12 +15,19 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour {
 	[KSPAddon(KSPAddon.Startup.EditorAny, false)]
 	public class FreeOffsetBehaviour : MonoBehaviour {
 		//private Log log;
-
+#if false
 		const int ST_OFFSET_TWEAK = 73;
 		const int SYMUPDATEATTACHNODE = 108;
 		const int GIZMOOFFSET = 66;
 
 		const int UPDATESYMMETRY = 64;
+		const int ONOFFSETGIZMOUPDATED = 35;
+#endif
+		const int ST_OFFSET_TWEAK = 76;
+		const int SYMUPDATEATTACHNODE = 111;
+		const int GIZMOOFFSET = 69;
+
+		const int UPDATESYMMETRY = 62;
 		const int ONOFFSETGIZMOUPDATED = 35;
 
 		private delegate void CleanupFn();
