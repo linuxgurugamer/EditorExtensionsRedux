@@ -34,7 +34,6 @@ namespace EditorExtensionsRedux
 
 		public bool Init()
 		{
-			return false;
 			if (Versioning.version_major == 1 && Versioning.version_minor == 1 && Versioning.Revision == 0 /*&& Versioning.BuildID == 1024 */) {
 				// SelectRoot
 				SELECTEDPART = 13;
