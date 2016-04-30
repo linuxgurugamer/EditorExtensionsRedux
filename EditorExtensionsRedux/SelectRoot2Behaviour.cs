@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine;
 using System.Reflection;
 
-//using EditorExtensionsRedux;
+using  EditorExtensionsRedux;
 
 namespace EditorExtensionsRedux.SelectRoot2 {
 	[KSPAddon(KSPAddon.Startup.EditorAny, false)]
@@ -22,7 +22,8 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 		const int ONMOUSEISOVER = 250;
 		const int GET_STATEEVENTS = 0;
 #endif
-		const int SELECTEDPART = 13;
+#if false
+		//const int SELECTEDPART = 13;
 		const int ST_ROOT_SELECT = 80;
 		const int ST_ROOT_UNSELECTED = 79;
 		const int MODEMSG = 63;
@@ -30,7 +31,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 		const int ST_PLACE = 74;
 		const int ONMOUSEISOVER = 250;
 		const int GET_STATEEVENTS = 0;
-
+#endif
 		private delegate void CleanupFn();
 		private CleanupFn OnCleanup;
 
@@ -45,6 +46,8 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 		 * Needs to run after EditorLogic#Start() so the states are initialized.
 		 */
 		public void Start() {
+			if (!EditorExtensions.validVersion)
+				return;
 			//log = new Log(this.GetType().Name);
 			Log.Info("Start");
 
@@ -64,14 +67,14 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 
 			skipFirstClickEvent.OnEvent = () => {
 				//Refl.SetValue(EditorLogic.fetch, "selectedPart", EditorLogic.RootPart); // SelectedPart
-				Refl.SetValue(EditorLogic.fetch, SELECTEDPART, EditorLogic.RootPart); // SelectedPart
+				Refl.SetValue(EditorLogic.fetch, EditorExtensions.c.SELECTEDPART, EditorLogic.RootPart); // SelectedPart
 			};
 			//KFSMState st_root_select = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_root_select");
-			KFSMState st_root_select = (KFSMState)Refl.GetValue(EditorLogic.fetch, ST_ROOT_SELECT);
+			KFSMState st_root_select = (KFSMState)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.ST_ROOT_SELECT);
 			skipFirstClickEvent.GoToStateOnEvent = st_root_select;
 
 			//KFSMState st_root_unselected = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_root_unselected");
-			KFSMState st_root_unselected = (KFSMState)Refl.GetValue (EditorLogic.fetch, ST_ROOT_UNSELECTED);
+			KFSMState st_root_unselected = (KFSMState)Refl.GetValue (EditorLogic.fetch, EditorExtensions.c.ST_ROOT_UNSELECTED);
 			InjectEvent (st_root_unselected, skipFirstClickEvent);
 
 			// Fix ability to select if already hovering:
@@ -85,7 +88,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 				if(selectorUnderCursor) 
 				{
 //						Refl.Invoke(selectorUnderCursor, "OnMouseIsOver");
-					Refl.Invoke(selectorUnderCursor, ONMOUSEISOVER);
+					Refl.Invoke(selectorUnderCursor, EditorExtensions.c.ONMOUSEISOVER);
 				}
 			};
 			st_root_select.OnEnter += fixAlreadyHoveringPartFn;
@@ -97,7 +100,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 			// Provide a more meaningful message after our changes:
 			KFSMStateChange postNewMessageFn = (from) => {
 				//var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
-				var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, MODEMSG);
+				var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.MODEMSG);
 				ScreenMessages.PostScreenMessage("Select a new root part", template);
 			};
 
@@ -122,7 +125,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 				// Normally triggered in on_partDropped#OnEvent().
 				GameEvents.onEditorPartEvent.Fire(ConstructionEventType.PartDropped, EditorLogic.SelectedPart);
 				//var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
-				var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, MODEMSG);
+				var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.MODEMSG);
 				//ScreenMessages.PostScreenMessage(String.Empty, template);
 				if (template != null)
 					ScreenMessages.PostScreenMessage("New Root selected and dropped", template);
@@ -145,11 +148,11 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 
 			// problem is with the following line
 			//KFSMState st_idle = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_idle");
-			KFSMState st_idle = (KFSMState)Refl.GetValue(EditorLogic.fetch, ST_IDLE);
+			KFSMState st_idle = (KFSMState)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.ST_IDLE);
 			dropNewRootPartEvent.GoToStateOnEvent = st_idle;
 
 			//KFSMState st_place = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_place");
-			KFSMState st_place = (KFSMState)Refl.GetValue(EditorLogic.fetch, ST_PLACE);
+			KFSMState st_place = (KFSMState)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.ST_PLACE);
 			InjectEvent(st_place, dropNewRootPartEvent);
 				
 
@@ -192,6 +195,8 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 		}
 
 		public void OnDestroy() {
+			if (!EditorExtensions.validVersion)
+				return;
 			Log.Info("SelectRoot OnDestroy");
 			if(OnCleanup != null) OnCleanup();
 			Log.Info("Cleanup complete.");

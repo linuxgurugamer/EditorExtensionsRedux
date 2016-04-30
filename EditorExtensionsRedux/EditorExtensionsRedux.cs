@@ -12,14 +12,88 @@ using UnityEngine;
 
 namespace EditorExtensionsRedux
 {
+	public class Constants
+	{
+		// Following for SelectRoot
+		public int SELECTEDPART = 13;
+		public int ST_ROOT_SELECT = 77;
+		public int ST_ROOT_UNSELECTED = 76;
+		public int MODEMSG = 60;
+		public int ST_IDLE = 70;
+		public int ST_PLACE = 71;
+		public int ONMOUSEISOVER = 250;
+		public int GET_STATEEVENTS = 0;
+
+		// Following for NoOffsetLimits
+		public int ST_OFFSET_TWEAK = 73;
+		public int SYMUPDATEATTACHNODE = 108;
+		public int GIZMOOFFSET = 66;
+
+		public int UPDATESYMMETRY = 64;
+		public int ONOFFSETGIZMOUPDATED = 35;
+
+		public bool Init()
+		{
+			return false;
+			if (Versioning.version_major == 1 && Versioning.version_minor == 1 && Versioning.Revision == 0 /*&& Versioning.BuildID == 1024 */) {
+				// SelectRoot
+				SELECTEDPART = 13;
+				 ST_ROOT_SELECT = 77;
+				 ST_ROOT_UNSELECTED = 76;
+				 MODEMSG = 60;
+				 ST_IDLE = 70;
+				 ST_PLACE = 71;
+				 ONMOUSEISOVER = 250;
+				 GET_STATEEVENTS = 0;
+
+				// NoOffsetLimits
+				 ST_OFFSET_TWEAK = 73;
+				 SYMUPDATEATTACHNODE = 108;
+				 GIZMOOFFSET = 66;
+
+				 UPDATESYMMETRY = 64;
+				 ONOFFSETGIZMOUPDATED = 35;
+
+				return true;
+			}
+			if (Versioning.version_major == 1 && Versioning.version_minor == 1 && Versioning.Revision == 1 /*&& Versioning.BuildID == 1024 */) {
+				// SelectRoot
+				 SELECTEDPART = 13;
+				 ST_ROOT_SELECT = 80;
+				 ST_ROOT_UNSELECTED = 79;
+				 MODEMSG = 63;
+				 ST_IDLE = 73;
+				 ST_PLACE = 74;
+				 ONMOUSEISOVER = 250;
+				 GET_STATEEVENTS = 0;
+
+				// NoOffsetLimits
+				 ST_OFFSET_TWEAK = 76;
+				 SYMUPDATEATTACHNODE = 111;
+				 GIZMOOFFSET = 69;
+
+				 UPDATESYMMETRY = 62;
+				 ONOFFSETGIZMOUPDATED = 35;
+				return true;
+			}
+			return false;
+		}
+	}
+
 	[KSPAddon (KSPAddon.Startup.EditorAny, false)]
 	public class EditorExtensions : MonoBehaviour
 	{
 		public static EditorExtensions Instance { get; private set; }
+		public static bool validVersion = false;
+		static bool warningShown;
+		const string warning = "This version of Editor Extensions Redux is not compatible with this version of KSP";
+
+		public static Constants c = new Constants ();
 
 		public bool Visible { get; set; }
 
 		#region member vars
+
 
 
 		const string ConfigFileName = "config.xml";
@@ -131,15 +205,18 @@ namespace EditorExtensionsRedux
 		public void Start()
 		{
 			Log.Debug ("Start()");
-			editor = EditorLogic.fetch;
-			Instance = this;
-			InitConfig ();
-			InitializeGUI ();
-			GameEvents.onEditorPartEvent.Add (EditorPartEvent);
-			GameEvents.onEditorSymmetryModeChange.Add (EditorSymmetryModeChange);
 			#if DEBUG
 			localdumpReflection ();
 			#endif
+			editor = EditorLogic.fetch;
+			Instance = this;
+			InitConfig ();
+			if (!validVersion)
+				return;
+			InitializeGUI ();
+			GameEvents.onEditorPartEvent.Add (EditorPartEvent);
+			GameEvents.onEditorSymmetryModeChange.Add (EditorSymmetryModeChange);
+
 		}
 
 		//Unity OnDestroy
@@ -183,6 +260,13 @@ namespace EditorExtensionsRedux
 
 		void InitConfig ()
 		{
+			validVersion = c.Init ();
+
+			if (!validVersion) {
+				return;
+			}
+
+				
 			try {
 				//get location and version info of the plugin
 				Assembly execAssembly = Assembly.GetExecutingAssembly ();
@@ -246,6 +330,8 @@ namespace EditorExtensionsRedux
 		//Unity update
 		void Update ()
 		{
+			if (!validVersion)
+				return;
 			//if (editor.shipNameField.Focused || editor.shipDescriptionField.Focused)
 			//	return;
 
@@ -618,6 +704,8 @@ namespace EditorExtensionsRedux
 
 		void InitializeGUI ()
 		{
+			if (!validVersion)
+				return;
 			_settingsWindow = this.gameObject.AddComponent<SettingsWindow> ();
 			_settingsWindow.WindowDisabled += new SettingsWindow.WindowDisabledEventHandler (SettingsWindowClosed);
 
@@ -651,6 +739,8 @@ namespace EditorExtensionsRedux
 		//show the addon's GUI
 		public void Show ()
 		{
+			if (!validVersion)
+				return;
 			this.Visible = true;
 			Log.Debug ("Show()");
 			//if (!_settingsWindow.enabled) {
@@ -661,6 +751,8 @@ namespace EditorExtensionsRedux
 		//hide the addon's GUI
 		public void Hide ()
 		{
+			if (!validVersion)
+				return;
 			this.Visible = false;
 			//Log.Debug ("Hide()");
 			//if (_settingsWindow.enabled) {
@@ -682,6 +774,8 @@ namespace EditorExtensionsRedux
 
 		public void ShowMenu ()
 		{
+			if (!validVersion)
+				return;
 			Vector3 position = Input.mousePosition;
 				
 			_menuRect = new Rect () {
@@ -701,6 +795,20 @@ namespace EditorExtensionsRedux
 		//Unity GUI loop
 		void OnGUI ()
 		{
+			if (!validVersion) {
+				if (warningShown)
+					return;
+				GUIStyle centeredWarningStyle = new GUIStyle (GUI.skin.GetStyle ("Label"));
+				Vector2 sizeOfWarningLabel = centeredWarningStyle.CalcSize(new GUIContent(warning));
+
+				Rect _menuRect = new Rect (Screen.width / 2f - (sizeOfWarningLabel.x / 2f), Screen.height / 2 - sizeOfWarningLabel.y, 
+					sizeOfWarningLabel.x, sizeOfWarningLabel.y * 2);
+
+				_menuRect = GUILayout.Window (this.GetInstanceID (), _menuRect, ShowWarning, "EEX Menu");
+				return;
+			}
+
+
 			//show and update the angle snap and symmetry mode labels
 			ShowSnapLabels ();
 
@@ -731,6 +839,38 @@ namespace EditorExtensionsRedux
 					_partInfoWindow.Show ();
 				}
 			}
+			GUILayout.EndVertical ();
+		}
+
+		void ShowWarning (int WindowID)
+		{
+			GUILayout.BeginVertical ();
+			{
+				float offsetY = Mathf.FloorToInt(0.8f * Screen.height);
+				GUIStyle centeredWarningStyle = new GUIStyle(GUI.skin.GetStyle("Label"))
+				{
+					alignment = TextAnchor.UpperCenter,
+					fontSize = 16,
+					normal = { textColor = Color.yellow }
+				};
+
+				Vector2 sizeOfWarningLabel = centeredWarningStyle.CalcSize(new GUIContent(warning));
+
+				GUILayout.Label( warning, centeredWarningStyle);
+
+				offsetY += sizeOfWarningLabel.y;
+				if (GUILayout.Button( "Click to open the Forum thread"))
+					Application.OpenURL("http://forum.kerbalspaceprogram.com/index.php?/topic/127378-editor-extensions-redux-324-released-for-111-with-selectroot-merge-stripsymmetry-nooffsetlimits/");
+
+				offsetY += 25;
+
+
+
+			}
+			if (GUILayout.Button ("Close")) {
+				warningShown = true;
+			}
+
 			GUILayout.EndVertical ();
 		}
 

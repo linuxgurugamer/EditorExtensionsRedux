@@ -31,8 +31,8 @@ mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux\PluginData
 mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux\PluginData\StripSymmetry
 
 
-del %HOMEDIR%\install\GameData\EditorExtensionsRedux
-del %HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures
+del /Q %HOMEDIR%\install\GameData\EditorExtensionsRedux
+del /Q %HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures
 
 
 copy /Y "%~dp0bin\Release\EditorExtensionsRedux.dll" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"

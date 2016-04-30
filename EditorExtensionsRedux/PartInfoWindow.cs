@@ -34,7 +34,7 @@ namespace EditorExtensionsRedux
 			//start disabled
 			this.enabled = false;
 		}
-
+		#if false
 		void Awake ()
 		{
 		}
@@ -46,6 +46,7 @@ namespace EditorExtensionsRedux
 		void OnEnable ()
 		{
 		}
+		#endif
 
 		void CloseWindow ()
 		{

@@ -1,6 +1,16 @@
 ﻿##
 ##
-## Editor Extensions v3.02 For KSP v1.1
+## Editor Extensions v3.2.5 For KSP v1.1
+## Changes in 3.2.5
+	Added back 1.1.0 compatiblity
+	Added check for compatibility with specific KSP versions, currently 1.1.0 & 1.1.1
+
+## Changes in 3.2.4
+	Fixed offsets to eliminate nullrefs
+
+## Changes in 3.2.3
+	Updated for 1.1.1
+
 ## Changes in 3.2.2
 
 Includes submods:
