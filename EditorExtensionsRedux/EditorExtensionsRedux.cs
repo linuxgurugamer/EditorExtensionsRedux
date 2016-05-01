@@ -55,7 +55,7 @@ namespace EditorExtensionsRedux
 
 				return true;
 			}
-			if (Versioning.version_major == 1 && Versioning.version_minor == 1 && Versioning.Revision == 1 /*&& Versioning.BuildID == 1024 */) {
+			if (Versioning.version_major == 1 && Versioning.version_minor == 1 && (Versioning.Revision == 1 ||  Versioning.Revision == 2) /*&& Versioning.BuildID == 1024 */) {
 				// SelectRoot
 				 SELECTEDPART = 13;
 				 ST_ROOT_SELECT = 80;

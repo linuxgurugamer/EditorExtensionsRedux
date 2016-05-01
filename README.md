@@ -1,6 +1,10 @@
 ﻿##
+## Editor Extensions For KSP v1.1
 ##
-## Editor Extensions v3.2.5 For KSP v1.1
+##
+## Changes in 3.2.6
+	Added compatility for 1.1.2
+
 ## Changes in 3.2.5
 	Added back 1.1.0 compatiblity
 	Added check for compatibility with specific KSP versions, currently 1.1.0 & 1.1.1
