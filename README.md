@@ -2,6 +2,10 @@
 ## Editor Extensions For KSP v1.1
 ##
 ##
+
+## Changes in 3.2.7
+	Added code so that typing in text fields will be ignored by mod
+
 ## Changes in 3.2.6
 	Added compatility for 1.1.2
 

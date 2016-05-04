@@ -8,7 +8,8 @@ using System.Text;
 using System.Reflection;
 using KSP.IO;
 using UnityEngine;
-//using UnityEngine.UI;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace EditorExtensionsRedux
 {
@@ -333,7 +334,10 @@ namespace EditorExtensionsRedux
 				return;
 			//if (editor.shipNameField.Focused || editor.shipDescriptionField.Focused)
 			//	return;
-
+			GameObject obj = EventSystem.current.currentSelectedGameObject;
+			bool inputFieldIsFocused = (obj != null && obj.GetComponent<InputField>() != null && obj.GetComponent<InputField>().isFocused);
+			if (inputFieldIsFocused)
+				return;
 			//ignore hotkeys while settings window is open
 			//if (_settingsWindow != null && _settingsWindow.enabled)
 			//	return;
