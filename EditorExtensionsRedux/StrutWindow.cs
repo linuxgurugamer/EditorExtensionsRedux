@@ -1,9 +1,10 @@
-﻿using System;
+﻿#if false
+using System;
 using UnityEngine;
 
 namespace EditorExtensionsRedux
 {
-	public class StrutWindow : GUIWindow
+	public class StrutWindozw : GUIWindow
 	{
 		internal override void Awake ()
 		{
@@ -25,3 +26,4 @@ namespace EditorExtensionsRedux
 	}
 }
 
+#endif

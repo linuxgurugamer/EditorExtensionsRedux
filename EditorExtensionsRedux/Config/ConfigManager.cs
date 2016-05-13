@@ -19,7 +19,7 @@ namespace EditorExtensionsRedux
 				return false;
 			}
 		}
-			
+
 		public static bool SaveConfig (ConfigData configData, string configFilePath)
 		{
 			try {
@@ -27,7 +27,7 @@ namespace EditorExtensionsRedux
 				using (TextWriter writer = new StreamWriter (configFilePath)) {
 					serializer.Serialize (writer, configData); 
 				}
-				Log.Debug("Saved config file");
+				Log.Debug ("Saved config file");
 				return true;
 			} catch (Exception ex) {
 				Log.Error ("Error saving config file: " + ex.Message);
@@ -66,6 +66,10 @@ namespace EditorExtensionsRedux
 				ConfigData defaultConfig = new ConfigData () {
 					AngleSnapValues = new List<float>{ 0.0f, 1.0f, 5.0f, 15.0f, 22.5f, 30.0f, 45.0f, 60.0f, 90.0f },
 					MaxSymmetry = 20,
+					// Rapidzoom by Fwiffo 
+					RapidZoom = true,
+					//ZoomCycling = true,
+					//ZoomCycleDistances = new List<float> { 0f, 1f, 5f, 30f, 100f, 500f, 10000f, 100000f, 150000f }, // RKTODO: Set good defaults
 					FileVersion = version,
 					OnScreenMessageTime = 1.5f,
 					ShowDebugInfo = true
@@ -78,7 +82,15 @@ namespace EditorExtensionsRedux
 					ZoomSelected = KeyCode.KeypadPeriod,
 					VerticalSnap = KeyCode.V,
 					HorizontalSnap = KeyCode.H,
-					CompoundPartAlign = KeyCode.U
+					CompoundPartAlign = KeyCode.U,
+
+					Up = KeyCode.UpArrow,
+					Down = KeyCode.DownArrow,
+					Left = KeyCode.LeftArrow,
+					Right = KeyCode.RightArrow,
+					Forward = KeyCode.RightShift,
+					Back = KeyCode.RightControl
+						
 				};
 				defaultConfig.KeyMap = defaultKeys;
 

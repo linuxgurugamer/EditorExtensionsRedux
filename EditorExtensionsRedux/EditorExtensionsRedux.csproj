@@ -36,7 +36,7 @@
     <ConsolePause>false</ConsolePause>
     <CustomCommands>
       <CustomCommands>
-        <Command type="AfterBuild" command="deploy.bat" externalConsole="True" />
+        <Command type="AfterBuild" command="deploy.bat" externalConsole="True" pauseExternalConsole="True" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -113,6 +113,7 @@
     <Compile Include="StripSymmetry\Tools.cs" />
     <Compile Include="StripSymmetry\Tuple.cs" />
     <Compile Include="NoOffsetLimits\NoOffsetLimitsBehaviour.cs" />
+    <Compile Include="FineAdjustWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

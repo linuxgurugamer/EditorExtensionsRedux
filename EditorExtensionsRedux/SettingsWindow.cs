@@ -5,12 +5,14 @@ namespace EditorExtensionsRedux
 {
 	public class SettingsWindow : MonoBehaviour
 	{
-		public delegate void WindowDisabledEventHandler();
+		public delegate void WindowDisabledEventHandler ();
+
 		public event WindowDisabledEventHandler WindowDisabled;
-		protected virtual void OnWindowDisabled() 
+
+		protected virtual void OnWindowDisabled ()
 		{
 			if (WindowDisabled != null)
-				WindowDisabled();
+				WindowDisabled ();
 		}
 
 		ConfigData _config;
@@ -49,17 +51,19 @@ namespace EditorExtensionsRedux
 		{
 			Log.Debug ("SettingsWindow OnEnable()");
 
-			if(_config == null || string.IsNullOrEmpty(_configFilePath)){
+			if (_config == null || string.IsNullOrEmpty (_configFilePath)) {
 				this.enabled = false;
 			}
 		}
 
-		void CloseWindow(){
+		void CloseWindow ()
+		{
 			this.enabled = false;
 			OnWindowDisabled ();
 		}
 
-		void OnDisable(){
+		void OnDisable ()
+		{
 		}
 
 		void OnGUI ()
@@ -82,13 +86,14 @@ namespace EditorExtensionsRedux
 			Log.Debug ("SettingsWindow Show()");
 			_config = config;
 			_configFilePath = configFilePath;
-			_windowTitle = string.Format ("Editor Extensions v{0}.{1}", version.Major.ToString (), version.Minor.ToString ());;
-			_version = version.ToString();
+			_windowTitle = string.Format ("Editor Extensions v{0}.{1}", version.Major.ToString (), version.Minor.ToString ());
+			;
+			_version = version.ToString ();
 			this.enabled = true;
 		}
 
 		private int toolbarInt = 0;
-		private string[] _toolbarStrings = { "Settings", "Angle Snap"};
+		private string[] _toolbarStrings = { "Settings 1", "Settings 2", "Angle Snap" };
 		string keyMapToUpdate = string.Empty;
 		string newAngleString = string.Empty;
 		public int angleGridIndex = -1;
@@ -106,7 +111,7 @@ namespace EditorExtensionsRedux
 			if (toolbarInt == 0) {
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Version: " + _version.ToString());
+				GUILayout.Label ("Version: " + _version.ToString ());
 				GUILayout.EndHorizontal ();
 
 #if DEBUG
@@ -136,6 +141,18 @@ namespace EditorExtensionsRedux
 				}
 				GUILayout.EndHorizontal ();
 
+// Following contributed by Fwiffo
+
+				GUILayout.BeginHorizontal (GUILayout.ExpandWidth (true));
+				_config.RapidZoom = GUILayout.Toggle (_config.RapidZoom, new GUIContent ("Tap then hold for rapid zoom" /* , "Tap the zoom hotkey then quickly hold it to zoom faster"*/));
+				GUILayout.EndHorizontal ();
+
+				//GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+				////GUILayout.Label("Double tap zoom to rapidly cycle:", settingsLabelLayout);
+				//_config.ZoomCycling = GUILayout.Toggle(_config.ZoomCycling, new GUIContent("Double tap for rapid zoom", "Double tapping zoom keys cycles through preset distances"));
+				//GUILayout.EndHorizontal();
+
+// End of Fwiffo
 				if (keyMapToUpdate == string.Empty) {
 					GUILayout.Label ("Click button and press key to change");
 				} else {
@@ -215,9 +232,91 @@ namespace EditorExtensionsRedux
 				GUILayout.EndHorizontal ();
 			}
 			#endregion
+			#region Fine Adjust settings
+			if (toolbarInt == 1) {
+				if (keyMapToUpdate == string.Empty) {
+					GUILayout.Label ("Click button and press key to change");
+				} else {
+					GUILayout.Label ("Waiting for key");
+				}
+
+				GUILayout.BeginHorizontal ();
+				GUILayout.Label ("Up:", settingsLabelLayout);
+				if (keyMapToUpdate == "up" && _lastKeyPressed != KeyCode.None) {
+					_config.KeyMap.Up = _lastKeyPressed;
+					keyMapToUpdate = string.Empty;
+				}
+				if (GUILayout.Button (_config.KeyMap.Up.ToString ())) {
+					_lastKeyPressed = KeyCode.None;
+					keyMapToUpdate = "up";
+				}
+				GUILayout.EndHorizontal ();
+
+				GUILayout.BeginHorizontal ();
+				GUILayout.Label ("Down:", settingsLabelLayout);
+				if (keyMapToUpdate == "down" && _lastKeyPressed != KeyCode.None) {
+					_config.KeyMap.Down = _lastKeyPressed;
+					keyMapToUpdate = string.Empty;
+				}
+				if (GUILayout.Button (_config.KeyMap.Down.ToString ())) {
+					_lastKeyPressed = KeyCode.None;
+					keyMapToUpdate = "down";
+				}
+				GUILayout.EndHorizontal ();
+
+				GUILayout.BeginHorizontal ();
+				GUILayout.Label ("Left:", settingsLabelLayout);
+				if (keyMapToUpdate == "left" && _lastKeyPressed != KeyCode.None) {
+					_config.KeyMap.Left = _lastKeyPressed;
+					keyMapToUpdate = string.Empty;
+				}
+				if (GUILayout.Button (_config.KeyMap.Left.ToString ())) {
+					_lastKeyPressed = KeyCode.None;
+					keyMapToUpdate = "left";
+				}
+				GUILayout.EndHorizontal ();
+
+				GUILayout.BeginHorizontal ();
+				GUILayout.Label ("Right:", settingsLabelLayout);
+				if (keyMapToUpdate == "right" && _lastKeyPressed != KeyCode.None) {
+					_config.KeyMap.Right = _lastKeyPressed;
+					keyMapToUpdate = string.Empty;
+				}
+				if (GUILayout.Button (_config.KeyMap.Right.ToString ())) {
+					_lastKeyPressed = KeyCode.None;
+					keyMapToUpdate = "right";
+				}
+				GUILayout.EndHorizontal ();
+
+				GUILayout.BeginHorizontal ();
+				GUILayout.Label ("Forward:", settingsLabelLayout);
+				if (keyMapToUpdate == "fwd" && _lastKeyPressed != KeyCode.None) {
+					_config.KeyMap.Forward = _lastKeyPressed;
+					keyMapToUpdate = string.Empty;
+				}
+				if (GUILayout.Button (_config.KeyMap.Forward.ToString ())) {
+					_lastKeyPressed = KeyCode.None;
+					keyMapToUpdate = "fwd";
+				}
+				GUILayout.EndHorizontal ();
+
+				GUILayout.BeginHorizontal ();
+				GUILayout.Label ("Back:", settingsLabelLayout);
+				if (keyMapToUpdate == "back" && _lastKeyPressed != KeyCode.None) {
+					_config.KeyMap.Back = _lastKeyPressed;
+					keyMapToUpdate = string.Empty;
+				}
+				if (GUILayout.Button (_config.KeyMap.Back.ToString ())) {
+					_lastKeyPressed = KeyCode.None;
+					keyMapToUpdate = "back";
+				}
+				GUILayout.EndHorizontal ();
+			}
+
+			#endregion
 
 			#region angle snap values settings
-			if (toolbarInt == 1) {
+			if (toolbarInt == 2) {
 
 				try {
 					lock (anglesLock) {
@@ -277,7 +376,8 @@ namespace EditorExtensionsRedux
 			}
 
 			if (GUILayout.Button ("Defaults")) {
-				_config = ConfigManager.CreateDefaultConfig (_configFilePath, _version);;
+				_config = ConfigManager.CreateDefaultConfig (_configFilePath, _version);
+				;
 			}
 
 			if (GUILayout.Button ("Save")) {

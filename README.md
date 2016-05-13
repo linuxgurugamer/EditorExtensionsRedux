@@ -3,6 +3,18 @@
 ##
 ##
 
+## Changes in 3.2.8
+	Added code from Fwiffo to fix bug where changing the angle snap while in rotate mode would not affect the rotate gizmo
+	Added code from Fwiffo for Rapid Zoom
+	Note:  Code from Fwiffo was modified to use the Reflection offsets rather than names to maintain compatibility with Linux & OSX
+	Fixed bug where going into the rotate gizmo the first time without changing the snap would have a rotation snap of 15 when it should have been zero
+
+	NEW FEATURE:  Fine Adjust
+	Fine Adjust window added
+	New config window for fine adjust keys
+	When Fine Adjust window is open, keys will do fine adjustments depending on which gizmo is selected:
+		Default keys:	arrow keys + rightShift & rightControl
+
 ## Changes in 3.2.7
 	Added code so that typing in text fields will be ignored by mod
 
@@ -36,6 +48,7 @@ Includes submods:
 * Reset hangar camera view
 * Customize hotkeys
 * CKAN & KSP-AVC versioning support
+* Rapid zoom mode when using keys to zoom (when using stock zoom mode)
 
 #### Vertical/Horizontal snap:
 * Place the part, then once the part is placed, hover over the part with your mouse and press the Vertical or Horizontal snap hotkey.
@@ -45,6 +58,11 @@ Includes submods:
 * Place the strut, then hover over the base/start of the strut (the first end placed) with the mouse, and press the hotkey.
 * Strut/FL start and end with be snapped to the closest of either the middle, quarter, or end of the part, aligned directly between the two parts.
 * Mod/Alt-U will reposition the strut/FL directly between the parts, but only level out the strut from the start/parent part.
+
+#### Rapid Zoom mode
+* Zoom in / out more rapidly by double-tapping the zoom in / out hotkey.  i.e. If you just hold down the "zoom in" hotkey, 
+  it works like normal.  But if you double-tap-hold, it zooms in at 5x the speed.  Releasing the hotkey sets zoom back to normal
+
 
 ### Default Keybindings
 * **V** 			- Vertically center a part. Place the part, hover over it with the mouse, and press the hotkey.
