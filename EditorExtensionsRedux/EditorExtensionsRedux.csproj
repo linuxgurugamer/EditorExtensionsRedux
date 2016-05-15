@@ -36,7 +36,7 @@
     <ConsolePause>false</ConsolePause>
     <CustomCommands>
       <CustomCommands>
-        <Command type="AfterBuild" command="deploy.bat" externalConsole="True" pauseExternalConsole="True" />
+        <Command type="AfterBuild" command="deploy.bat" externalConsole="True" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>

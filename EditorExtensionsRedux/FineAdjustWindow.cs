@@ -21,7 +21,7 @@ namespace EditorExtensionsRedux
 		void Awake ()
 		{
 			Log.Debug ("FineAdjustWindow Awake()");
-			CloseWindow ();
+			this.enabled = false;
 			Instance = this;
 		}
 
@@ -49,6 +49,7 @@ namespace EditorExtensionsRedux
 
 		void OnDisable ()
 		{
+			
 		}
 
 		void OnGUI ()
@@ -73,6 +74,7 @@ namespace EditorExtensionsRedux
 		};
 
 		Part activePuc;
+		Part oldActivePuc;
 		bool fineAdjustActive = false;
 
 
@@ -96,6 +98,9 @@ namespace EditorExtensionsRedux
 			return 0.1f;
 		}
 
+		private string[] _toolbarStrings = { "Translation", "Rotation" };
+		int toolbarInt = 0;
+
 		void WindowContent (int windowID)
 		{
 			string adjTypeStr = "";
@@ -103,43 +108,52 @@ namespace EditorExtensionsRedux
 			var lstyle = new GUIStyle (GUI.skin.label);
 			//var errstyle = new GUIStyle (GUI.skin.label);
 			//errstyle.normal.textColor = Color.red;
-			if (fineAdjustActive && (DateTime.Now.Second % 2 == 0) ) {
+			if (fineAdjustActive  && (DateTime.Now.Second % 2 == 0)  ) {
 				lstyle.normal.textColor = Color.yellow;
 			}
-			Part puc = null, sp = EditorLogic.SelectedPart;
-			/* if (sp == null) */ {
-				if (fineAdjustActive)
-					puc = activePuc;
-				else
-					puc = EditorLogic.SelectedPart; //Utility.GetPartUnderCursor ();
+			Part puc = null; 
 
-				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Adjustment Type: ", lstyle);
+			if (fineAdjustActive)
+				puc = activePuc;
+			else
+				puc = EditorLogic.SelectedPart; //Utility.GetPartUnderCursor ();
+			toolbarInt = GUILayout.Toolbar (toolbarInt, _toolbarStrings);
+			if (toolbarInt == 0) {
+				adjType = AdjustmentType.translation;
+				adjTypeStr = "Translation";
+			} else {
+				adjType = AdjustmentType.rotation;
+				adjTypeStr = "Rotation";
+			}
+			#if false
+			GUILayout.BeginHorizontal ();
+			GUILayout.Label ("Adjustment Type: ", lstyle);
 
-				if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ().Length > 0){
-					adjType = AdjustmentType.translation;
-					adjTypeStr = "Translation";
-				}
-				if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ().Length > 0){ 
-					adjType = AdjustmentType.rotation;
-					adjTypeStr = "Rotation";
-				}
-
-
-				GUILayout.Label (adjTypeStr, lstyle);
-				GUILayout.EndHorizontal ();
-
-				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Current Part:", lstyle);
-				GUILayout.Label (puc ? puc.name : "none", lstyle);
-				GUILayout.EndHorizontal ();
-				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Symmetry Method: ", lstyle);
-				if (puc != null)
-					GUILayout.Label (puc.symMethod.ToString ());
-				GUILayout.EndHorizontal ();
+			if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ().Length > 0){
+				adjType = AdjustmentType.translation;
+				adjTypeStr = "Translation";
+			}
+			if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ().Length > 0){ 
+				adjType = AdjustmentType.rotation;
+				adjTypeStr = "Rotation";
 			}
 
+			GUILayout.Label (adjTypeStr, lstyle);
+
+			GUILayout.EndHorizontal ();
+
+			#endif
+		
+
+			GUILayout.BeginHorizontal ();
+			GUILayout.Label ("Current Part:", lstyle);
+			GUILayout.Label (puc ? puc.name : "none", lstyle);
+			GUILayout.EndHorizontal ();
+			GUILayout.BeginHorizontal ();
+			GUILayout.Label ("Symmetry Method: ", lstyle);
+			if (puc != null)
+				GUILayout.Label (puc.symMethod.ToString ());
+			GUILayout.EndHorizontal ();
 
 			GUILayout.BeginHorizontal ();
 			if (adjType != AdjustmentType.translation || puc != EditorLogic.RootPart) {
@@ -240,19 +254,22 @@ namespace EditorExtensionsRedux
 		}
 
 
-		Vector3 origAttPos0, origLocalPosition;
-		Quaternion origAttRotation0;
-
-		void Update ()
+		void LateUpdate ()
 		{
-			Part sp = EditorLogic.SelectedPart;
+			//Part sp = EditorLogic.SelectedPart;
 
 			/* if (sp == null) */ {
 				if (!fineAdjustActive) {
 					activePuc = EditorLogic.SelectedPart; //Utility.GetPartUnderCursor ();
-					origAttPos0 = activePuc.attPos0;
-					origLocalPosition = activePuc.transform.localScale;
-					origAttRotation0 = activePuc.attRotation0;
+					if (activePuc != oldActivePuc) {
+						oldActivePuc = activePuc;
+						if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ().Length > 0) {
+							toolbarInt = 0;
+						}
+						if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ().Length > 0) { 
+							toolbarInt = 1;
+						}
+					}
 				}
 				if (activePuc != null) {
 

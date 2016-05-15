@@ -1,13 +1,13 @@
 ﻿<Properties StartupItem="Packagers\BetaPackage.mdproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="EditorExtensionsRedux\EditorExtensionsRedux.version">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug Win" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="EditorExtensionsRedux\EditorExtensionsRedux.cs">
     <Files>
       <File FileName="EditorExtensionsRedux\SelectRoot2Behaviour.cs" Line="91" Column="11" />
-      <File FileName="EditorExtensionsRedux\NoOffsetLimits\NoOffsetLimitsBehaviour.cs" Line="70" Column="15" />
+      <File FileName="EditorExtensionsRedux\NoOffsetLimits\NoOffsetLimitsBehaviour.cs" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\AppLauncherButton.cs" Line="1" Column="1" />
-      <File FileName="EditorExtensionsRedux\Utility.cs" Line="80" Column="3" />
+      <File FileName="EditorExtensionsRedux\Utility.cs" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\buildRelease.bat" Line="1" Column="1" />
-      <File FileName="EditorExtensionsRedux\Config\ConfigManager.cs" Line="91" Column="24" />
+      <File FileName="EditorExtensionsRedux\Config\ConfigManager.cs" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\Logging.cs" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\PartInfoWindow.cs" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\EditorExtensionsRedux.version" Line="1" Column="1" />
@@ -16,11 +16,11 @@
       <File FileName="EditorExtensionsRedux\GUIWindow.cs" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\deploy.bat" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\StripSymmetry\ExtensionMethods.cs" Line="1" Column="1" />
-      <File FileName="EditorExtensionsRedux\Config\ConfigData.cs" Line="77" Column="3" />
+      <File FileName="EditorExtensionsRedux\Config\ConfigData.cs" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\SettingsWindow.cs" Line="1" Column="1" />
-      <File FileName="EditorExtensionsRedux\EditorExtensionsRedux.cs" Line="657" Column="14" />
-      <File FileName="EditorExtensionsRedux\FineAdjustWindow.cs" Line="43" Column="3" />
-      <File FileName="README.md" Line="17" Column="3" />
+      <File FileName="EditorExtensionsRedux\EditorExtensionsRedux.cs" Line="524" Column="1" />
+      <File FileName="EditorExtensionsRedux\FineAdjustWindow.cs" Line="7" Column="31" />
+      <File FileName="README.md" Line="11" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

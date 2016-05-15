@@ -22,7 +22,7 @@ set d=%H%\Gamedata\EditorExtensionsRedux
 if exist %d% goto three
 mkdir %d%
 :three
-set d=%H%\Gamedata\EditorExtensionsRedux\Plugin
+set d=%H%\Gamedata\EditorExtensionsRedux\Plugins
 if exist %d% goto four
 mkdir %d%
 :four
@@ -42,7 +42,7 @@ mkdir %d%
 
 
 
-copy /Y "%~dp0bin\Debug\EditorExtensionsRedux.dll" "%H%\GameData\EditorExtensionsRedux\Plugin"
+copy /Y "%~dp0bin\Debug\EditorExtensionsRedux.dll" "%H%\GameData\EditorExtensionsRedux\Plugins"
 copy /Y "%~dp0bin\Debug\Textures\*.png" "%H%\GameData\EditorExtensionsRedux\Textures"
 copy /Y "%~dp0bin\Debug\EditorExtensionsRedux.version" "%H%\GameData\EditorExtensionsRedux"
 
