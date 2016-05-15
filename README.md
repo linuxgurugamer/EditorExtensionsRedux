@@ -3,12 +3,18 @@
 ##
 ##
 
+## Changes in 3.2.10
+	Added UI scaling code to position of EEX menu
+	Fixed accidently disabling the ability to change the anglesnap on/off by clicking the spirt
+
 ## Changes in 3.2.9
 	Removed old code from the FineAdjust Update function which was causing an exception
 	Reduced height of popup menu
 	Fixed bug where clicking on the symmetry sprite (the one which changes the angle snap degrees) when the angle was zero
 	would not allow surface attachments to anything other than the +z axis:
 		"I can place the battery only on the +z axis of the structure.  I cannot place it on -z, +x, -x"
+	Removed performance issue when Fine Adjustments window was shown
+	Reduced performance impact when fine adjustments are being done
 
 ## Changes in 3.2.8
 	Added code from Fwiffo to fix bug where changing the angle snap while in rotate mode would not affect the rotate gizmo

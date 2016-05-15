@@ -1220,12 +1220,12 @@ namespace EditorExtensionsRedux
 			if (!validVersion)
 				return;
 			Vector3 position = Input.mousePosition;
-				
+			int toolbarHeight = (int)(_toolbarHeight * GameSettings.UI_SCALE);
 			_menuRect = new Rect () {
 				xMin = position.x - _menuWidth / 2,
 				xMax = position.x + _menuWidth / 2,
-				yMin = Screen.height - _toolbarHeight - _menuHeight,
-				yMax = Screen.height - _toolbarHeight
+				yMin = Screen.height - toolbarHeight - _menuHeight,
+				yMax = Screen.height - toolbarHeight
 			};
 			_showMenu = true;
 		}
@@ -1370,10 +1370,11 @@ namespace EditorExtensionsRedux
 
 		void AdjustSnapLocations ()
 		{
+			
 			if (editor.srfAttachAngleSnap == 0) {
 				GameSettings.VAB_USE_ANGLE_SNAP = false;
 			} else {
-				GameSettings.VAB_USE_ANGLE_SNAP = true;
+			//	GameSettings.VAB_USE_ANGLE_SNAP = true;
 			}
 
 			//symmetry & angle sprite/label size and position
