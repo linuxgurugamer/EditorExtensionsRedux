@@ -3,9 +3,12 @@
 ##
 ##
 
+## Changes in 3.2.11
+	Added 1/4 second delay in hiding menu
+
 ## Changes in 3.2.10
 	Added UI scaling code to position of EEX menu
-	Fixed accidently disabling the ability to change the anglesnap on/off by clicking the spirt
+	Fixed accidently disabling the ability to change the anglesnap on/off by clicking the sprite
 
 ## Changes in 3.2.9
 	Removed old code from the FineAdjust Update function which was causing an exception

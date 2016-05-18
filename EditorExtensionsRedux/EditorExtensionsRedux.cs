@@ -1259,15 +1259,18 @@ namespace EditorExtensionsRedux
 			ShowSnapLabels ();
 
 			if (Event.current.type == EventType.Layout) {
-				if (_showMenu || _menuRect.Contains (Event.current.mousePosition))
+				if (_showMenu || _menuRect.Contains (Event.current.mousePosition) || (Time.fixedTime - lastTimeShown <0.5f))
 					_menuRect = GUILayout.Window (this.GetInstanceID (), _menuRect, MenuContent, "EEX Menu");
 				else
 					_menuRect = new Rect ();
 			}
 		}
+		float lastTimeShown = 0.0f;
 
 		void MenuContent (int WindowID)
 		{
+			if (_showMenu || _menuRect.Contains (Event.current.mousePosition))
+				lastTimeShown = Time.fixedTime;
 			GUILayout.BeginVertical ();
 			if (GUILayout.Button ("Settings")) {
 				_settingsWindow.Show (cfg, _configFilePath, pluginVersion);
