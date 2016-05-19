@@ -3,6 +3,11 @@
 ##
 ##
 
+## Changes in 3.2.12
+	Fixed rotation gizmo to not angle snap when anglesnap is off
+	Replaced code which did FindObjectsOftype with GizmoEvents class for performance improvement
+	Updated FineAdjustments window to detect which gizmo is active
+
 ## Changes in 3.2.11
 	Added 1/4 second delay in hiding menu
 

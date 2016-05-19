@@ -390,8 +390,8 @@ namespace EditorExtensionsRedux
 			}
 		}
 
-		EditorGizmos.GizmoOffsetHandle gizmoOffsetHandle = null;
-		EditorGizmos.GizmoRotateHandle gizmoRotateHandle = null;
+//		EditorGizmos.GizmoOffsetHandle gizmoOffsetHandle = null;
+//		EditorGizmos.GizmoRotateHandle gizmoRotateHandle = null;
 		//Unity update
 		void Update ()
 		{
@@ -525,13 +525,15 @@ namespace EditorExtensionsRedux
 
 				if (_fineAdjustWindow.isEnabled ()) {
 					Vector3 axis;
-					var gizmosOffset = HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ();
-					if (gizmosOffset.Length > 0) {
-						gizmoRotateHandle = null;
+//					var gizmosOffset = HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ();
+//					if (gizmosOffset.Length > 0) {
+					if (GizmoEvents.offsetGizmoActive) {
+						GizmoEvents.gizmoRotateHandle = null;
+						GizmoEvents.rotateGizmoActive = false;
 						if (EditorLogic.SelectedPart != null) {
 							//var gizmosOffset = HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ();
-							if (gizmoOffsetHandle == null)
-								gizmoOffsetHandle = HighLogic.FindObjectOfType<EditorGizmos.GizmoOffsetHandle> ();
+//							if (gizmoOffsetHandle == null)
+//								gizmoOffsetHandle = HighLogic.FindObjectOfType<EditorGizmos.GizmoOffsetHandle> ();
 
 							float offset = FineAdjustWindow.Instance.offset;
 
@@ -556,15 +558,15 @@ namespace EditorExtensionsRedux
 
 							if (Input.GetKey (cfg.KeyMap.Down)) {
 								axis = Vector3.down;
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, gizmoOffsetHandle, axis);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, gizmoOffsetHandle, axis, offset);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, gizmoOffsetHandle, axis, 0.0f);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, GizmoEvents.gizmoOffsetHandle, axis);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, GizmoEvents.gizmoOffsetHandle, axis, offset);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, GizmoEvents.gizmoOffsetHandle, axis, 0.0f);
 							}
 							if (Input.GetKey (cfg.KeyMap.Up)) {
 								axis = Vector3.up;
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, gizmoOffsetHandle, axis);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, gizmoOffsetHandle, axis, offset);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, gizmoOffsetHandle, axis, 0.0f);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, GizmoEvents.gizmoOffsetHandle, axis);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, GizmoEvents.gizmoOffsetHandle, axis, offset);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, GizmoEvents.gizmoOffsetHandle, axis, 0.0f);
 							}
 
 							if (Input.GetKey (cfg.KeyMap.Left)) {
@@ -572,18 +574,18 @@ namespace EditorExtensionsRedux
 									axis = Vector3.forward;
 								else
 									axis = Vector3.right;
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, gizmoOffsetHandle, axis);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, gizmoOffsetHandle, axis, offset);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, gizmoOffsetHandle, axis, 0.0f);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, GizmoEvents.gizmoOffsetHandle, axis);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, GizmoEvents.gizmoOffsetHandle, axis, offset);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, GizmoEvents.gizmoOffsetHandle, axis, 0.0f);
 							}
 							if (Input.GetKey (cfg.KeyMap.Right)) {
 								if (EditorDriver.editorFacility == EditorFacility.VAB)
 									axis = Vector3.back;
 								else
 									axis = Vector3.left;
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, gizmoOffsetHandle, axis);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, gizmoOffsetHandle, axis, offset);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, gizmoOffsetHandle, axis, 0.0f);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, GizmoEvents.gizmoOffsetHandle, axis);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, GizmoEvents.gizmoOffsetHandle, axis, offset);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, GizmoEvents.gizmoOffsetHandle, axis, 0.0f);
 
 							}
 
@@ -592,9 +594,9 @@ namespace EditorExtensionsRedux
 									axis = Vector3.right;
 								else
 									axis = Vector3.back;
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, gizmoOffsetHandle, axis);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, gizmoOffsetHandle, axis, offset);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, gizmoOffsetHandle, axis, 0.0f);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, GizmoEvents.gizmoOffsetHandle, axis);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, GizmoEvents.gizmoOffsetHandle, axis, offset);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, GizmoEvents.gizmoOffsetHandle, axis, 0.0f);
 
 							}
 							if (Input.GetKey (cfg.KeyMap.Back)) {
@@ -603,22 +605,25 @@ namespace EditorExtensionsRedux
 								else
 									axis = Vector3.forward;
 								
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, gizmoOffsetHandle, axis);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, gizmoOffsetHandle, axis, offset);
-								Refl.Invoke (gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, gizmoOffsetHandle, axis, 0.0f);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVESTART, GizmoEvents.gizmoOffsetHandle, axis);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVE, GizmoEvents.gizmoOffsetHandle, axis, offset);
+								Refl.Invoke (GizmoEvents.gizmosOffset [0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, GizmoEvents.gizmoOffsetHandle, axis, 0.0f);
 
 							}
+						} else {
+							GizmoEvents.gizmoOffsetHandle = null;
+							GizmoEvents.offsetGizmoActive = false;
 						}
-						else 
-							gizmoOffsetHandle = null;
 					} else {
-						gizmoOffsetHandle = null;
-						var gizmosRotate = HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ();
-						if (gizmosRotate.Length > 0) {
+						GizmoEvents.gizmoOffsetHandle = null;
+						GizmoEvents.offsetGizmoActive = false;
+//						var gizmosRotate = HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ();
+//						if (gizmosRotate.Length > 0) {
+						if (GizmoEvents.rotateGizmoActive) {
 							if (EditorLogic.SelectedPart != null) {
 								//var gizmosRotate = HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ();
-								if (gizmoRotateHandle == null)
-									gizmoRotateHandle = HighLogic.FindObjectOfType<EditorGizmos.GizmoRotateHandle> ();
+//								if (gizmoRotateHandle == null)
+//									gizmoRotateHandle = HighLogic.FindObjectOfType<EditorGizmos.GizmoRotateHandle> ();
 								float rotation = FineAdjustWindow.Instance.rotation;
 
 								if (Input.GetKey (cfg.KeyMap.Down)) {
@@ -626,59 +631,63 @@ namespace EditorExtensionsRedux
 										axis = Vector3.forward;
 									else
 										axis = Vector3.left;
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, gizmoRotateHandle, axis);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, gizmoRotateHandle, axis, rotation);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, gizmoRotateHandle, axis, 0.0f);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, GizmoEvents.gizmoRotateHandle, axis);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, GizmoEvents.gizmoRotateHandle, axis, rotation);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, GizmoEvents.gizmoRotateHandle, axis, 0.0f);
 								}
 								if (Input.GetKey (cfg.KeyMap.Up)) {
 									if (EditorDriver.editorFacility == EditorFacility.VAB)
 										axis = Vector3.back;
 									else
 										axis = Vector3.right;
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, gizmoRotateHandle, axis);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, gizmoRotateHandle, axis, rotation);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, gizmoRotateHandle, axis, 0.0f);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, GizmoEvents.gizmoRotateHandle, axis);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, GizmoEvents.gizmoRotateHandle, axis, rotation);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, GizmoEvents.gizmoRotateHandle, axis, 0.0f);
 								}
 								if (Input.GetKey (cfg.KeyMap.Left)) {
 									if (EditorDriver.editorFacility == EditorFacility.VAB)
 										axis = Vector3.right;
 									else
 										axis = Vector3.forward;
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, gizmoRotateHandle, axis);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, gizmoRotateHandle, axis, rotation);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, gizmoRotateHandle, axis, 0.0f);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, GizmoEvents.gizmoRotateHandle, axis);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, GizmoEvents.gizmoRotateHandle, axis, rotation);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, GizmoEvents.gizmoRotateHandle, axis, 0.0f);
 								}
 								if (Input.GetKey (cfg.KeyMap.Right)) {
 									if (EditorDriver.editorFacility == EditorFacility.VAB)
 										axis = Vector3.left;
 									else
 										axis = Vector3.back;
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, gizmoRotateHandle, axis);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, gizmoRotateHandle, axis, rotation);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, gizmoRotateHandle, axis, 0.0f);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, GizmoEvents.gizmoRotateHandle, axis);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, GizmoEvents.gizmoRotateHandle, axis, rotation);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, GizmoEvents.gizmoRotateHandle, axis, 0.0f);
 
 								}
 								if (Input.GetKey (cfg.KeyMap.Forward)) {
 								
 									axis = Vector3.up;
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, gizmoRotateHandle, axis);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, gizmoRotateHandle, axis, rotation);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, gizmoRotateHandle, axis, 0.0f);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, GizmoEvents.gizmoRotateHandle, axis);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, GizmoEvents.gizmoRotateHandle, axis, rotation);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, GizmoEvents.gizmoRotateHandle, axis, 0.0f);
 
 								}
 								if (Input.GetKey (cfg.KeyMap.Back)) {
 									axis = Vector3.down;
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, gizmoRotateHandle, axis);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, gizmoRotateHandle, axis, rotation);
-									Refl.Invoke (gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, gizmoRotateHandle, axis, 0.0f);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, GizmoEvents.gizmoRotateHandle, axis);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, GizmoEvents.gizmoRotateHandle, axis, rotation);
+									Refl.Invoke (GizmoEvents.gizmosRotate [0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, GizmoEvents.gizmoRotateHandle, axis, 0.0f);
 
 								}
+							} else {
+								GizmoEvents.gizmoRotateHandle = null;
+								GizmoEvents.rotateGizmoActive = false;
 							}
-							else
-								gizmoRotateHandle = null;
 						}
 						else
-							gizmoRotateHandle = null;
+							{
+							GizmoEvents.gizmoRotateHandle = null;
+							GizmoEvents.rotateGizmoActive = false;
+						}
 					}
 				}
 
@@ -1047,9 +1056,10 @@ namespace EditorExtensionsRedux
 			#endif
 			if (gizmosRotate.Length > 0) {
 				var g = gizmosRotate [0];
-				g.useAngleSnap = editor.srfAttachAngleSnap != 0;
+//fix1
+				g.useAngleSnap = editor.srfAttachAngleSnap != 0 && GameSettings.VAB_USE_ANGLE_SNAP;
 				// Unfortunately the SnapDegrees property is read-only; some reflection hackery is needed
-				if (editor.srfAttachAngleSnap != 0) {
+				if (editor.srfAttachAngleSnap != 0 && GameSettings.VAB_USE_ANGLE_SNAP) {
 
 
 //					var field = gizmo.GetType ().GetField ("gridSnapInterval", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -1073,7 +1083,10 @@ namespace EditorExtensionsRedux
 				Log.Debug ("Starting srfAttachAngleSnap = " + editor.srfAttachAngleSnap.ToString ());
 
 				int currentAngleIndex = cfg.AngleSnapValues.IndexOf (editor.srfAttachAngleSnap);
-
+				#if false
+	if (currentAngleIndex < 0)
+		currentAngleIndex = 0;
+				#endif
 				Log.Debug ("currentAngleIndex: " + currentAngleIndex.ToString ());
 
 				//rotate through the angle snap values
@@ -1096,6 +1109,11 @@ namespace EditorExtensionsRedux
 //at angle snap 0, turn off angle snap and show stock circle sprite
 			if (editor.srfAttachAngleSnap == 0) {
 				GameSettings.VAB_USE_ANGLE_SNAP = false;
+				#if false
+editor.srfAttachAngleSnap = 0.01f;
+GameSettings.VAB_USE_ANGLE_SNAP = true;
+editor.angleSnapSprite.gameObject.SetActive (false);
+				#endif
 			} else {
 				GameSettings.VAB_USE_ANGLE_SNAP = true;
 			}
@@ -1469,6 +1487,7 @@ namespace EditorExtensionsRedux
 					//angle snap is off, show stock sprite
 //					editor.angleSnapSprite.PlayAnim (0);
 					//editor.angleSnapSprite.Hide (false);
+
 					editor.angleSnapSprite.SetState (0);
 					editor.angleSnapSprite.gameObject.SetActive (true);
 				}

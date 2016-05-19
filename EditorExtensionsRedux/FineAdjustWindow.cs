@@ -98,8 +98,8 @@ namespace EditorExtensionsRedux
 			return 0.1f;
 		}
 
-		private string[] _toolbarStrings = { "Translation", "Rotation" };
-		int toolbarInt = 0;
+//		private string[] _toolbarStrings = { "Translation", "Rotation" };
+//		int toolbarInt = 0;
 
 		void WindowContent (int windowID)
 		{
@@ -117,33 +117,26 @@ namespace EditorExtensionsRedux
 				puc = activePuc;
 			else
 				puc = EditorLogic.SelectedPart; //Utility.GetPartUnderCursor ();
-			toolbarInt = GUILayout.Toolbar (toolbarInt, _toolbarStrings);
-			if (toolbarInt == 0) {
+//			toolbarInt = GUILayout.Toolbar (toolbarInt, _toolbarStrings);
+			adjTypeStr = "None";
+			if (GizmoEvents.offsetGizmoActive) {
 				adjType = AdjustmentType.translation;
 				adjTypeStr = "Translation";
-			} else {
+			} 
+			if (GizmoEvents.rotateGizmoActive) {
 				adjType = AdjustmentType.rotation;
 				adjTypeStr = "Rotation";
 			}
-			#if false
+		
 			GUILayout.BeginHorizontal ();
 			GUILayout.Label ("Adjustment Type: ", lstyle);
-
-			if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ().Length > 0){
-				adjType = AdjustmentType.translation;
-				adjTypeStr = "Translation";
-			}
-			if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ().Length > 0){ 
-				adjType = AdjustmentType.rotation;
-				adjTypeStr = "Rotation";
-			}
-
 			GUILayout.Label (adjTypeStr, lstyle);
-
 			GUILayout.EndHorizontal ();
 
-			#endif
-		
+
+			GUI.DragWindow ();
+			if (!GizmoEvents.offsetGizmoActive && !GizmoEvents.rotateGizmoActive)
+				return;
 
 			GUILayout.BeginHorizontal ();
 			GUILayout.Label ("Current Part:", lstyle);
@@ -250,7 +243,7 @@ namespace EditorExtensionsRedux
 				CloseWindow ();
 			}
 			GUILayout.EndHorizontal ();
-			GUI.DragWindow ();
+
 		}
 
 
@@ -263,12 +256,14 @@ namespace EditorExtensionsRedux
 					activePuc = EditorLogic.SelectedPart; //Utility.GetPartUnderCursor ();
 					if (activePuc != oldActivePuc) {
 						oldActivePuc = activePuc;
-						if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ().Length > 0) {
-							toolbarInt = 0;
-						}
-						if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ().Length > 0) { 
-							toolbarInt = 1;
-						}
+//						if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ().Length > 0) {
+//						if (GizmoEvents.offsetGizmoActive) {
+//							toolbarInt = 0;
+//						}
+//						if (HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ().Length > 0) { 
+//						if (GizmoEvents.rotateGizmoActive) {
+//							toolbarInt = 1;
+//						}
 					}
 				}
 				if (activePuc != null) {
