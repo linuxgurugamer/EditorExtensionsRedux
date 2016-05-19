@@ -44,7 +44,7 @@ namespace EditorExtensionsRedux
 		void CloseWindow ()
 		{
 			this.enabled = false;
-
+			Log.Info ("CloseWindow enabled: " + this.enabled.ToString ());
 		}
 
 		void OnDisable ()
@@ -54,7 +54,7 @@ namespace EditorExtensionsRedux
 
 		void OnGUI ()
 		{
-			if (this.enabled) {
+			if (isEnabled() ) {
 				_windowTitle = string.Format ("Fine Adjustments");
 				var tstyle = new GUIStyle (GUI.skin.window);
 
@@ -79,6 +79,7 @@ namespace EditorExtensionsRedux
 
 
 		AdjustmentType adjType = AdjustmentType.translation;
+		string adjTypeStr = "Translation";
 		public float offset = 0.01f;
 		public float rotation = 1.0f;
 		public int offsetDeltaIndex = 2;
@@ -101,9 +102,10 @@ namespace EditorExtensionsRedux
 //		private string[] _toolbarStrings = { "Translation", "Rotation" };
 //		int toolbarInt = 0;
 
+
 		void WindowContent (int windowID)
 		{
-			string adjTypeStr = "";
+			
 			//GUI.skin = HighLogic.Skin;
 			var lstyle = new GUIStyle (GUI.skin.label);
 			//var errstyle = new GUIStyle (GUI.skin.label);
@@ -117,8 +119,9 @@ namespace EditorExtensionsRedux
 				puc = activePuc;
 			else
 				puc = EditorLogic.SelectedPart; //Utility.GetPartUnderCursor ();
+			
 //			toolbarInt = GUILayout.Toolbar (toolbarInt, _toolbarStrings);
-			adjTypeStr = "None";
+			//adjTypeStr = "None";
 			if (GizmoEvents.offsetGizmoActive) {
 				adjType = AdjustmentType.translation;
 				adjTypeStr = "Translation";
@@ -134,9 +137,9 @@ namespace EditorExtensionsRedux
 			GUILayout.EndHorizontal ();
 
 
-			GUI.DragWindow ();
-			if (!GizmoEvents.offsetGizmoActive && !GizmoEvents.rotateGizmoActive)
-				return;
+
+	//		if (!GizmoEvents.offsetGizmoActive && !GizmoEvents.rotateGizmoActive)
+	//			return;
 
 			GUILayout.BeginHorizontal ();
 			GUILayout.Label ("Current Part:", lstyle);
@@ -196,54 +199,56 @@ namespace EditorExtensionsRedux
 
 
 			GUILayout.BeginHorizontal ();
-			if (adjType != AdjustmentType.translation || puc != EditorLogic.RootPart)
-				GUILayout.Label (adjTypeStr + " amount:", lstyle,  GUILayout.MinWidth (150));
-			if (GUILayout.Button ("-", GUILayout.Width (20))) {
-				switch (adjType) {
-				case AdjustmentType.rotation:
-					rotation -= getDelta(rotationdeltaIndex);
-					if (rotation <= 0.0f)
-						rotation = getDelta(rotationdeltaIndex);
+			if (adjType != AdjustmentType.translation || puc != EditorLogic.RootPart) {
+				GUILayout.Label (adjTypeStr + " amount:", lstyle, GUILayout.MinWidth (150));
+				if (GUILayout.Button ("-", GUILayout.Width (20))) {
+					switch (adjType) {
+					case AdjustmentType.rotation:
+						rotation -= getDelta (rotationdeltaIndex);
+						if (rotation <= 0.0f)
+							rotation = getDelta (rotationdeltaIndex);
 					
-					break;
-				case AdjustmentType.translation:
-					offset -= getDelta(offsetDeltaIndex);
-					if (offset <= 0.0f)
-						offset = getDelta(offsetDeltaIndex);
+						break;
+					case AdjustmentType.translation:
+						offset -= getDelta (offsetDeltaIndex);
+						if (offset <= 0.0f)
+							offset = getDelta (offsetDeltaIndex);
 					
-					break;
+						break;
+					}
 				}
-			}
-			switch (adjType) {
-			case AdjustmentType.rotation:
-				GUILayout.Label (rotation.ToString (), "TextField");
-				break;
-			case AdjustmentType.translation:
-				GUILayout.Label (offset.ToString (), "TextField");
-				break;
-			}
-
-			if (GUILayout.Button ("+", GUILayout.Width (20))) {
 				switch (adjType) {
 				case AdjustmentType.rotation:
-					rotation += getDelta(rotationdeltaIndex);
+					GUILayout.Label (rotation.ToString (), "TextField");
 					break;
 				case AdjustmentType.translation:
-					offset += getDelta(offsetDeltaIndex);
+					GUILayout.Label (offset.ToString (), "TextField");
 					break;
 				}
 
+				if (GUILayout.Button ("+", GUILayout.Width (20))) {
+					switch (adjType) {
+					case AdjustmentType.rotation:
+						rotation += getDelta (rotationdeltaIndex);
+						break;
+					case AdjustmentType.translation:
+						offset += getDelta (offsetDeltaIndex);
+						break;
+					}
+
+				}
 			}
 			GUILayout.EndHorizontal ();
 
 			GUILayout.BeginHorizontal ();
 			if (GUILayout.Button ("Done")) {
+				Log.Info ("Done");
 				fineAdjustActive = false;
 				InputLockManager.RemoveControlLock ("EEX_FA");
 				CloseWindow ();
 			}
 			GUILayout.EndHorizontal ();
-
+			GUI.DragWindow ();
 		}
 
 

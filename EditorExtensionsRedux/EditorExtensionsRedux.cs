@@ -161,6 +161,8 @@ namespace EditorExtensionsRedux
 		float orgSphZoomSens = 0;
 		// End Fwiffo
 
+		static float lastSrfAttachAngleSnap = 15.0f;
+		static bool last_VAB_USE_ANGLE_SNAP = true;
 		#endregion
 
 		//	public EditorExtensions (){}
@@ -265,8 +267,11 @@ namespace EditorExtensionsRedux
 			GameEvents.onEditorSymmetryModeChange.Add (EditorSymmetryModeChange);
 
 
-			editor.srfAttachAngleSnap = 0;
+//			editor.srfAttachAngleSnap = 0;
+			editor.srfAttachAngleSnap = lastSrfAttachAngleSnap;
+			GameSettings.VAB_USE_ANGLE_SNAP = last_VAB_USE_ANGLE_SNAP;
 			Log.Info ("editor.srfAttachAngleSnap: " + editor.srfAttachAngleSnap.ToString ());
+
 		}
 
 		//Unity OnDestroy
@@ -534,6 +539,9 @@ namespace EditorExtensionsRedux
 							//var gizmosOffset = HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ();
 //							if (gizmoOffsetHandle == null)
 //								gizmoOffsetHandle = HighLogic.FindObjectOfType<EditorGizmos.GizmoOffsetHandle> ();
+
+							if (GameSettings.VAB_USE_ANGLE_SNAP)
+								GameEvents.onEditorSnapModeChange.Fire (false);
 
 							float offset = FineAdjustWindow.Instance.offset;
 
@@ -1106,6 +1114,7 @@ namespace EditorExtensionsRedux
 				editor.srfAttachAngleSnap = 0;
 			}
 
+
 //at angle snap 0, turn off angle snap and show stock circle sprite
 			if (editor.srfAttachAngleSnap == 0) {
 				GameSettings.VAB_USE_ANGLE_SNAP = false;
@@ -1117,6 +1126,9 @@ editor.angleSnapSprite.gameObject.SetActive (false);
 			} else {
 				GameSettings.VAB_USE_ANGLE_SNAP = true;
 			}
+
+			lastSrfAttachAngleSnap = editor.srfAttachAngleSnap;
+			last_VAB_USE_ANGLE_SNAP = GameSettings.VAB_USE_ANGLE_SNAP;
 
 			updateGizmoSnaps ();
 // Fwiffo
@@ -1397,6 +1409,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
 			} else {
 			//	GameSettings.VAB_USE_ANGLE_SNAP = true;
 			}
+			last_VAB_USE_ANGLE_SNAP = GameSettings.VAB_USE_ANGLE_SNAP;
 
 			//symmetry & angle sprite/label size and position
 			symmetryLabelStyle.fontSize = (int)Math.Round (FONTSIZE * GameSettings.UI_SCALE);

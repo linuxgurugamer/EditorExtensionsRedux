@@ -3,6 +3,10 @@
 ##
 ##
 
+## Changes in 3.2.13
+	Fixed Fine Adjustments window (inability to close it or change the values)
+	Now saves both angle snap value and whether it was on/off after exiting editor session
+
 ## Changes in 3.2.12
 	Fixed rotation gizmo to not angle snap when anglesnap is off
 	Replaced code which did FindObjectsOftype with GizmoEvents class for performance improvement

@@ -93,7 +93,6 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 			};
 			st_root_select.OnEnter += fixAlreadyHoveringPartFn;
 			OnCleanup += () => {
-				Log.Info("SelectRoot OnCleanup 1");
 				st_root_select.OnEnter -= fixAlreadyHoveringPartFn;
 			};
 
@@ -106,7 +105,6 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 
 			st_root_select.OnEnter += postNewMessageFn;
 			OnCleanup += () => {
-				Log.Info("SelectRoot OnCleanup 2");
 				st_root_select.OnEnter -= postNewMessageFn;
 			};
 
@@ -174,7 +172,6 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 			state.AddEvent(injectedEvent);
 			OnCleanup += () => {
 //				((List<KFSMEvent>)Refl.GetValue(state, "stateEvents")).Remove(injectedEvent);
-				Log.Info("SelectRoot OnCleanup 3");
 //				List<KFSMState> kfsmstatelist = (List<KFSMState>)Refl.GetValue(state, GET_STATEEVENTS);
 #if false
 				foreach(var kfsmstate in kfsmstatelist)
