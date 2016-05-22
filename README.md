@@ -6,6 +6,7 @@
 ## Changes in 3.2.13
 	Fixed Fine Adjustments window (inability to close it or change the values)
 	Now saves both angle snap value and whether it was on/off after exiting editor session
+	Fixed issue with fine adjust translation wouldn't work if snap was on
 
 ## Changes in 3.2.12
 	Fixed rotation gizmo to not angle snap when anglesnap is off

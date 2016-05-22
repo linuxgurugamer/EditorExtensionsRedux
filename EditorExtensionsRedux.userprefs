@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="Packagers\BetaPackage.mdproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="EditorExtensionsRedux\Properties\AssemblyInfo.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="README.md">
     <Files>
       <File FileName="EditorExtensionsRedux\Utility.cs" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\buildRelease.bat" Line="1" Column="1" />
@@ -15,13 +15,13 @@
       <File FileName="EditorExtensionsRedux\StripSymmetry\ExtensionMethods.cs" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\Config\ConfigData.cs" Line="1" Column="1" />
       <File FileName="EditorExtensionsRedux\SettingsWindow.cs" Line="1" Column="1" />
-      <File FileName="EditorExtensionsRedux\EditorExtensionsRedux.cs" Line="542" Column="8" />
-      <File FileName="EditorExtensionsRedux\GizmoEvents.cs" Line="23" Column="37" />
-      <File FileName="README.md" Line="8" Column="88" />
-      <File FileName="EditorExtensionsRedux\Properties\AssemblyInfo.cs" Line="12" Column="1" />
-      <File FileName="EditorExtensionsRedux\FineAdjustWindow.cs" Line="276" Column="50" />
-      <File FileName="EditorExtensionsRedux\SelectRoot2Behaviour.cs" Line="174" Column="84" />
-      <File FileName="EditorExtensionsRedux\NoOffsetLimits\NoOffsetLimitsBehaviour.cs" Line="48" Column="51" />
+      <File FileName="EditorExtensionsRedux\EditorExtensionsRedux.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\GizmoEvents.cs" Line="1" Column="1" />
+      <File FileName="README.md" Line="7" Column="1" />
+      <File FileName="EditorExtensionsRedux\Properties\AssemblyInfo.cs" Line="15" Column="1" />
+      <File FileName="EditorExtensionsRedux\FineAdjustWindow.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\SelectRoot2Behaviour.cs" Line="1" Column="1" />
+      <File FileName="EditorExtensionsRedux\NoOffsetLimits\NoOffsetLimitsBehaviour.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
