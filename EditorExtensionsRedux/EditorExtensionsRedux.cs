@@ -539,7 +539,7 @@ namespace EditorExtensionsRedux
 
 				// H - Horizontally align part under cursor with the part it is attached to
 				if (Input.GetKeyDown (cfg.KeyMap.HorizontalSnap)) {
-					HorizontalAlign ();
+					HorizontalAlign (fineKeyDown);
 					return;
 				}     
 
@@ -897,11 +897,16 @@ namespace EditorExtensionsRedux
 			throw new NotImplementedException ();
 		}
 
-		void CenterHorizontallyOnParent (Part p)
+		void CenterHorizontallyOnParent (Part p, bool otherHorizontal = false)
 		{
-			p.transform.localPosition = new Vector3 (p.transform.localPosition.x, p.transform.localPosition.y, 0f);
-			p.attPos0.z = 0f;
-		}
+            if (otherHorizontal) {
+                p.transform.localPosition = new Vector3(0f, p.transform.localPosition.y, p.transform.localPosition.z);
+                p.attPos0.x = 0f;
+            } else {
+                p.transform.localPosition = new Vector3(p.transform.localPosition.x, p.transform.localPosition.y, 0f);
+                p.attPos0.z = 0f;
+            }
+        }
 
 		void VerticalAlign ()
 		{
@@ -927,7 +932,7 @@ namespace EditorExtensionsRedux
 			return;
 		}
 
-		void HorizontalAlign ()
+		void HorizontalAlign (bool otherHorizontal = false)
 		{
 			try {
 				Part sp = Utility.GetPartUnderCursor ();
@@ -940,11 +945,11 @@ namespace EditorExtensionsRedux
 					Log.Debug ("symmetryCounterparts to move: " + symParts.Count.ToString ());
 
 					//move selected part
-					CenterHorizontallyOnParent (sp);
+					CenterHorizontallyOnParent (sp, otherHorizontal);
 
 					//move any symmetry siblings/counterparts
 					foreach (Part symPart in symParts) {
-						CenterHorizontallyOnParent (symPart);
+						CenterHorizontallyOnParent (symPart, otherHorizontal);
 					}
 
 					//Add edit to undo history
