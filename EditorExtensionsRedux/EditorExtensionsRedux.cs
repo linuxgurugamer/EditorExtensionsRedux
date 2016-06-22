@@ -78,8 +78,8 @@ namespace EditorExtensionsRedux
 				MODEMSG = 63;
 				ST_IDLE = 73;
 				ST_PLACE = 74;
-				ONMOUSEISOVER = 250;
-				GET_STATEEVENTS = 0;
+				ONMOUSEISOVER = 250; // ?
+				GET_STATEEVENTS = 0; // ??
 
 				// NoOffsetLimits
 				ST_OFFSET_TWEAK = 76;
@@ -111,7 +111,49 @@ namespace EditorExtensionsRedux
 
 				return true;
 			}
-			return false;
+            if (Versioning.version_major == 1 && Versioning.version_minor == 1 && Versioning.Revision == 3 /*&& Versioning.BuildID == 1024 */)
+            {
+                // SelectRoot
+                SELECTEDPART = 13;
+                ST_ROOT_SELECT = 80;
+                ST_ROOT_UNSELECTED = 79;
+                MODEMSG = 63;
+                ST_IDLE = 73;
+                ST_PLACE = 74;
+                ONMOUSEISOVER = 252;
+                GET_STATEEVENTS = 0;
+
+                // NoOffsetLimits
+                ST_OFFSET_TWEAK = 76;
+                SYMUPDATEATTACHNODE = 111;
+                GIZMOOFFSET = 69;
+
+                UPDATESYMMETRY = 62;
+                ONOFFSETGIZMOUPDATED = 35;
+
+                /* Gizmo offsets
+				 * 
+					1 gridSnapInterval
+					2 gridSnapIntervalFine
+					3 useAngleSnap
+					4 refCamera    
+					5 pivot    
+					6 rot0    
+					7 hostRot0    
+					8 host    
+					9 onGizmoRotate    
+					10 onGizmoRotated    
+					11 isDragging    
+					12 ssScaling    
+
+				 * 
+				 */
+                GRIDSNAPINTERVAL = 1;
+                GRIDSNAPINTERFALFINE = 2;
+
+                return true;
+            }
+            return false;
 		}
 	}
 
@@ -187,7 +229,15 @@ namespace EditorExtensionsRedux
 			return sb.ToString ();
 		}
 
-		void localdumpReflection ()
+        //
+        // The following runs when in DEBUG mode, to dump all the reflection fields so we
+        // can update the offsets
+        // Also need to do the following to get the gizmo snap values:
+        // 1.  Get initial setting for EEX and have it working 
+        // 2.  make sure the following function is active:  updateGizmoSnaps
+        // 3.  Go into the editor, and activate the gizmo tools by selecting one of the gizmos
+        // 
+        void localdumpReflection ()
 		{
 			//Log.Debug("States:");
 			//foreach (var f in EditorLogic.fetch.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)) {
@@ -1011,7 +1061,8 @@ namespace EditorExtensionsRedux
 
 			// Look for active rotation gizmo and change its snap resolution
 			var gizmosRotate = HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ();
-			#if false
+            // Following needed to dump values to log
+			#if DEBUG
 			if (gizmosRotate.Length > 0) {
 				
 				// Chunk to find the magic variable we need to adjust

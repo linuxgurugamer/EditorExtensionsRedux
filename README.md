@@ -3,6 +3,9 @@
 ##
 ##
 
+## Changes in 3.2.14
+	Updated values for KSP 1.1.3
+
 ## Changes in 3.2.13
 	Fixed Fine Adjustments window (inability to close it or change the values)
 	Now saves both angle snap value and whether it was on/off after exiting editor session

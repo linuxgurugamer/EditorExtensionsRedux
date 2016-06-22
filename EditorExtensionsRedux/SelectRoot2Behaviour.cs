@@ -12,26 +12,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 	[KSPAddon(KSPAddon.Startup.EditorAny, false)]
 	public class SelectRoot2Behaviour : MonoBehaviour {
 	//	private Log log;
-#if false
-		const int SELECTEDPART = 13;
-		const int ST_ROOT_SELECT = 77;
-		const int ST_ROOT_UNSELECTED = 76;
-		const int MODEMSG = 60;
-		const int ST_IDLE = 70;
-		const int ST_PLACE = 71;
-		const int ONMOUSEISOVER = 250;
-		const int GET_STATEEVENTS = 0;
-#endif
-#if false
-		//const int SELECTEDPART = 13;
-		const int ST_ROOT_SELECT = 80;
-		const int ST_ROOT_UNSELECTED = 79;
-		const int MODEMSG = 63;
-		const int ST_IDLE = 73;
-		const int ST_PLACE = 74;
-		const int ONMOUSEISOVER = 250;
-		const int GET_STATEEVENTS = 0;
-#endif
+
 		private delegate void CleanupFn();
 		private CleanupFn OnCleanup;
 
