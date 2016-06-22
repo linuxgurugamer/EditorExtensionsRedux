@@ -5,6 +5,7 @@
 
 ## Changes in 3.2.14
 	Updated values for KSP 1.1.3
+	center horizontally on z-axis with shift+H. (thanks OliverPA77)
 
 ## Changes in 3.2.13
 	Fixed Fine Adjustments window (inability to close it or change the values)
