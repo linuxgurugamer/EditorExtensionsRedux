@@ -11,6 +11,40 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+/*
+ * 
+ * 
+If you REALLY want to, here is what you will need to do to fix the Reflection issues, and I suggest you do this BEFORE any more debugging:
+
+Compile in debug mode
+
+1. Install and start the game
+2. Exit, and open up the output_log.txt file
+3. Look in the file EditorExtensionsRedux.cs, near the top, in the Init function, you will see wher a number of constants have their values set depending on the version.
+4. Create a new section for 1.2, copy them in from one of the other sections.
+5. Look in the log file, for lines beginning with:
+    EditorLogic Field name
+    KFSMEvent KFSMEvent Field name
+    MethodInfo  EditorLogic methods name
+    MethodInfo  Part  name
+    MethodInfo KFSMEvent  methods name
+    MethodInfo KFSMState  methods name
+6. Look in the log for the corresponding value for each line in the Init function, you should find the corresponding number.  
+7. Update the Init section
+8. Now, recompile in Debug mode, restart the game and go into the Editor
+9. Place a part, then activate one of the gizmos on it (rotation, etc).
+10. Exit the game, and again, open the output_log.txt file
+11. This time, look for lines which match:
+    EditorLogic Gizmo Rotate Field name
+12. You need to look for the two items in the Init function which relate to the Grid, update the values as required
+Compile and test.
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
 namespace EditorExtensionsRedux
 {
 	public class Constants
@@ -148,6 +182,48 @@ namespace EditorExtensionsRedux
 
 				 * 
 				 */
+                GRIDSNAPINTERVAL = 1;
+                GRIDSNAPINTERFALFINE = 2;
+
+                return true;
+            }
+            if (Versioning.version_major == 1 && Versioning.version_minor == 2 && Versioning.Revision == 0)
+            {
+                // SelectRoot
+                SELECTEDPART = 13;
+                ST_ROOT_SELECT = 79;
+                ST_ROOT_UNSELECTED = 78;
+                MODEMSG = 62;
+                ST_IDLE = 72;
+                ST_PLACE = 73;
+                ONMOUSEISOVER = 255;
+                GET_STATEEVENTS = 0;
+
+                // NoOffsetLimits
+                ST_OFFSET_TWEAK = 75;
+                SYMUPDATEATTACHNODE = 110;
+                GIZMOOFFSET = 68;
+
+                UPDATESYMMETRY = 61;
+                ONOFFSETGIZMOUPDATED = 35;
+
+                /* Gizmo offsets
+                 * 
+                    1 gridSnapInterval
+                    2 gridSnapIntervalFine
+                    3 useAngleSnap
+                    4 refCamera    
+                    5 pivot    
+                    6 rot0    
+                    7 hostRot0    
+                    8 host    
+                    9 onGizmoRotate    
+                    10 onGizmoRotated    
+                    11 isDragging    
+                    12 ssScaling    
+
+                 * 
+                 */
                 GRIDSNAPINTERVAL = 1;
                 GRIDSNAPINTERFALFINE = 2;
 
@@ -472,8 +548,8 @@ namespace EditorExtensionsRedux
 
 				Camera cam = editor.editorCamera;
 				// Fwiffo
-				VABCamera vabCam = Camera.main.GetComponent<VABCamera> (); // or EditorDriver.fetch.vabCamera; // RK
-				SPHCamera sphCam = Camera.main.GetComponent<SPHCamera> (); // or EditorDriver.fetch.sphCamera;
+				//VABCamera vabCam = Camera.main.GetComponent<VABCamera> (); // or EditorDriver.fetch.vabCamera; // RK
+				//SPHCamera sphCam = Camera.main.GetComponent<SPHCamera> (); // or EditorDriver.fetch.sphCamera;
 
 				// Zoom cycling - tap then quickly hold a zoom key zoom more rapidly (original idea was to double tap to rapidly cycle through presets)
 				//if (GameSettings.ZOOM_IN.GetDoubleTapDown()) CycleZoom(cam, true);
@@ -885,7 +961,7 @@ namespace EditorExtensionsRedux
 		{
 			//check for orientation of parent, if it's on the end of the parent, center on the end
 			//on the surface, center lengthwise
-			AttachNode an = p.parent.findAttachNodeByPart (p);
+			AttachNode an = p.parent.FindAttachNodeByPart (p);
 			if (an.nodeType == AttachNode.NodeType.Surface) {
 
 			} else if (an.nodeType == AttachNode.NodeType.Stack) {
@@ -1227,12 +1303,16 @@ editor.angleSnapSprite.gameObject.SetActive (false);
 
 		//private Rect _settingsWindowRect;
 		GUIStyle osdLabelStyle, symmetryLabelStyle;
-
-		void InitializeGUI ()
+        VABCamera vabCam;
+        SPHCamera sphCam;
+        void InitializeGUI ()
 		{
 			if (!validVersion)
 				return;
-			_settingsWindow = this.gameObject.AddComponent<SettingsWindow> ();
+            vabCam = Camera.main.GetComponent<VABCamera>(); // or EditorDriver.fetch.vabCamera; // RK
+            sphCam = Camera.main.GetComponent<SPHCamera>(); // or EditorDriver.fetch.sphCamera;
+
+            _settingsWindow = this.gameObject.AddComponent<SettingsWindow> ();
 			_settingsWindow.WindowDisabled += new SettingsWindow.WindowDisabledEventHandler (SettingsWindowClosed);
 
 			_partInfoWindow = this.gameObject.AddComponent<PartInfoWindow> ();

@@ -107,6 +107,10 @@ Includes submods:
 * **Alt+Z** 		- Toggle part clipping (CAUTION: This is a cheat option)
 * **Space** 		- When no part is selected, resets camera pitch and heading (straight ahead and level)
 
+### Stock keybinding (change in stock config screen)
+
+ * **R**			- Toggle symmetry mode from SPH to VAB style (mirror to radial).
+
 #### Strip Symmetry
 * Alt-Shift left-click on the part and symmetry will be stripped from it
   ***On Linux, the keys are:  Left-Alt Left-Shift Left-Click
