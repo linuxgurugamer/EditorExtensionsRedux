@@ -196,7 +196,7 @@ namespace EditorExtensionsRedux
                 MODEMSG = 62;
                 ST_IDLE = 72;
                 ST_PLACE = 73;
-                ONMOUSEISOVER = 255;
+                ONMOUSEISOVER = 262;
                 GET_STATEEVENTS = 0;
 
                 // NoOffsetLimits
@@ -374,14 +374,27 @@ namespace EditorExtensionsRedux
 
 
 		}
-		#endif
+#endif
 
-		//Unity, called after Awake()
-		public void Start ()
+        //Boop: Cache the editor hotkeys so we can keep consistency with whatever is in the settings.cfg file.
+        KeyCode HotkeyEditor_toggleSymModePrimary = GameSettings.Editor_toggleSymMode.primary;
+        KeyCode HotkeyEditor_toggleSymModeSecondary = GameSettings.Editor_toggleSymMode.secondary;
+        KeyCode HotkeyEditor_toggleAngleSnapPrimary = GameSettings.Editor_toggleAngleSnap.primary;
+        KeyCode HotkeyEditor_toggleAngleSnapSecondary = GameSettings.Editor_toggleAngleSnap.secondary;
+
+        //Unity, called after Awake()
+        public void Start ()
 		{
 			Log.Debug ("Start()");
-			#if DEBUG
-			localdumpReflection ();
+            Log.Debug("Version: " + Versioning.Revision);
+            //Boop: Nuke the editor hotkeys so we can hijack them.
+            GameSettings.Editor_toggleSymMode.primary = KeyCode.None;
+            GameSettings.Editor_toggleSymMode.secondary = KeyCode.None;
+            GameSettings.Editor_toggleAngleSnap.primary = KeyCode.None;
+            GameSettings.Editor_toggleAngleSnap.secondary = KeyCode.None;
+
+#if DEBUG
+            localdumpReflection ();
 			#endif
 			editor = EditorLogic.fetch;
 			Instance = this;
@@ -391,6 +404,7 @@ namespace EditorExtensionsRedux
 			InitializeGUI ();
 			GameEvents.onEditorPartEvent.Add (EditorPartEvent);
 			GameEvents.onEditorSymmetryModeChange.Add (EditorSymmetryModeChange);
+            
 
 
 //			editor.srfAttachAngleSnap = 0;
@@ -404,12 +418,18 @@ namespace EditorExtensionsRedux
 		void OnDestroy ()
 		{
 			Log.Debug ("OnDestroy()");
-			//if (_settingsWindow != null)
-			//	_settingsWindow.enabled = false;
-			//if (_partInfoWindow != null)
-			//	_partInfoWindow.enabled = false;
+            //if (_settingsWindow != null)
+            //	_settingsWindow.enabled = false;
+            //if (_partInfoWindow != null)
+            //	_partInfoWindow.enabled = false;
 
-			GameEvents.onEditorPartEvent.Remove (EditorPartEvent);
+            //Boop - restore the hotkeys - without this, the hotkeys fail to work on each subsequent visit to the VAB/SPH after the first.
+            GameSettings.Editor_toggleSymMode.primary = HotkeyEditor_toggleSymModePrimary;
+            GameSettings.Editor_toggleSymMode.secondary = HotkeyEditor_toggleSymModeSecondary;
+            GameSettings.Editor_toggleAngleSnap.primary = HotkeyEditor_toggleAngleSnapPrimary;
+            GameSettings.Editor_toggleAngleSnap.secondary = HotkeyEditor_toggleAngleSnapSecondary;
+
+            GameEvents.onEditorPartEvent.Remove (EditorPartEvent);
 			GameEvents.onEditorSymmetryModeChange.Remove (EditorSymmetryModeChange);
 		}
 
@@ -528,9 +548,111 @@ namespace EditorExtensionsRedux
 		{
 			if (!validVersion)
 				return;
-			//if (editor.shipNameField.Focused || editor.shipDescriptionField.Focused)
-			//	return;
-			GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+            //Boop: Override stock Angle Snap manipulation
+            if ((Input.GetKeyDown(HotkeyEditor_toggleAngleSnapPrimary) || Input.GetKeyDown(HotkeyEditor_toggleAngleSnapSecondary)))
+            {
+                int currentAngleIndex = cfg.AngleSnapValues.IndexOf(editor.srfAttachAngleSnap);
+                float newAngle;
+
+                if (Input.GetKey(GameSettings.Editor_fineTweak.primary) || Input.GetKey(GameSettings.Editor_fineTweak.secondary))
+                {
+                    // Decrease snap
+                    newAngle = cfg.AngleSnapValues[currentAngleIndex == 0 ? cfg.AngleSnapValues.Count - 1 : currentAngleIndex - 1];
+                }
+                else if (Input.GetKey(GameSettings.MODIFIER_KEY.primary) || Input.GetKey(GameSettings.MODIFIER_KEY.secondary))
+                {
+                    // Reset snap
+                    newAngle = 0;
+                }
+                else
+                {
+                    // Increase snap
+                    newAngle = cfg.AngleSnapValues[currentAngleIndex == cfg.AngleSnapValues.Count - 1 ? 0 : currentAngleIndex + 1];
+                }
+
+                currentAngleIndex = cfg.AngleSnapValues.IndexOf(editor.srfAttachAngleSnap);
+
+                editor.srfAttachAngleSnap = newAngle;
+
+                if (editor.srfAttachAngleSnap == 0)
+                {
+                    GameSettings.VAB_USE_ANGLE_SNAP = false;
+                }
+                else
+                {
+                    GameSettings.VAB_USE_ANGLE_SNAP = true;
+                }
+
+                lastSrfAttachAngleSnap = editor.srfAttachAngleSnap;
+                last_VAB_USE_ANGLE_SNAP = GameSettings.VAB_USE_ANGLE_SNAP;
+
+                updateGizmoSnaps();
+
+                var gizmos = HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset>();
+
+                if (gizmos.Length > 0)
+                {
+                    var gizmo = gizmos[0];
+                    if (editor.srfAttachAngleSnap == 0 && gizmo.useGrid)
+                        gizmo.useGrid = false;
+                    else if (editor.srfAttachAngleSnap != 0 && !gizmo.useGrid)
+                        gizmo.useGrid = true;
+                }
+
+                return;
+            }
+
+            //Boop: Override stock Symmetry manipulation.
+            if ((Input.GetKeyDown(HotkeyEditor_toggleSymModePrimary) || Input.GetKeyDown(HotkeyEditor_toggleSymModeSecondary)))
+            {
+                if (Input.GetKey(GameSettings.Editor_fineTweak.primary) || Input.GetKey(GameSettings.Editor_fineTweak.secondary))
+                {
+                    if (editor.symmetryMethod == SymmetryMethod.Radial)
+                    {
+                        if (editor.symmetryMode > 0)
+                        {
+                            editor.symmetryMode--;
+                        }
+                    }
+                    else if (editor.symmetryMode == 1)
+                    {
+                        editor.symmetryMode = 0;
+                    }
+                    else
+                    {
+                        editor.symmetryMode = 1;
+                    }
+                    return;
+                }
+                else if (Input.GetKey(GameSettings.MODIFIER_KEY.primary) || Input.GetKey(GameSettings.MODIFIER_KEY.secondary))
+                {
+                    editor.symmetryMode = 0;
+                }
+                else
+                {
+                    if (editor.symmetryMethod == SymmetryMethod.Radial)
+                    {
+                        if (editor.symmetryMode < cfg.MaxSymmetry - 1)
+                        {
+                            editor.symmetryMode++;
+                        }
+                    }
+                    else if (editor.symmetryMode == 1)
+                    {
+                        editor.symmetryMode = 0;
+                    }
+                    else
+                    {
+                        editor.symmetryMode = 1;
+                    }
+                    return;
+                }
+            }
+
+            //if (editor.shipNameField.Focused || editor.shipDescriptionField.Focused)
+            //	return;
+            GameObject obj = EventSystem.current.currentSelectedGameObject;
 			bool inputFieldIsFocused = (obj != null && obj.GetComponent<InputField> () != null && obj.GetComponent<InputField> ().isFocused);
 			if (inputFieldIsFocused)
 				return;
