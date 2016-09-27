@@ -196,7 +196,7 @@ namespace EditorExtensionsRedux
                 MODEMSG = 62;
                 ST_IDLE = 72;
                 ST_PLACE = 73;
-                ONMOUSEISOVER = 262;
+                ONMOUSEISOVER = 263;
                 GET_STATEEVENTS = 0;
 
                 // NoOffsetLimits
