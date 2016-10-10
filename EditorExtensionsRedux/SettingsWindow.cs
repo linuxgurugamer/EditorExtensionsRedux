@@ -147,13 +147,24 @@ namespace EditorExtensionsRedux
 				_config.RapidZoom = GUILayout.Toggle (_config.RapidZoom, new GUIContent ("Tap then hold for rapid zoom" /* , "Tap the zoom hotkey then quickly hold it to zoom faster"*/));
 				GUILayout.EndHorizontal ();
 
-				//GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-				////GUILayout.Label("Double tap zoom to rapidly cycle:", settingsLabelLayout);
-				//_config.ZoomCycling = GUILayout.Toggle(_config.ZoomCycling, new GUIContent("Double tap for rapid zoom", "Double tapping zoom keys cycles through preset distances"));
-				//GUILayout.EndHorizontal();
+                //GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+                ////GUILayout.Label("Double tap zoom to rapidly cycle:", settingsLabelLayout);
+                //_config.ZoomCycling = GUILayout.Toggle(_config.ZoomCycling, new GUIContent("Double tap for rapid zoom", "Double tapping zoom keys cycles through preset distances"));
+                //GUILayout.EndHorizontal();
 
 // End of Fwiffo
-				if (keyMapToUpdate == string.Empty) {
+                GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+                bool b = _config.ReRootEnabled;
+                _config.ReRootEnabled = GUILayout.Toggle(_config.ReRootEnabled, new GUIContent("ReRoot enabled"));
+                if (!b && _config.ReRootEnabled)
+                    EditorExtensionsRedux.SelectRoot2.SelectRoot2Behaviour.Instance.Start();
+                if (b && !_config.ReRootEnabled)
+                    EditorExtensionsRedux.SelectRoot2.SelectRoot2Behaviour.Instance.OnDestroy();
+
+                GUILayout.EndHorizontal();
+
+
+                if (keyMapToUpdate == string.Empty) {
 					GUILayout.Label ("Click button and press key to change");
 				} else {
 					GUILayout.Label ("Waiting for key");
@@ -207,7 +218,23 @@ namespace EditorExtensionsRedux
 				}
 				GUILayout.EndHorizontal ();
 
-				GUILayout.BeginHorizontal ();
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Toggle ReRoot:", settingsLabelLayout);
+                if (keyMapToUpdate == "reroot" && _lastKeyPressed != KeyCode.None)
+                {
+                    _config.KeyMap.ToggleReRoot = _lastKeyPressed;
+                    keyMapToUpdate = string.Empty;
+                }
+                if (GUILayout.Button(_config.KeyMap.ToggleReRoot.ToString()))
+                {
+                    _lastKeyPressed = KeyCode.None;
+                    keyMapToUpdate = "reroot";
+                }
+                GUILayout.EndHorizontal();
+
+
+                GUILayout.BeginHorizontal ();
 				GUILayout.Label ("Reset camera:", settingsLabelLayout);
 				if (keyMapToUpdate == "rc" && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.ResetCamera = _lastKeyPressed;

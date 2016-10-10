@@ -11,9 +11,11 @@ using  EditorExtensionsRedux;
 namespace EditorExtensionsRedux.SelectRoot2 {
 	[KSPAddon(KSPAddon.Startup.EditorAny, false)]
 	public class SelectRoot2Behaviour : MonoBehaviour {
-	//	private Log log;
+        //	private Log log;
 
-		private delegate void CleanupFn();
+        public static SelectRoot2Behaviour Instance = null;
+
+        private delegate void CleanupFn();
 		private CleanupFn OnCleanup;
 
 		/**
@@ -27,10 +29,15 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 		 * Needs to run after EditorLogic#Start() so the states are initialized.
 		 */
 		public void Start() {
+            Instance = this;
 			if (!EditorExtensions.validVersion)
 				return;
+                        
+            //if (!EditorExtensions.Instance.ReRootActive || !EditorExtensions.Instance.cfg.ReRootEnabled)
+            //    return;
+
 			//log = new Log(this.GetType().Name);
-			Log.Info("Start");
+			Log.Info("SelectRoot2 Start");
 
 			// Oh god, so much dirty reflection. Please don't sue me, Squad :(
 			//KerbalFSM editorFSM = (KerbalFSM)Refl.GetValue(EditorLogic.fetch, "\u0001");
@@ -39,16 +46,16 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 			// Skip first click in root selection mode:
 			KFSMEvent skipFirstClickEvent = new KFSMEvent("SelectRoot2_skipFirstClickEvent");
 			skipFirstClickEvent.OnCheckCondition = (state) => {
-				// Um about that always true condition... There is a funny sound glitch
-				// if the root part doesn't have any ROOTABLE children so check for that.
-				// Thanks Kerbas_ad_astra, http://forum.kerbalspaceprogram.com/threads/43208?p=1948755#post1948755
-				return EditorReRootUtil.GetRootCandidates(EditorLogic.RootPart.GetComponentsInChildren<Part>()).Any();
+                // Um about that always true condition... There is a funny sound glitch
+                // if the root part doesn't have any ROOTABLE children so check for that.
+                // Thanks Kerbas_ad_astra, http://forum.kerbalspaceprogram.com/threads/43208?p=1948755#post1948755
+                return EditorReRootUtil.GetRootCandidates(EditorLogic.RootPart.GetComponentsInChildren<Part>()).Any();
 			};
 
 
 			skipFirstClickEvent.OnEvent = () => {
-				//Refl.SetValue(EditorLogic.fetch, "selectedPart", EditorLogic.RootPart); // SelectedPart
-				Refl.SetValue(EditorLogic.fetch, EditorExtensions.c.SELECTEDPART, EditorLogic.RootPart); // SelectedPart
+                //Refl.SetValue(EditorLogic.fetch, "selectedPart", EditorLogic.RootPart); // SelectedPart
+                Refl.SetValue(EditorLogic.fetch, EditorExtensions.c.SELECTEDPART, EditorLogic.RootPart); // SelectedPart
 			};
 			//KFSMState st_root_select = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_root_select");
 			KFSMState st_root_select = (KFSMState)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.ST_ROOT_SELECT);
@@ -60,7 +67,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 
 			// Fix ability to select if already hovering:
 			KFSMStateChange fixAlreadyHoveringPartFn = (from) => {
-				Part partUnderCursor = GetPartUnderCursor();
+                Part partUnderCursor = GetPartUnderCursor();
 				var selectors = EditorLogic.SortedShipList;
 			
 				//EditorLogic.fetch.Lock (true, true, true, "SelectRoot2");
@@ -74,33 +81,35 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 			};
 			st_root_select.OnEnter += fixAlreadyHoveringPartFn;
 			OnCleanup += () => {
-				st_root_select.OnEnter -= fixAlreadyHoveringPartFn;
+                st_root_select.OnEnter -= fixAlreadyHoveringPartFn;
 			};
 
 			// Provide a more meaningful message after our changes:
 			KFSMStateChange postNewMessageFn = (from) => {
-				//var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
-				var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.MODEMSG);
+
+                //var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
+                var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.MODEMSG);
 				ScreenMessages.PostScreenMessage("Select a new root part", template);
 			};
 
 			st_root_select.OnEnter += postNewMessageFn;
 			OnCleanup += () => {
-				st_root_select.OnEnter -= postNewMessageFn;
+                st_root_select.OnEnter -= postNewMessageFn;
 			};
 
 			// Drop the new root part after selection:
 
 			KFSMEvent dropNewRootPartEvent = new KFSMEvent("SelectRoot2_dropNewRootPartEvent");
 			dropNewRootPartEvent.OnCheckCondition = (state) => {
-				return EditorLogic.fetch.lastEventName.Equals("on_rootSelect");
+                return EditorLogic.fetch.lastEventName.Equals("on_rootSelect");
 			};
 
 			dropNewRootPartEvent.OnEvent = () => {
-				// Normally the backup is triggered in on_partDropped#OnCheckCondition()
-				// But we skip that, so do backup here instead.
 
-				EditorLogic.fetch.SetBackup();
+                // Normally the backup is triggered in on_partDropped#OnCheckCondition()
+                // But we skip that, so do backup here instead.
+
+                EditorLogic.fetch.SetBackup();
 				// Normally triggered in on_partDropped#OnEvent().
 				GameEvents.onEditorPartEvent.Fire(ConstructionEventType.PartDropped, EditorLogic.SelectedPart);
 				//var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
@@ -153,14 +162,16 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 			state.AddEvent(injectedEvent);
 			OnCleanup += () => {
 //				((List<KFSMEvent>)Refl.GetValue(state, "stateEvents")).Remove(injectedEvent);
-//				List<KFSMState> kfsmstatelist = (List<KFSMState>)Refl.GetValue(state, GET_STATEEVENTS);
+//				List<KFSMState> kfsmstatelist = (List<KFSMState>)Refl.GetValue(state, EditorExtensions.c.GET_STATEEVENTS);
+                state.StateEvents.Remove(injectedEvent);
+                Log.Info("Removed event " + injectedEvent.name + " from state " + state.name);
 #if false
 				foreach(var kfsmstate in kfsmstatelist)
 				{
 					if (kfsmstate == state)
 					{
-						state.
-						kfsmstatelist.Remove(injectedEvent);
+						
+						kfsmstatelist.Remove(kfsmstate);
 						Log.Info("Removed event " + injectedEvent.name + " from state " +  state.name);
 						return;
 					}
@@ -168,7 +179,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 #endif
 
 
-			};
+            };
 			Log.Info("Injected event " + injectedEvent.name + " into state " + state.name);
 		}
 

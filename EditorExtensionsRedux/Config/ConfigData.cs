@@ -23,16 +23,19 @@ namespace EditorExtensionsRedux
 		// Fwiffo start
 		[XmlElement ("RapidZoom")]
 		public bool RapidZoom { get; set; }
-    
-		//[XmlElement("ZoomCycling")]
-		//public bool ZoomCycling { get; set; }
-    
-		//[XmlArray("ZoomCycleDistances")]
-		//public List<float> ZoomCycleDistances { get; set; }
 
-		// Fwiffo end
+        //[XmlElement("ZoomCycling")]
+        //public bool ZoomCycling { get; set; }
 
-		[XmlElement ("ShowDebugInfo")]
+        //[XmlArray("ZoomCycleDistances")]
+        //public List<float> ZoomCycleDistances { get; set; }
+
+        // Fwiffo end
+
+        [XmlElement("ReRootEnabled")]
+        public bool ReRootEnabled { get; set; }
+
+        [XmlElement ("ShowDebugInfo")]
 		public bool ShowDebugInfo { get; set; }
 
 		/// <summary>
@@ -64,10 +67,14 @@ namespace EditorExtensionsRedux
 		[XmlElement ("VerticalSnap")]
 		public KeyCode VerticalSnap { get; set; }
 
-		[XmlElement ("HorizontalSnap")]
-		public KeyCode HorizontalSnap { get; set; }
+        [XmlElement("HorizontalSnap")]
+        public KeyCode HorizontalSnap { get; set; }
 
-		[XmlElement ("CompoundPartAlign")]
+        [XmlElement("ToggleReRoot")]
+        public KeyCode ToggleReRoot { get; set; }
+
+
+        [XmlElement ("CompoundPartAlign")]
 		public KeyCode CompoundPartAlign { get; set; }
 
 

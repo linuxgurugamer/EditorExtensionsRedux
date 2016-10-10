@@ -68,7 +68,7 @@ namespace EditorExtensionsRedux
 		public int ONOFFSETGIZMOUPDATED = 35;
 
 		public int GRIDSNAPINTERVAL = 1;
-		public int GRIDSNAPINTERFALFINE = 2;
+		public int GRIDSNAPINTERVALFINE = 2;
 
 
 		// gizmo offsets
@@ -141,7 +141,7 @@ namespace EditorExtensionsRedux
 				 * 
 				 */
 				GRIDSNAPINTERVAL = 1;
-				GRIDSNAPINTERFALFINE = 2;
+				GRIDSNAPINTERVALFINE = 2;
 
 				return true;
 			}
@@ -183,7 +183,7 @@ namespace EditorExtensionsRedux
 				 * 
 				 */
                 GRIDSNAPINTERVAL = 1;
-                GRIDSNAPINTERFALFINE = 2;
+                GRIDSNAPINTERVALFINE = 2;
 
                 return true;
             }
@@ -196,7 +196,7 @@ namespace EditorExtensionsRedux
                 MODEMSG = 62;
                 ST_IDLE = 72;
                 ST_PLACE = 73;
-                ONMOUSEISOVER = 263;
+                ONMOUSEISOVER = 265;
                 GET_STATEEVENTS = 0;
 
                 // NoOffsetLimits
@@ -225,7 +225,7 @@ namespace EditorExtensionsRedux
                  * 
                  */
                 GRIDSNAPINTERVAL = 1;
-                GRIDSNAPINTERFALFINE = 2;
+                GRIDSNAPINTERVALFINE = 2;
 
                 return true;
             }
@@ -277,7 +277,9 @@ namespace EditorExtensionsRedux
 		// RK
 		float orgVabZoomSens = 0;
 		float orgSphZoomSens = 0;
-		// End Fwiffo
+        // End Fwiffo
+
+        public bool ReRootActive = true;
 
 		static float lastSrfAttachAngleSnap = 15.0f;
 		static bool last_VAB_USE_ANGLE_SNAP = true;
@@ -498,7 +500,8 @@ namespace EditorExtensionsRedux
 					if (cfg == null) {
 						//failed to load config, create new
 						cfg = ConfigManager.CreateDefaultConfig (_configFilePath, pluginVersion.ToString ());
-					} else {
+					} else
+                    {
 						//check config file version
 						Version fileVersion = new Version ();
 
@@ -526,6 +529,7 @@ namespace EditorExtensionsRedux
 						} else {
 							Log.Debug ("Config file is current");
 						}
+                        ReRootActive = true;
 					}
 
 				} else {
@@ -752,7 +756,25 @@ namespace EditorExtensionsRedux
 					SurfaceAttachToggle ();
 					return;
 				}
-	
+
+                if (cfg.ReRootEnabled)
+                {
+                    if (Input.GetKeyDown(cfg.KeyMap.ToggleReRoot))
+                    {
+                        ReRootActive = !ReRootActive;
+                        Log.Info("ToggleReRoot, ReRootActive: " + ReRootActive.ToString());
+                        if (ReRootActive)
+                        {
+                            OSDMessage(string.Format("Reroot is active"));
+                            EditorExtensionsRedux.SelectRoot2.SelectRoot2Behaviour.Instance.Start();
+                        }
+                        else
+                        {
+                            OSDMessage(string.Format("Reroot is not active"));
+                            EditorExtensionsRedux.SelectRoot2.SelectRoot2Behaviour.Instance.OnDestroy();
+                        }
+                    }
+                }
 				// ALT+Z : Toggle part clipping (From cheat options)
 				if (modKeyDown && Input.GetKeyDown (cfg.KeyMap.PartClipping)) {
 					PartClippingToggle ();
@@ -770,6 +792,7 @@ namespace EditorExtensionsRedux
 			
 				//using gamesettings keybinding Input.GetKeyDown (cfg.KeyMap.Symmetry)
 				// X, Shift+X : Increment/decrement symmetry mode
+
 				if (GameSettings.Editor_toggleSymMode.GetKeyUp ()) {
 					SymmetryModeCycle (modKeyDown, fineKeyDown);
 					return;
@@ -1332,7 +1355,7 @@ namespace EditorExtensionsRedux
 					//fine = (float)field.GetValue(gizmo);
 
 					Refl.SetValue (g, EditorExtensions.c.GRIDSNAPINTERVAL, editor.srfAttachAngleSnap);
-					Refl.SetValue (g, EditorExtensions.c.GRIDSNAPINTERFALFINE, fine);
+					Refl.SetValue (g, EditorExtensions.c.GRIDSNAPINTERVALFINE, fine);
 
 					Debug.Log (String.Format ("Gizmo SnapDegrees = {0}, fine = {1}", g.SnapDegrees.ToString (), fine.ToString ()));
 				}
