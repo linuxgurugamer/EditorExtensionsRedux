@@ -31,6 +31,7 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour {
 			var st_offset_tweak = (KFSMState)Refl.GetValue(EditorLogic.fetch,EditorExtensions.c.ST_OFFSET_TWEAK);
 
 			KFSMStateChange hookOffsetUpdateFn = (from) => {
+           
 				var p = EditorLogic.SelectedPart;
 				var parent = p.parent;
 				var symCount = p.symmetryCounterparts.Count;
@@ -39,8 +40,8 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour {
 				var symUpdateAttachNode = Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.SYMUPDATEATTACHNODE);
 
                 //public static GizmoOffset Attach(Transform host, Quaternion rotOffset, Callback<Vector3> onMove, Callback<Vector3> onMoved, Camera refCamera = null);
-
-                Quaternion rotOffset = new Quaternion(0, 0, 0, 0);
+                
+                Quaternion rotOffset = p.attRotation;
                 gizmo = GizmoOffset.Attach(EditorLogic.SelectedPart.transform,
                     rotOffset,
 

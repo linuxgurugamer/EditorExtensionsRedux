@@ -397,13 +397,15 @@ namespace EditorExtensionsRedux
 
 #if DEBUG
             localdumpReflection ();
-			#endif
+#endif
 			editor = EditorLogic.fetch;
 			Instance = this;
 			InitConfig ();
+
 			if (!validVersion)
 				return;
 			InitializeGUI ();
+
 			GameEvents.onEditorPartEvent.Add (EditorPartEvent);
 			GameEvents.onEditorSymmetryModeChange.Add (EditorSymmetryModeChange);
             
