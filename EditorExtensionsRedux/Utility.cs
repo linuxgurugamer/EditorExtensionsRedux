@@ -2,54 +2,72 @@
 using System.Reflection;
 using UnityEngine;
 
+
 namespace EditorExtensionsRedux
 {
-	public static class Utility
-	{
-		public static Part GetPartUnderCursor ()
-		{
-			var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			RaycastHit hit;
+    public static class Utility
+    {
+        public static Part GetPartUnderCursor()
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-			EditorLogic ed = EditorLogic.fetch;
+            EditorLogic ed = EditorLogic.fetch;
 
-			if (ed != null && Physics.Raycast (ray, out hit)) {
-				return ed.ship.Parts.Find (p => p.gameObject == hit.transform.gameObject);
-			}
-			return null;
-		}
-	}
+            if (ed != null && Physics.Raycast(ray, out hit))
+            {
+                return ed.ship.Parts.Find(p => p.gameObject == hit.transform.gameObject);
+            }
+            return null;
+        }
 
-	//		void HighlightPart(Part p){
-	//			// old highlighter. Not necessary, but looks nice in combination
-	//			p.SetHighlightDefault();
-	//			p.SetHighlightType(Part.HighlightType.AlwaysOn);
-	//			p.SetHighlight(true, false);
-	//			p.SetHighlightColor(Color.red);
-	//
-	//			// New highlighter
-	//			HighlightingSystem.Highlighter hl; // From Assembly-CSharp-firstpass.dll
-	//			hl = p.FindModelTransform("model").gameObject.AddComponent<HighlightingSystem.Highlighter>();
-	//			hl.ConstantOn(XKCDColors.Rust);
-	//			hl.SeeThroughOn();
-	//		}
 
-	public static class Refl {
-		public static FieldInfo GetField(object obj, int fieldNum) {
-			int c = 0;
-			foreach (FieldInfo FI in obj.GetType().GetFields (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)) {
-				if (c == fieldNum)
-					return FI;
-				c++;
-			}
-			throw new Exception("No such field: " + obj.GetType() + "#" + fieldNum.ToString());
-		}
-		public static object GetValue(object obj, int fieldNum) {
-			return GetField(obj, fieldNum).GetValue(obj);
-		}
-		public static void SetValue(object obj, int fieldNum, object value) {
-			GetField(obj, fieldNum).SetValue(obj, value);
-		}
+
+        public static void HighlightSinglePart(Color highlightC, Color edgeHighlightColor, Part p)
+        {
+            p.SetHighlightDefault();
+            p.SetHighlightType(Part.HighlightType.AlwaysOn);
+            p.SetHighlight(true, false);
+            p.SetHighlightColor(highlightC);
+            p.highlighter.ConstantOn(edgeHighlightColor);
+            p.highlighter.SeeThroughOn();
+
+        }
+
+        public static void HighlightChangeSinglePart(Color fromHighlightC, Color fromEdgeHighlightColor, Color toHighlightC, Color toEdgeHighlightColor, float progress, Part p)
+        {
+            HighlightSinglePart(Color.Lerp(fromHighlightC, toHighlightC, progress),
+                Color.Lerp(fromEdgeHighlightColor, toEdgeHighlightColor, progress), p);
+        }
+
+        public static void UnHighlightParts(Part p)
+        {
+            p.SetHighlightDefault();
+            p.highlighter.Off();
+        }
+    }
+
+    public static class Refl
+    {
+        public static FieldInfo GetField(object obj, int fieldNum)
+        {
+            int c = 0;
+            foreach (FieldInfo FI in obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                if (c == fieldNum)
+                    return FI;
+                c++;
+            }
+            throw new Exception("No such field: " + obj.GetType() + "#" + fieldNum.ToString());
+        }
+        public static object GetValue(object obj, int fieldNum)
+        {
+            return GetField(obj, fieldNum).GetValue(obj);
+        }
+        public static void SetValue(object obj, int fieldNum, object value)
+        {
+            GetField(obj, fieldNum).SetValue(obj, value);
+        }
 
 #if false
 		public static FieldInfo GetField(object obj, string name) {
@@ -65,21 +83,24 @@ namespace EditorExtensionsRedux
 		}
 #endif
 
-		public static MethodInfo GetMethod(object obj, int methodnum ) {
+        public static MethodInfo GetMethod(object obj, int methodnum)
+        {
 
-			MethodInfo[] m = obj.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-			int c = 0;
-			foreach (MethodInfo FI in m) {
-				if (c == methodnum)
-					return FI;
-				c++;
-			}
+            MethodInfo[] m = obj.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            int c = 0;
+            foreach (MethodInfo FI in m)
+            {
+                if (c == methodnum)
+                    return FI;
+                c++;
+            }
 
-			throw new Exception("No such method: " + obj.GetType() + "#" + methodnum);
-		}
-		public static object Invoke(object obj, int methodnum, params object[] args) {
-			return GetMethod(obj, methodnum).Invoke(obj, args);
-		}
+            throw new Exception("No such method: " + obj.GetType() + "#" + methodnum);
+        }
+        public static object Invoke(object obj, int methodnum, params object[] args)
+        {
+            return GetMethod(obj, methodnum).Invoke(obj, args);
+        }
 
 #if false
 		public static MethodInfo GetMethod(object obj, string name) {
@@ -92,6 +113,6 @@ namespace EditorExtensionsRedux
 		}
 #endif
 
-	}
+    }
 }
 

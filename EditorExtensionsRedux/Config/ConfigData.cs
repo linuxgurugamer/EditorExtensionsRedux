@@ -73,6 +73,9 @@ namespace EditorExtensionsRedux
         [XmlElement("ToggleReRoot")]
         public KeyCode ToggleReRoot { get; set; }
 
+        [XmlElement("StartMasterSnap")]
+        public KeyCode StartMasterSnap { get; set; }
+
 
         [XmlElement ("CompoundPartAlign")]
 		public KeyCode CompoundPartAlign { get; set; }
