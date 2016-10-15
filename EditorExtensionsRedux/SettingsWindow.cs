@@ -163,6 +163,16 @@ namespace EditorExtensionsRedux
 
                 GUILayout.EndHorizontal();
 
+                
+                GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+                b = _config.NoOffsetLimitEnabled;
+                _config.NoOffsetLimitEnabled = GUILayout.Toggle(_config.NoOffsetLimitEnabled, new GUIContent("No Offset Limit enabled"));
+                if (!b && _config.NoOffsetLimitEnabled)
+                    EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.Start();
+                if (b && !_config.NoOffsetLimitEnabled)
+                    EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.OnDestroy();
+
+                GUILayout.EndHorizontal();
 
                 if (keyMapToUpdate == string.Empty) {
 					GUILayout.Label ("Click button and press key to change");

@@ -85,6 +85,7 @@ namespace EditorExtensionsRedux
 					HorizontalSnap = KeyCode.H,
 					CompoundPartAlign = KeyCode.U,
                     ToggleReRoot = KeyCode.K,
+                    ToggleNoOffsetLimit = KeyCode.L,
                     StartMasterSnap = KeyCode.LeftControl,
 
 					Up = KeyCode.UpArrow,

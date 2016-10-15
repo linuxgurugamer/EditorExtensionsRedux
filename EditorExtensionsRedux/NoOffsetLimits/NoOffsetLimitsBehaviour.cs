@@ -14,7 +14,9 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour {
 	 */
 	[KSPAddon(KSPAddon.Startup.EditorAny, false)]
 	public class FreeOffsetBehaviour : MonoBehaviour {
-		//private Log log;
+        //private Log log;
+
+        public static FreeOffsetBehaviour Instance = null;
 
 		private delegate void CleanupFn();
 		private CleanupFn OnCleanup;
@@ -22,7 +24,8 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour {
 		private GizmoOffset gizmo;
 
 		public void Start() {
-			if (!EditorExtensions.validVersion)
+            Instance = this;
+            if (!EditorExtensions.validVersion)
 				return;
 			//log = new Log(this.GetType().Name);
 			Log.Debug("Start");

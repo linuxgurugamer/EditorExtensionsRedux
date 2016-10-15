@@ -11,9 +11,7 @@ namespace EditorExtensionsRedux
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-
             EditorLogic ed = EditorLogic.fetch;
-
             if (ed != null && Physics.Raycast(ray, out hit))
             {
                 return ed.ship.Parts.Find(p => p.gameObject == hit.transform.gameObject);
@@ -99,7 +97,22 @@ namespace EditorExtensionsRedux
         }
         public static object Invoke(object obj, int methodnum, params object[] args)
         {
-            return GetMethod(obj, methodnum).Invoke(obj, args);
+#if false
+            MethodInfo mi = GetMethod(obj, methodnum);
+            ParameterInfo[] pars = mi.GetParameters();
+            Log.Info("Parameter count: " + pars.Length.ToString());
+            foreach (ParameterInfo p in pars)
+            {
+                Log.Info("ParameterType: " + p.ParameterType);
+            }
+            if (args == null)
+                Log.Info("args is null");
+            else
+                Log.Info("args count: " + args.Length.ToString());
+#endif   
+
+                return GetMethod(obj, methodnum).Invoke(obj, args);
+
         }
 
 #if false

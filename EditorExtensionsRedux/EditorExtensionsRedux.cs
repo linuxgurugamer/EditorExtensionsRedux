@@ -70,7 +70,6 @@ namespace EditorExtensionsRedux
         public int GRIDSNAPINTERVAL = 1;
         public int GRIDSNAPINTERVALFINE = 2;
 
-
         // gizmo offsets
         public int GIZMOROTATE_ONHANDLEROTATESTART = 8;
         public int GIZMOROTATE_ONHANDLEROTATE = 9;
@@ -282,6 +281,7 @@ namespace EditorExtensionsRedux
         // End Fwiffo
 
         public bool ReRootActive = true;
+        public bool NoOffsetLimit = true;
 
         static float lastSrfAttachAngleSnap = 15.0f;
         static bool last_VAB_USE_ANGLE_SNAP = true;
@@ -363,6 +363,15 @@ namespace EditorExtensionsRedux
             foreach (MethodInfo FI in parts)
             {
                 Log.Info("MethodInfo  Part  name[" + c.ToString() + "]: " + FI.Name);
+                c++;
+            }
+
+
+            MethodInfo[] cparts = typeof(CompoundPart).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            c = 0;
+            foreach (MethodInfo FI in cparts)
+            {
+                Log.Info("MethodInfo  CompoundPart  name[" + c.ToString() + "]: " + FI.Name);
                 c++;
             }
 
@@ -558,7 +567,8 @@ namespace EditorExtensionsRedux
                         {
                             Log.Debug("Config file is current");
                         }
-                        ReRootActive = true;
+                        ReRootActive = cfg.ReRootEnabled;
+                        NoOffsetLimit = cfg.NoOffsetLimitEnabled;
                     }
 
                 }
@@ -828,6 +838,34 @@ namespace EditorExtensionsRedux
                         }
                     }
                 }
+                // NoOffsetBehaviour.FreeOffsetBehaviour
+                if (cfg.ReRootEnabled)
+                {
+                    if (Input.GetKeyDown(cfg.KeyMap.ToggleNoOffsetLimit))
+                    {
+                        NoOffsetLimit = !NoOffsetLimit;
+                        Log.Info("ToggleNoOffsetLimit, NoOffsetLimit: " + NoOffsetLimit.ToString());
+                        if (NoOffsetLimit)
+                        {
+                            OSDMessage(string.Format("No Offset Limit is active"));
+                            EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.Start();
+                        }
+                        else
+                        {
+                            OSDMessage(string.Format("No Offset Limit is not active"));
+                            Part p = EditorLogic.SelectedPart;
+                            if (p != null)
+                                OSDMessage(string.Format("Change will take effect after deselecting current part"));
+                            //    GameEvents.onEditorPartPlaced.Fire(p);
+                            EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.OnDestroy();
+                           // if (p != null)
+                           //     GameEvents.onEditorPartPicked.Fire(p);
+                        }
+                    }
+                }
+
+
+
                 // ALT+Z : Toggle part clipping (From cheat options)
                 if (modKeyDown && Input.GetKeyDown(cfg.KeyMap.PartClipping))
                 {
@@ -854,7 +892,7 @@ namespace EditorExtensionsRedux
                     return;
                 }
 
-                if (Input.GetKey(KeyCode.Mouse0)) // || Input.GetKey(KeyCode.Mouse1))
+                if (Input.GetKey(KeyCode.Mouse0) && Utility.GetPartUnderCursor() != null) // || Input.GetKey(KeyCode.Mouse1))
                 {
                     if (Input.GetKey(cfg.KeyMap.StartMasterSnap))
                     {
@@ -1876,7 +1914,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
         bool _showMenu = false;
         Rect _menuRect = new Rect();
         const float _menuWidth = 100.0f;
-        const float _menuHeight = 100.0f;
+        const float _menuHeight = 360.0f;
         const int _toolbarHeight = 42;
         //37
 
@@ -1925,6 +1963,9 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             //show and update the angle snap and symmetry mode labels
             ShowSnapLabels();
 
+            ShowAutoStruts();
+
+
             if (Event.current.type == EventType.Layout)
             {
                 if (_showMenu || _menuRect.Contains(Event.current.mousePosition) || (Time.fixedTime - lastTimeShown < 0.5f))
@@ -1934,6 +1975,23 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
         float lastTimeShown = 0.0f;
+
+        //Boop: Variable to hold a list of ship parts for the Mass Rigidifier / Autostrutter.
+        List<Part> parts;
+
+        //Boop: Parts with these AutoStrutModes probably don't want us messing with them, so we'll cache a list of them here.
+        List<Part.AutoStrutMode> doNotMessWithAutoStrutModes = new List<Part.AutoStrutMode>
+        {
+            Part.AutoStrutMode.ForceGrandparent,
+            Part.AutoStrutMode.ForceHeaviest,
+            Part.AutoStrutMode.ForceRoot
+        };
+
+        //Boop: By default, don't allow tweaking RigidAttach or Autostruts without Advancewd Tweakables set to on, but allow this to be overridden.
+        bool allowTweakingWithoutTweakables = false;
+
+        bool showAutostruts = false;
+        double lastAutostrutshow = 0;
 
         void MenuContent(int WindowID)
         {
@@ -1950,11 +2008,6 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                 _fineAdjustWindow.Show();
 
             }
-            //_strutWindow.enabled = GUILayout.Toggle (_strutWindow.enabled, "Strut Tool", "Button");
-            //if (GUILayout.Button ("Strut tool")) {
-            //	_strutWindow.Show ();
-            //	this.Visible = true;
-            //}
 
             if (cfg.ShowDebugInfo)
             {
@@ -1963,7 +2016,153 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     _partInfoWindow.Show();
                 }
             }
+            //_strutWindow.enabled = GUILayout.Toggle (_strutWindow.enabled, "Strut Tool", "Button");
+            //if (GUILayout.Button ("Strut tool")) {
+            //	_strutWindow.Show ();
+            //	this.Visible = true;
+            //}
+
+            //Boop: Advanced Tweakable Override toggle.
+            if (!GameSettings.ADVANCED_TWEAKABLES)
+            {
+                GUILayout.Space(10f);
+                allowTweakingWithoutTweakables = GUILayout.Toggle(allowTweakingWithoutTweakables, "Allow Mass Tweakables");
+            }
+
+            if (GameSettings.ADVANCED_TWEAKABLES || allowTweakingWithoutTweakables)
+            {
+                //Boop: Rigidifier buttons.
+                GUILayout.Space(10f);
+                GUILayout.Label("Mass Tweakables:");
+                if (GUILayout.Button("All Rigid"))
+                {
+                    RefreshParts();
+                    foreach (Part p in parts)
+                    {
+                        p.rigidAttachment = true;
+                        p.ApplyRigidAttachment();
+                    }
+                    OSDMessage("RigidAttach turned ON for all current Parts in Vessel.");
+                }
+
+                if (GUILayout.Button("Disable Rigid"))
+                {
+                    RefreshParts();
+                    foreach (Part p in parts)
+                    {
+                        p.rigidAttachment = false;
+                        p.ApplyRigidAttachment();
+                    }
+                    OSDMessage("RigidAttach turned OFF for all current Parts in Vessel.");
+                }
+
+                if (GUILayout.Button("Toggle Rigid"))
+                {
+                    RefreshParts();
+                    foreach (Part p in parts)
+                    {
+                        p.rigidAttachment = !p.rigidAttachment;
+                        p.ApplyRigidAttachment();
+                    }
+                    OSDMessage("RigidAttach toggled for all current Parts in Vessel.");
+                }
+
+                //Boop: Autostrutter buttons.
+
+                if (GUILayout.Button("No Autostruts"))
+                {
+                    RefreshParts();
+                    foreach (Part p in parts)
+                    {
+                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
+                        {
+                            p.autoStrutMode = Part.AutoStrutMode.Off;
+                            p.UpdateAutoStrut();
+                        }
+                    }
+                    OSDMessage("Autostruts turned OFF for all current Parts in Vessel (except forced).");
+                }
+
+                if (GUILayout.Button("AS Grandparent"))
+                {
+                    RefreshParts();
+                    foreach (Part p in parts)
+                    {
+                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
+                        {
+                            // First set off to get timers set properly with the toggle, then update to Grandparent
+                            p.autoStrutMode = Part.AutoStrutMode.Off;
+                            // The ToggleAutoStrut will set the mode to Heaviest
+                            p.ToggleAutoStrut();
+
+                            p.autoStrutMode = Part.AutoStrutMode.Grandparent;
+                            p.UpdateAutoStrut();
+                        }
+                    }
+                    OSDMessage("Autostruts set to 'Grandparent' for all current Parts in Vessel (except forced).");
+                }
+
+                if (GUILayout.Button("AS Heaviest"))
+                {
+                    RefreshParts();
+                    foreach (Part p in parts)
+                    {
+                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
+                        {
+                           // p.autoStrutMode = Part.AutoStrutMode.Heaviest;;
+
+                            //   p.UpdateAutoStrut();
+                            p.autoStrutMode = Part.AutoStrutMode.Off ;
+                            // The ToggleAutoStrut will set the mode to Heaviest
+                            p.ToggleAutoStrut();
+                
+                        }
+                    }
+                    OSDMessage("Autostruts set to 'Heaviest' for all current Parts in Vessel (except forced).");
+                }
+
+                if (GUILayout.Button("AS Root"))
+                {
+                    RefreshParts();
+                    foreach (Part p in parts)
+                    {
+                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
+                        {
+                            // p.autoStrutMode = Part.AutoStrutMode.Root;
+
+                            // p.UpdateAutoStrut();
+
+                            p.autoStrutMode = Part.AutoStrutMode.Heaviest;
+                            // The ToggleAutoStrut will set the mode to Root
+                            p.ToggleAutoStrut();
+                        }
+                    }
+                    OSDMessage("Autostruts set to 'Root' for all current Parts in Vessel (except forced).");
+                }
+                GUILayout.Space(10);
+                if (showAutostruts)
+                {
+                    if (GUILayout.Button("No Show Autostruts"))
+                    {
+                        showAutostruts = false;
+                    }
+                }
+                else
+                {
+                    if (GUILayout.Button("Show Autostruts"))
+                    {
+                        showAutostruts = true;
+                    }
+                }
+            }
+
             GUILayout.EndVertical();
+        }
+
+        //Boop: This sub will refresh our parts list for the Rigidifier / Autostrutter
+        void RefreshParts()
+        {
+            parts = EditorLogic.fetch.ship != null ? EditorLogic.fetch.ship.Parts : new List<Part>();
         }
 
         void ShowWarning(int WindowID)
@@ -2095,6 +2294,28 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                 yMin = Screen.height - symmetryLabelBottomOffset,
                 yMax = Screen.height - symmetryLabelBottomOffset + symmetryLabelSize
             };
+        }
+
+        void ShowAutoStruts()
+        {
+            if (showAutostruts && Time.time - lastAutostrutshow > 2)
+            {
+                lastAutostrutshow = Time.time;
+                RefreshParts();
+                foreach (Part p in parts)
+                {
+                    if (p.autoStrutMode != Part.AutoStrutMode.Off &&  !doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
+                    {
+                        Part.AutoStrutMode asm = p.autoStrutMode;
+                        p.autoStrutMode = Part.AutoStrutMode.Off;
+                        // The ToggleAutoStrut will set the mode to Heaviest
+                        p.ToggleAutoStrut();
+
+                        p.autoStrutMode = asm;
+                        p.UpdateAutoStrut();
+                    }
+                }
+            }
         }
 
         /// <summary>

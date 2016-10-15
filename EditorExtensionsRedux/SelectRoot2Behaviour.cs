@@ -67,7 +67,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 
 			// Fix ability to select if already hovering:
 			KFSMStateChange fixAlreadyHoveringPartFn = (from) => {
-                Part partUnderCursor = GetPartUnderCursor();
+                Part partUnderCursor = Utility.GetPartUnderCursor();
 				var selectors = EditorLogic.SortedShipList;
 			
 				//EditorLogic.fetch.Lock (true, true, true, "SelectRoot2");
@@ -146,8 +146,8 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 
 			Log.Info("Setup complete..");
 		}
-
-		private Part GetPartUnderCursor() {
+#if false
+        private Part GetPartUnderCursor() {
 			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit)) {
@@ -156,7 +156,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 			}
 			return null;
 		}
-
+#endif
 
 		private void InjectEvent(KFSMState state, KFSMEvent injectedEvent) {
 			state.AddEvent(injectedEvent);

@@ -35,6 +35,9 @@ namespace EditorExtensionsRedux
         [XmlElement("ReRootEnabled")]
         public bool ReRootEnabled { get; set; }
 
+        [XmlElement("NoOffsetLimitEnabled")]
+        public bool NoOffsetLimitEnabled { get; set; }
+
         [XmlElement ("ShowDebugInfo")]
 		public bool ShowDebugInfo { get; set; }
 
@@ -72,6 +75,9 @@ namespace EditorExtensionsRedux
 
         [XmlElement("ToggleReRoot")]
         public KeyCode ToggleReRoot { get; set; }
+
+        [XmlElement("ToggleNoOffsetLimit")]
+        public KeyCode ToggleNoOffsetLimit { get; set; }
 
         [XmlElement("StartMasterSnap")]
         public KeyCode StartMasterSnap { get; set; }
