@@ -1,8 +1,13 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitle("EditorExtensions")]
-[assembly: AssemblyDescription("Kerbal Space Program Plugin : Editor Extensions")]
+#if KSP11x
+	[assembly: AssemblyTitle("EditorExtensions (for KSP 1.1.x)")]
+	[assembly: AssemblyDescription("Kerbal Space Program Plugin : Editor Extensions (for KSP 1.1.x)")]
+#else
+	[assembly: AssemblyTitle("EditorExtensions")]
+	[assembly: AssemblyDescription("Kerbal Space Program Plugin : Editor Extensions")]
+#endif
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Editor Extensions")]
@@ -10,5 +15,8 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("3.2.13.*")]
-
+#if KSP11x
+	[assembly: AssemblyVersion("3.3.3.1")]
+#else
+	[assembly: AssemblyVersion("3.3.3.*")]
+#endif

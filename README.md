@@ -4,7 +4,7 @@
 ##
 
 ## Changes in 3.3.3
-	Added Autostrut and Rigidity buttons, thanks @Boop:
+	Added Autostrut and Rigidity buttons (only for KSP 1.2+), thanks @Boop:
 		All Rigid
 		Disable Rigid
 		Toggle Rigid

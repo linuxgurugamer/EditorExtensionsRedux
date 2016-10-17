@@ -43,11 +43,13 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour {
 				var symUpdateAttachNode = Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.SYMUPDATEATTACHNODE);
 
                 //public static GizmoOffset Attach(Transform host, Quaternion rotOffset, Callback<Vector3> onMove, Callback<Vector3> onMoved, Camera refCamera = null);
-                
+#if !KSP11x
                 Quaternion rotOffset = p.attRotation;
+#endif
                 gizmo = GizmoOffset.Attach(EditorLogic.SelectedPart.transform,
+#if !KSP11x
                     rotOffset,
-
+#endif
                     new Callback<Vector3>((offset) => {
 						p.transform.position = gizmo.transform.position;
 						p.attPos = p.transform.localPosition - p.attPos0;
