@@ -892,26 +892,29 @@ namespace EditorExtensionsRedux
                     return;
                 }
 
-                if (Input.GetKey(KeyCode.Mouse0) && Utility.GetPartUnderCursor() != null) // || Input.GetKey(KeyCode.Mouse1))
+                if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    if (Input.GetKey(cfg.KeyMap.StartMasterSnap))
+                    if (Utility.GetPartUnderCursor() != null) // || Input.GetKey(KeyCode.Mouse1))
                     {
-                        masterSnapPart = Utility.GetPartUnderCursor();
-                        //Utility.HighlightSinglePart(XKCDColors.Blue, XKCDColors.Yellow, masterSnapPart);
-                        OSDMessage(string.Format("Part selected as target for snap: " + masterSnapPart.partInfo.title));
-                        lastHighlightUpdate = Time.fixedTime + highlightCycleTime;
-                        highlightOn = true;
-                    }
+                        if (Input.GetKey(cfg.KeyMap.StartMasterSnap))
+                        {
+                            masterSnapPart = Utility.GetPartUnderCursor();
+                            //Utility.HighlightSinglePart(XKCDColors.Blue, XKCDColors.Yellow, masterSnapPart);
+                            OSDMessage(string.Format("Part selected as target for snap: " + masterSnapPart.partInfo.title));
+                            lastHighlightUpdate = Time.fixedTime + highlightCycleTime;
+                            highlightOn = true;
+                        }
+                        else
+                        {
+                            DisableMasterSnap();
+                        }
+                    } 
                     else
                     {
-                        if (masterSnapPart != null)
-                        {
-                            Utility.UnHighlightParts(masterSnapPart);
-                            OSDMessage(string.Format("Master Snap mode off"));
-                            masterSnapPart = null;
-                        }
+                        DisableMasterSnap();
                     }
                 }
+
 
                 if (masterSnapPart != null)
                 {
@@ -1137,6 +1140,16 @@ namespace EditorExtensionsRedux
             {
                 oldSelectedPart = EditorLogic.SelectedPart;
                 updateGizmoSnaps();
+            }
+        }
+
+        void DisableMasterSnap()
+        {
+            if (masterSnapPart != null)
+            {
+                Utility.UnHighlightParts(masterSnapPart);
+                OSDMessage(string.Format("Master Snap mode off"));
+                masterSnapPart = null;
             }
         }
 
@@ -2142,7 +2155,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                 GUILayout.Space(10);
                 if (showAutostruts)
                 {
-                    if (GUILayout.Button("No Show Autostruts"))
+                    if (GUILayout.Button("Hide Autostruts"))
                     {
                         showAutostruts = false;
                     }
