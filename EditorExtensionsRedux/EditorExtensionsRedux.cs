@@ -1380,7 +1380,11 @@ namespace EditorExtensionsRedux
         {
             //check for orientation of parent, if it's on the end of the parent, center on the end
             //on the surface, center lengthwise
+#if KSP11x
+            AttachNode an = p.parent.findAttachNodeByPart(p);
+#else
             AttachNode an = p.parent.FindAttachNodeByPart(p);
+#endif
             if (an.nodeType == AttachNode.NodeType.Surface)
             {
 
@@ -1963,8 +1967,9 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             //show and update the angle snap and symmetry mode labels
             ShowSnapLabels();
 
+#if !KSP11x
             ShowAutoStruts();
-
+#endif
 
             if (Event.current.type == EventType.Layout)
             {
@@ -1975,7 +1980,8 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
         float lastTimeShown = 0.0f;
-
+		
+#if !KSP11x
         //Boop: Variable to hold a list of ship parts for the Mass Rigidifier / Autostrutter.
         List<Part> parts;
 
@@ -1992,6 +1998,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
 
         bool showAutostruts = false;
         double lastAutostrutshow = 0;
+#endif
 
         void MenuContent(int WindowID)
         {
@@ -2022,6 +2029,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             //	this.Visible = true;
             //}
 
+#if !KSP11x
             //Boop: Advanced Tweakable Override toggle.
             if (!GameSettings.ADVANCED_TWEAKABLES)
             {
@@ -2155,15 +2163,18 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     }
                 }
             }
+#endif
 
             GUILayout.EndVertical();
         }
 
+#if !KSP11x
         //Boop: This sub will refresh our parts list for the Rigidifier / Autostrutter
         void RefreshParts()
         {
             parts = EditorLogic.fetch.ship != null ? EditorLogic.fetch.ship.Parts : new List<Part>();
         }
+#endif
 
         void ShowWarning(int WindowID)
         {
@@ -2296,6 +2307,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             };
         }
 
+#if !KSP11x
         void ShowAutoStruts()
         {
             if (showAutostruts && Time.time - lastAutostrutshow > 2)
@@ -2317,6 +2329,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                 }
             }
         }
+#endif
 
         /// <summary>
         /// Hides the stock angle & symmetry sprites and replaces with textual labels
