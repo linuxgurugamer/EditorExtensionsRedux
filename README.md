@@ -1,7 +1,11 @@
 ﻿##
-## Editor Extensions For KSP v1.1.x
+## Editor Extensions For KSP v1.2.x
 ##
 ##
+
+## Change in 3.3.4
+	Changed "No Show Autostruts" to "Hide Autostruts" text on buttons
+	MasterSnap now can be turned off by clicking anywhere not on a part.  Previously, had to click on another part
 
 ## Changes in 3.3.3
 	Added Autostrut and Rigidity buttons, thanks @Boop:
