@@ -1,22 +1,8 @@
-##
-## Editor Extensions For KSP v1.1.x
+﻿##
+## Editor Extensions For KSP v1.1
 ##
 ##
 
-## Changes in 3.3.2
-	Added ability to disable the SelectRoot functionality, so you can use the stock SelectRoot to change the root on a shadow assembly
-	Added Master Snap mode. This allows you to snap parts to any random part, not just the parent. This works for both horizontal and vertical snapping. The part selected as the master will be highlighted
-	Snapping is shown visually via a smooth movement of the part from the original location to the destination
-
-## Changes in 3.3.1
-	Fixed bug with no offset limit preventing swap between local and absolute coordinates
-
-## Changes in 3.3.0
-	Added ability to disable internal reroot, so that you can use the stock reroot to reroot shadow part assemblies
-  
-## Changes in 3.2.15
-	Boop's changes for more robust symmetry and angle snap cycling (thanks Boop and Fwiffo).
-    
 ## Changes in 3.2.14
 	Updated values for KSP 1.1.3
 	center horizontally on z-axis with shift+H. (thanks OliverPA77)
@@ -98,12 +84,6 @@ Includes submods:
 * Place the part, then once the part is placed, hover over the part with your mouse and press the Vertical or Horizontal snap hotkey.
 * For vertical snap, part will center itself on the part lengthwise in the SPH
 
-#### Master Snapping
-* Hold down "left control" and select the "master" part.
-* Hover the cursor over the child part and press "v" for vertical snap or "h" for a horizontal snap. This will snap the child part to the master part's vertical or horizontal position.
-* Click on an empty space to turn off Master Snap.
-* This should prove to be very useful for VTOLs where you can't apply engines in symmetry.
-
 #### Strut & Fuel line alignment
 * Place the strut, then hover over the base/start of the strut (the first end placed) with the mouse, and press the hotkey.
 * Strut/FL start and end with be snapped to the closest of either the middle, quarter, or end of the part, aligned directly between the two parts.
@@ -127,14 +107,13 @@ Includes submods:
 * **Alt+Z** 		- Toggle part clipping (CAUTION: This is a cheat option)
 * **Space** 		- When no part is selected, resets camera pitch and heading (straight ahead and level)
 
-### Warning on Keybindings
-* Note in very rare circumstances the symmetry and angle snap keybindings might be lost.  This would only occur if another mod triggers the game to save its settings while in the VAB/SPH, *and* the game subsequently crashes or is killed before exiting the building.  If it happens, you can easily restore the keybindings (X and C by default) in the game's settings menu.
-
 ### Stock keybinding (change in stock config screen)
+
  * **R**			- Toggle symmetry mode from SPH to VAB style (mirror to radial).
+
 #### Strip Symmetry
-* **Alt + Shift + Left Click** on the part and symmetry will be stripped from it
-  ***On Linux, the keys are:  **Left-Alt Left-Shift Left-Click**
+* Alt-Shift left-click on the part and symmetry will be stripped from it
+  ***On Linux, the keys are:  Left-Alt Left-Shift Left-Click
 
 #### No Offset Limits
 * The offset tool now does not have any limits.  Nothing needs to be done, this just works
