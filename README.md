@@ -3,6 +3,14 @@
 ##
 ##
 
+## Change in 3.3.5
+	Added AnglesnapModIsToggle, if enabled, hitting the Mod-C (for Windows,ALT-C) will switch between 1 and the last setting
+	Added CycleSymmetryModeModIsToggle , if enabled, hitting the Mod-X (for Windows, ALT-X) will switch between 1 and the last setting
+	Reordered the settings windows, now all keystroke settings are on the Settings 2 window
+	Commented out old code blocks:  SymmetryModeCycle & AngleSnapCycle, which were replaced by Boop's code in Update()
+	Updated for 1.2.1
+	Fixed menu height to adjust depending on whether mass tweakables is on or off - Menu needs to be redisplayed by moving the mouse over the toolbar for height to be adjusted
+
 ## Change in 3.3.4
 	Changed "No Show Autostruts" to "Hide Autostruts" text on buttons
 	MasterSnap now can be turned off by clicking anywhere not on a part.  Previously, had to click on another part
