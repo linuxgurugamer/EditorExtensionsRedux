@@ -62,9 +62,9 @@ namespace EditorExtensionsRedux
 			OnWindowDisabled ();
 		}
 
-		void OnDisable ()
-		{
-		}
+		//void OnDisable ()
+		//{
+		//}
 
 		void OnGUI ()
 		{
@@ -74,9 +74,9 @@ namespace EditorExtensionsRedux
 			}
 		}
 
-		void OnDestroy ()
-		{
-		}
+		//void OnDestroy ()
+		//{
+		//}
 
 		/// <summary>
 		/// Initializes the window content and enables it
@@ -108,7 +108,8 @@ namespace EditorExtensionsRedux
 			GUILayout.BeginVertical ("box");
 
 			#region Settings
-			if (toolbarInt == 0) {
+			if (toolbarInt == 0)
+            {
 
 				GUILayout.BeginHorizontal ();
 				GUILayout.Label ("Version: " + _version.ToString ());
@@ -173,6 +174,20 @@ namespace EditorExtensionsRedux
                     EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.OnDestroy();
 
                 GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+                _config.AnglesnapModIsToggle = GUILayout.Toggle(_config.AnglesnapModIsToggle, new GUIContent("Anglesnap + Mod Toggles")); 
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+                _config.CycleSymmetryModeModIsToggle = GUILayout.Toggle(_config.CycleSymmetryModeModIsToggle, new GUIContent("Cycle Symmetry Mode + Mod Toggles"));
+                GUILayout.EndHorizontal();
+
+            }
+            #endregion
+            #region Fine Adjust settings
+            if (toolbarInt == 1)
+            {
 
                 if (keyMapToUpdate == string.Empty) {
 					GUILayout.Label ("Click button and press key to change");
@@ -267,15 +282,10 @@ namespace EditorExtensionsRedux
 					keyMapToUpdate = "zs";
 				}
 				GUILayout.EndHorizontal ();
-			}
-			#endregion
-			#region Fine Adjust settings
-			if (toolbarInt == 1) {
-				if (keyMapToUpdate == string.Empty) {
-					GUILayout.Label ("Click button and press key to change");
-				} else {
-					GUILayout.Label ("Waiting for key");
-				}
+
+				
+			    GUILayout.Label ("Fine Adjust Keys");
+
 
 				GUILayout.BeginHorizontal ();
 				GUILayout.Label ("Up:", settingsLabelLayout);
@@ -413,8 +423,7 @@ namespace EditorExtensionsRedux
 			}
 
 			if (GUILayout.Button ("Defaults")) {
-				_config = ConfigManager.CreateDefaultConfig (_configFilePath, _version);
-				;
+				_config = ConfigManager.CreateDefaultConfig (_configFilePath, _version);				
 			}
 
 			if (GUILayout.Button ("Save")) {

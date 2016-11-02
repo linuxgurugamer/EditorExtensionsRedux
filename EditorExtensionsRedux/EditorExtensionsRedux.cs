@@ -188,7 +188,7 @@ namespace EditorExtensionsRedux
 
                 return true;
             }
-            if (Versioning.version_major == 1 && Versioning.version_minor == 2 && Versioning.Revision == 0)
+            if (Versioning.version_major == 1 && Versioning.version_minor == 2 && (Versioning.Revision == 0 || Versioning.Revision == 1))
             {
                 // SelectRoot
                 SELECTEDPART = 13;
@@ -284,6 +284,9 @@ namespace EditorExtensionsRedux
         public bool NoOffsetLimit = true;
 
         static float lastSrfAttachAngleSnap = 15.0f;
+        static float preResetSrfAttachAngleSnap = 0;
+        static int preResetSymmetryMode = 0;
+
         static bool last_VAB_USE_ANGLE_SNAP = true;
         #endregion
 
@@ -614,13 +617,26 @@ namespace EditorExtensionsRedux
                 }
                 else if (Input.GetKey(GameSettings.MODIFIER_KEY.primary) || Input.GetKey(GameSettings.MODIFIER_KEY.secondary))
                 {
-                    // Reset snap
-                    newAngle = 0;
+                    if (editor.srfAttachAngleSnap > 0)
+                    {
+                        // Reset snap
+                        if (cfg.AnglesnapModIsToggle)
+                            preResetSrfAttachAngleSnap = editor.srfAttachAngleSnap;
+                        newAngle = 0;
+                    }
+                    else
+                    {
+                        if (preResetSrfAttachAngleSnap > 0)
+                            newAngle = preResetSrfAttachAngleSnap;
+                        else
+                            newAngle = editor.srfAttachAngleSnap;
+                    }
                 }
                 else
                 {
                     // Increase snap
                     newAngle = cfg.AngleSnapValues[currentAngleIndex == cfg.AngleSnapValues.Count - 1 ? 0 : currentAngleIndex + 1];
+                    preResetSrfAttachAngleSnap = 0;
                 }
 
                 currentAngleIndex = cfg.AngleSnapValues.IndexOf(editor.srfAttachAngleSnap);
@@ -679,7 +695,17 @@ namespace EditorExtensionsRedux
                 }
                 else if (Input.GetKey(GameSettings.MODIFIER_KEY.primary) || Input.GetKey(GameSettings.MODIFIER_KEY.secondary))
                 {
-                    editor.symmetryMode = 0;
+                    if (preResetSymmetryMode > 0)
+                    {
+                        editor.symmetryMode = preResetSymmetryMode;
+                        preResetSymmetryMode = 0;
+                    }
+                    else
+                    {
+                        if (cfg.CycleSymmetryModeModIsToggle)
+                            preResetSymmetryMode = editor.symmetryMode;
+                        editor.symmetryMode = 0;
+                    }
                 }
                 else
                 {
@@ -873,6 +899,7 @@ namespace EditorExtensionsRedux
                     return;
                 }
 
+#if false
                 //KSP v1.0.3: Change angle snap and symmetry mode actions to GetKeyUp() so that it fires after internal editor actions
 
                 //using gamesettings keybinding Input.GetKeyDown (cfg.KeyMap.AngleSnap)
@@ -891,7 +918,7 @@ namespace EditorExtensionsRedux
                     SymmetryModeCycle(modKeyDown, fineKeyDown);
                     return;
                 }
-
+#endif
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
                     if (Utility.GetPartUnderCursor() != null) // || Input.GetKey(KeyCode.Mouse1))
@@ -1170,7 +1197,7 @@ namespace EditorExtensionsRedux
             return false;
         }
 
-        #region Alignments
+#region Alignments
 
         void AlignToTopOfParent(Part p)
         {
@@ -1622,6 +1649,7 @@ namespace EditorExtensionsRedux
             return;
         }
 
+#if false
         void SymmetryModeCycle(bool modKeyDown, bool fineKeyDown)
         {
 
@@ -1662,6 +1690,7 @@ namespace EditorExtensionsRedux
             Log.Debug("Returning symmetryMode: " + editor.symmetryMode.ToString());
             return;
         }
+#endif
 
         void updateGizmoSnaps()
         {
@@ -1749,10 +1778,11 @@ namespace EditorExtensionsRedux
             }
         }
 
+#if false
         void AngleSnapCycle(bool modKeyDown, bool fineKeyDown)
         {
             if (!modKeyDown)
-            {
+            {                
                 Log.Debug("Starting srfAttachAngleSnap = " + editor.srfAttachAngleSnap.ToString());
 
                 int currentAngleIndex = cfg.AngleSnapValues.IndexOf(editor.srfAttachAngleSnap);
@@ -1779,9 +1809,9 @@ namespace EditorExtensionsRedux
                 editor.srfAttachAngleSnap = newAngle;
             }
             else
-            {
+            {               
                 Log.Debug("Resetting srfAttachAngleSnap to 0");
-                editor.srfAttachAngleSnap = 0;
+                editor.srfAttachAngleSnap = 0;                
             }
 
 
@@ -1820,6 +1850,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             Log.Debug("Exiting srfAttachAngleSnap = " + editor.srfAttachAngleSnap.ToString());
             return;
         }
+#endif
 
         bool GizmoActive()
         {
@@ -1927,7 +1958,8 @@ editor.angleSnapSprite.gameObject.SetActive (false);
         bool _showMenu = false;
         Rect _menuRect = new Rect();
         const float _menuWidth = 100.0f;
-        const float _menuHeight = 360.0f;
+        const float _menuHeightSmall = 140.0f;
+        const float _menuHeightLarge = 380.0f;
         const int _toolbarHeight = 42;
         //37
 
@@ -1937,11 +1969,17 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                 return;
             Vector3 position = Input.mousePosition;
             int toolbarHeight = (int)(_toolbarHeight * GameSettings.UI_SCALE);
+            float menuHeight;
+            if (allowTweakingWithoutTweakables)
+                menuHeight = _menuHeightLarge;
+            else
+                menuHeight = _menuHeightSmall;
+
             _menuRect = new Rect()
             {
                 xMin = position.x - _menuWidth / 2,
                 xMax = position.x + _menuWidth / 2,
-                yMin = Screen.height - toolbarHeight - _menuHeight,
+                yMin = Screen.height - toolbarHeight - menuHeight,
                 yMax = Screen.height - toolbarHeight
             };
             _showMenu = true;
@@ -2039,7 +2077,9 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             if (!GameSettings.ADVANCED_TWEAKABLES)
             {
                 GUILayout.Space(10f);
-                allowTweakingWithoutTweakables = GUILayout.Toggle(allowTweakingWithoutTweakables, "Allow Mass Tweakables");
+                
+                 allowTweakingWithoutTweakables = GUILayout.Toggle(allowTweakingWithoutTweakables, "Allow Mass Tweakables");
+                
             }
 
             if (GameSettings.ADVANCED_TWEAKABLES || allowTweakingWithoutTweakables)

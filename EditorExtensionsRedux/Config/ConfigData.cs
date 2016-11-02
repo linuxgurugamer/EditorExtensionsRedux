@@ -47,7 +47,13 @@ namespace EditorExtensionsRedux
 		[XmlElement ("OnScreenMessageTime")]
 		public float OnScreenMessageTime { get; set; }
 
-		public ConfigData ()
+        [XmlElement("AnglesnapModIsToggle")]
+        public bool AnglesnapModIsToggle = false;
+
+        [XmlElement("CycleSymmetryModeModIsToggle")]
+        public bool CycleSymmetryModeModIsToggle = false;
+
+        public ConfigData ()
 		{
 			this.KeyMap = new KeyMaps ();
 		}
