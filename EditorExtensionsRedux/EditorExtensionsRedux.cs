@@ -259,7 +259,7 @@ namespace EditorExtensionsRedux
         public ConfigData cfg;
         string _pluginDirectory;
         string _configFilePath;
-        int _symmetryMode = 0;
+        //int _symmetryMode = 0;
 
         SettingsWindow _settingsWindow = null;
         PartInfoWindow _partInfoWindow = null;
@@ -884,8 +884,8 @@ namespace EditorExtensionsRedux
                                 OSDMessage(string.Format("Change will take effect after deselecting current part"));
                             //    GameEvents.onEditorPartPlaced.Fire(p);
                             EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.OnDestroy();
-                           // if (p != null)
-                           //     GameEvents.onEditorPartPicked.Fire(p);
+                            // if (p != null)
+                            //     GameEvents.onEditorPartPicked.Fire(p);
                         }
                     }
                 }
@@ -935,7 +935,7 @@ namespace EditorExtensionsRedux
                         {
                             DisableMasterSnap();
                         }
-                    } 
+                    }
                     else
                     {
                         DisableMasterSnap();
@@ -1197,7 +1197,7 @@ namespace EditorExtensionsRedux
             return false;
         }
 
-#region Alignments
+        #region Alignments
 
         void AlignToTopOfParent(Part p)
         {
@@ -1269,7 +1269,7 @@ namespace EditorExtensionsRedux
         }
 
         List<PartMovement> partMovement = new List<PartMovement>();
-        
+
         bool partMovementContains(Part p)
         {
             foreach (var pm in partMovement)
@@ -1281,9 +1281,9 @@ namespace EditorExtensionsRedux
         void MoveParts()
         {
             List<PartMovement> pmToDel = null;
-            
+
             foreach (PartMovement pm in partMovement)
-            {                
+            {
                 if (pm.local)
                 {
                     Vector3 v = Vector3.Lerp(pm.startPos, pm.endPos, (float)((Time.fixedTime - pm.startTime) / pm.time));
@@ -1299,7 +1299,7 @@ namespace EditorExtensionsRedux
                 if (Time.fixedTime > pm.endtime)
                 {
                     if (pmToDel == null)
-                         pmToDel = new List<PartMovement>();
+                        pmToDel = new List<PartMovement>();
                     pmToDel.Add(pm);
                 }
             }
@@ -1445,7 +1445,7 @@ namespace EditorExtensionsRedux
             PartMovement pm = new PartMovement();
             pm.p = p;
             pm.local = true;
-            pm.startPos = p.transform.localPosition;            
+            pm.startPos = p.transform.localPosition;
             pm.time = timeToMovePM;
             pm.startTime = Time.fixedTime;
             pm.endtime = Time.fixedTime + pm.time;
@@ -1595,9 +1595,9 @@ namespace EditorExtensionsRedux
             }
         }
 
-#endregion
+        #endregion
 
-#region Editor Actions
+        #region Editor Actions
 
         void AddUndo()
         {
@@ -1876,9 +1876,9 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
 
-#endregion
+        #endregion
 
-#region GUI
+        #region GUI
 
         //private Rect _settingsWindowRect;
         GUIStyle osdLabelStyle, symmetryLabelStyle;
@@ -1962,33 +1962,48 @@ editor.angleSnapSprite.gameObject.SetActive (false);
         const float _menuHeightLarge = 380.0f;
         const int _toolbarHeight = 42;
         //37
-
-        public void ShowMenu()
+        bool oldAllowTweakingWithoutTweakables = GameSettings.ADVANCED_TWEAKABLES;
+        public void ShowMenu(bool firstTime = true)
         {
             if (!validVersion)
                 return;
+            oldAllowTweakingWithoutTweakables = allowTweakingWithoutTweakables;
             Vector3 position = Input.mousePosition;
             int toolbarHeight = (int)(_toolbarHeight * GameSettings.UI_SCALE);
             float menuHeight;
-            if (allowTweakingWithoutTweakables)
+            if (allowTweakingWithoutTweakables || GameSettings.ADVANCED_TWEAKABLES)
                 menuHeight = _menuHeightLarge;
             else
                 menuHeight = _menuHeightSmall;
-
-            _menuRect = new Rect()
+            if (firstTime)
             {
-                xMin = position.x - _menuWidth / 2,
-                xMax = position.x + _menuWidth / 2,
-                yMin = Screen.height - toolbarHeight - menuHeight,
-                yMax = Screen.height - toolbarHeight
-            };
-            _showMenu = true;
+                _menuRect = new Rect()
+                {
+                    xMin = position.x - _menuWidth / 2,
+                    xMax = position.x + _menuWidth / 2,
+                    yMin = Screen.height - toolbarHeight - menuHeight,
+                    yMax = Screen.height - toolbarHeight
+                };
+                _showMenu = true;
+            }
+            else
+            {
+                _menuRect.Set(
+                    _menuRect.x,
+                    Screen.height - toolbarHeight - menuHeight,
+                     _menuRect.width,
+                     menuHeight
+                );
+                lastTimeShown = Time.fixedTime;
+            }
+
         }
 
         public void HideMenu()
         {
             _showMenu = false;
         }
+
 
         //Unity GUI loop
         void OnGUI()
@@ -2009,7 +2024,8 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                 _menuRect = GUILayout.Window(this.GetInstanceID(), _menuRect, ShowWarning, "EEX Menu");
                 return;
             }
-
+            if (oldAllowTweakingWithoutTweakables != allowTweakingWithoutTweakables)
+                ShowMenu(false);
 
             //show and update the angle snap and symmetry mode labels
             ShowSnapLabels();
@@ -2077,9 +2093,9 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             if (!GameSettings.ADVANCED_TWEAKABLES)
             {
                 GUILayout.Space(10f);
-                
-                 allowTweakingWithoutTweakables = GUILayout.Toggle(allowTweakingWithoutTweakables, "Allow Mass Tweakables");
-                
+
+                allowTweakingWithoutTweakables = GUILayout.Toggle(allowTweakingWithoutTweakables, "Allow Mass Tweakables");
+
             }
 
             if (GameSettings.ADVANCED_TWEAKABLES || allowTweakingWithoutTweakables)
@@ -2162,13 +2178,13 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     {
                         if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
                         {
-                           // p.autoStrutMode = Part.AutoStrutMode.Heaviest;;
+                            // p.autoStrutMode = Part.AutoStrutMode.Heaviest;;
 
                             //   p.UpdateAutoStrut();
-                            p.autoStrutMode = Part.AutoStrutMode.Off ;
+                            p.autoStrutMode = Part.AutoStrutMode.Off;
                             // The ToggleAutoStrut will set the mode to Heaviest
                             p.ToggleAutoStrut();
-                
+
                         }
                     }
                     OSDMessage("Autostruts set to 'Heaviest' for all current Parts in Vessel (except forced).");
@@ -2256,7 +2272,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             ScreenMessages.PostScreenMessage(message, cfg.OnScreenMessageTime, ScreenMessageStyle.LOWER_CENTER);
         }
 
-#region Snap labels
+        #region Snap labels
 
         const int FONTSIZE = 14;
 
@@ -2357,7 +2373,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                 RefreshParts();
                 foreach (Part p in parts)
                 {
-                    if (p.autoStrutMode != Part.AutoStrutMode.Off &&  !doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
+                    if (p.autoStrutMode != Part.AutoStrutMode.Off && !doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
                     {
                         Part.AutoStrutMode asm = p.autoStrutMode;
                         p.autoStrutMode = Part.AutoStrutMode.Off;
@@ -2440,8 +2456,8 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
     }
 }
