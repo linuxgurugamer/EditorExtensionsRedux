@@ -87,7 +87,7 @@ namespace EditorExtensionsRedux
 			_config = config;
 			_configFilePath = configFilePath;
 			_windowTitle = string.Format ("Editor Extensions v{0}.{1}", version.Major.ToString (), version.Minor.ToString ());
-			;
+			
 			_version = version.ToString ();
 			this.enabled = true;
 		}
@@ -258,6 +258,19 @@ namespace EditorExtensionsRedux
                 }
                 GUILayout.EndHorizontal();
 
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Toggle No Offset Limit:", settingsLabelLayout);
+                if (keyMapToUpdate == "nooffsetlimit" && _lastKeyPressed != KeyCode.None)
+                {
+                    _config.KeyMap.ToggleNoOffsetLimit = _lastKeyPressed;
+                    keyMapToUpdate = string.Empty;
+                }
+                if (GUILayout.Button(_config.KeyMap.ToggleNoOffsetLimit.ToString()))
+                {
+                    _lastKeyPressed = KeyCode.None;
+                    keyMapToUpdate = "nooffsetlimit";
+                }
+                GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal ();
 				GUILayout.Label ("Reset camera:", settingsLabelLayout);
@@ -282,9 +295,9 @@ namespace EditorExtensionsRedux
 					keyMapToUpdate = "zs";
 				}
 				GUILayout.EndHorizontal ();
+#if true
 
-				
-			    GUILayout.Label ("Fine Adjust Keys");
+                GUILayout.Label ("Fine Adjust Keys");
 
 
 				GUILayout.BeginHorizontal ();
@@ -358,11 +371,12 @@ namespace EditorExtensionsRedux
 					keyMapToUpdate = "back";
 				}
 				GUILayout.EndHorizontal ();
+#endif
 			}
 
-			#endregion
+#endregion
 
-			#region angle snap values settings
+#region angle snap values settings
 			if (toolbarInt == 2) {
 
 				try {
@@ -398,20 +412,20 @@ namespace EditorExtensionsRedux
 					GUILayout.EndHorizontal ();
 
 				}
-				#if DEBUG
+#if DEBUG
 				catch (Exception ex) {
 					//potential for some intermittent locking/threading issues here	
 					//Debug only to avoid log spam
 					Log.Error ("Error updating AngleSnapValues: " + ex.Message);
 				}
-				#else
+#else
 				catch(Exception){
 					//just ignore the error and continue since it's non-critical
 				}
-				#endif
+#endif
 			}
 
-			#endregion
+#endregion
 
 			GUILayout.EndVertical ();//end main content
 

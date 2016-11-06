@@ -9,6 +9,3 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCopyright("MachXXV 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-[assembly: AssemblyVersion("3.2.13.*")]
-

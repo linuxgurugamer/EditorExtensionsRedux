@@ -73,7 +73,10 @@ namespace EditorExtensionsRedux
                     FileVersion = version,
                     OnScreenMessageTime = 1.5f,
                     ShowDebugInfo = true,
-                    ReRootEnabled = true
+                    ReRootEnabled = true,
+                    NoOffsetLimitEnabled = true,
+                    AnglesnapModIsToggle = true,
+                    CycleSymmetryModeModIsToggle = true
 				};
 
 				KeyMaps defaultKeys = new KeyMaps () {

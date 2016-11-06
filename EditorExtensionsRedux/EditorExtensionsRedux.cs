@@ -63,6 +63,7 @@ namespace EditorExtensionsRedux
         public int ST_OFFSET_TWEAK = 73;
         public int SYMUPDATEATTACHNODE = 108;
         public int GIZMOOFFSET = 66;
+        public int GIZMOROTATE = 67;
 
         public int UPDATESYMMETRY = 64;
         public int ONOFFSETGIZMOUPDATED = 35;
@@ -203,6 +204,7 @@ namespace EditorExtensionsRedux
                 // NoOffsetLimits
                 ST_OFFSET_TWEAK = 75;
                 SYMUPDATEATTACHNODE = 110;
+                GIZMOROTATE = 67;
                 GIZMOOFFSET = 68;
 
                 UPDATESYMMETRY = 61;
@@ -430,6 +432,9 @@ namespace EditorExtensionsRedux
             GameEvents.onEditorPartEvent.Add(EditorPartEvent);
             GameEvents.onEditorSymmetryModeChange.Add(EditorSymmetryModeChange);
 
+            EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour fob = new NoOffsetBehaviour.FreeOffsetBehaviour();
+            fob.Start();
+            fob.OnDestroy();
 
 
             //			editor.srfAttachAngleSnap = 0;
@@ -456,6 +461,7 @@ namespace EditorExtensionsRedux
 
             GameEvents.onEditorPartEvent.Remove(EditorPartEvent);
             GameEvents.onEditorSymmetryModeChange.Remove(EditorSymmetryModeChange);
+            NoOffsetBehaviour.FreeOffsetBehaviour.Instance = null;
         }
 
         ConstructionEventType lastEventType = ConstructionEventType.Unknown;
@@ -865,7 +871,7 @@ namespace EditorExtensionsRedux
                     }
                 }
                 // NoOffsetBehaviour.FreeOffsetBehaviour
-                if (cfg.ReRootEnabled)
+                if (cfg.NoOffsetLimitEnabled)
                 {
                     if (Input.GetKeyDown(cfg.KeyMap.ToggleNoOffsetLimit))
                     {
@@ -966,6 +972,7 @@ namespace EditorExtensionsRedux
 
                 }
                 MoveParts();
+#if true
                 if (_fineAdjustWindow.isEnabled())
                 {
                     Vector3 axis;
@@ -1065,6 +1072,7 @@ namespace EditorExtensionsRedux
                                 Refl.Invoke(GizmoEvents.gizmosOffset[0], EditorExtensions.c.GIZMOOFFSET_ONHANDLEMOVEEND, GizmoEvents.gizmoOffsetHandle, axis, 0.0f);
 
                             }
+
                         }
                         else
                         {
@@ -1159,7 +1167,7 @@ namespace EditorExtensionsRedux
                         }
                     }
                 }
-
+#endif
 
             }//end if(enableHotKeys)
 
@@ -1197,7 +1205,7 @@ namespace EditorExtensionsRedux
             return false;
         }
 
-        #region Alignments
+#region Alignments
 
         void AlignToTopOfParent(Part p)
         {
@@ -1595,9 +1603,9 @@ namespace EditorExtensionsRedux
             }
         }
 
-        #endregion
+#endregion
 
-        #region Editor Actions
+#region Editor Actions
 
         void AddUndo()
         {
@@ -1876,9 +1884,9 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
 
-        #endregion
+#endregion
 
-        #region GUI
+#region GUI
 
         //private Rect _settingsWindowRect;
         GUIStyle osdLabelStyle, symmetryLabelStyle;
@@ -2070,12 +2078,13 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                 _settingsWindow.Show(cfg, _configFilePath, pluginVersion);
                 this.Visible = true;
             }
+#if true
             if (GUILayout.Button("Fine Adjust"))
             {
                 _fineAdjustWindow.Show();
 
             }
-
+#endif
             if (cfg.ShowDebugInfo)
             {
                 if (GUILayout.Button("Position Debug"))
@@ -2272,7 +2281,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             ScreenMessages.PostScreenMessage(message, cfg.OnScreenMessageTime, ScreenMessageStyle.LOWER_CENTER);
         }
 
-        #region Snap labels
+#region Snap labels
 
         const int FONTSIZE = 14;
 
@@ -2456,8 +2465,8 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
     }
 }

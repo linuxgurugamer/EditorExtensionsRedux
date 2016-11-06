@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-
+#if true
 namespace EditorExtensionsRedux
 {
 	public class FineAdjustWindow : MonoBehaviour
@@ -311,3 +311,4 @@ namespace EditorExtensionsRedux
 
 }
 
+#endif
