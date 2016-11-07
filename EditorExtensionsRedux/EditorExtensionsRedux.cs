@@ -264,6 +264,7 @@ namespace EditorExtensionsRedux
         //int _symmetryMode = 0;
 
         SettingsWindow _settingsWindow = null;
+        ShowAngleSnaps _showAngleSnaps = null;
         PartInfoWindow _partInfoWindow = null;
         FineAdjustWindow _fineAdjustWindow = null;
         //StrutWindow _strutWindow = null;
@@ -423,6 +424,12 @@ namespace EditorExtensionsRedux
 #endif
             editor = EditorLogic.fetch;
             Instance = this;
+
+            // FreeOffsetBehaviour needs to be initialized before InitConfig
+            EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour fob = new NoOffsetBehaviour.FreeOffsetBehaviour();
+            // Following needed to get it in memory
+            fob.Start();
+            fob.OnDestroy();
             InitConfig();
 
             if (!validVersion)
@@ -432,9 +439,7 @@ namespace EditorExtensionsRedux
             GameEvents.onEditorPartEvent.Add(EditorPartEvent);
             GameEvents.onEditorSymmetryModeChange.Add(EditorSymmetryModeChange);
 
-            EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour fob = new NoOffsetBehaviour.FreeOffsetBehaviour();
-            fob.Start();
-            fob.OnDestroy();
+
 
 
             //			editor.srfAttachAngleSnap = 0;
@@ -518,7 +523,7 @@ namespace EditorExtensionsRedux
                 return;
             }
 
-
+            Log.Info("EditorExtensionsRedux.InitConfig");
             try
             {
                 //get location and version info of the plugin
@@ -576,15 +581,21 @@ namespace EditorExtensionsRedux
                         {
                             Log.Debug("Config file is current");
                         }
-                        ReRootActive = cfg.ReRootEnabled;
-                        NoOffsetLimit = cfg.NoOffsetLimitEnabled;
                     }
-
+                   
                 }
                 else
                 {
                     cfg = ConfigManager.CreateDefaultConfig(_configFilePath, pluginVersion.ToString());
                     Log.Info("No existing config found, created new default config");
+                }
+
+                ReRootActive = cfg.ReRootEnabled;
+                NoOffsetLimit = cfg.NoOffsetLimitEnabled;
+                if (cfg.NoOffsetLimitEnabled)
+                {
+                    Log.Info("InitConfig NoOffsetLimitEnabled is true");
+                    EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.Start();
                 }
 
                 Log.Debug("Initializing version " + pluginVersion.ToString());
@@ -1902,6 +1913,9 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             _settingsWindow = this.gameObject.AddComponent<SettingsWindow>();
             _settingsWindow.WindowDisabled += new SettingsWindow.WindowDisabledEventHandler(SettingsWindowClosed);
 
+            _showAngleSnaps = this.gameObject.AddComponent<ShowAngleSnaps>();
+            //_showAngleSnaps.WindowDisabled += new ShowAngleSnaps.WindowDisabledEventHandler(ShowAngleSnaps);
+
             _partInfoWindow = this.gameObject.AddComponent<PartInfoWindow>();
             _fineAdjustWindow = this.gameObject.AddComponent<FineAdjustWindow>();
 
@@ -2073,16 +2087,26 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             if (_showMenu || _menuRect.Contains(Event.current.mousePosition))
                 lastTimeShown = Time.fixedTime;
             GUILayout.BeginVertical();
+            if (GUILayout.Button("Show Angle Snaps"))
+            {
+                _showAngleSnaps.Show(cfg);
+            }
+            GUILayout.EndVertical();
+
+            GUILayout.BeginVertical();
             if (GUILayout.Button("Settings"))
             {
                 _settingsWindow.Show(cfg, _configFilePath, pluginVersion);
                 this.Visible = true;
             }
 #if true
-            if (GUILayout.Button("Fine Adjust"))
+            if (cfg.FineAdjustEnabled)
             {
-                _fineAdjustWindow.Show();
+                if (GUILayout.Button("Fine Adjust"))
+                {
+                    _fineAdjustWindow.Show();
 
+                }
             }
 #endif
             if (cfg.ShowDebugInfo)

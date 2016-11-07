@@ -164,7 +164,7 @@ namespace EditorExtensionsRedux
 
                 GUILayout.EndHorizontal();
 
-                
+
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
                 b = _config.NoOffsetLimitEnabled;
                 _config.NoOffsetLimitEnabled = GUILayout.Toggle(_config.NoOffsetLimitEnabled, new GUIContent("No Offset Limit enabled"));
@@ -174,6 +174,12 @@ namespace EditorExtensionsRedux
                     EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.OnDestroy();
 
                 GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+                b = _config.FineAdjustEnabled;
+                _config.FineAdjustEnabled = GUILayout.Toggle(_config.FineAdjustEnabled, new GUIContent("Fine Adjust enabled"));
+                GUILayout.EndHorizontal();
+                
 
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
                 _config.AnglesnapModIsToggle = GUILayout.Toggle(_config.AnglesnapModIsToggle, new GUIContent("Anglesnap + Mod Toggles")); 

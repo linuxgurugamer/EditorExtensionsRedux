@@ -38,6 +38,9 @@ namespace EditorExtensionsRedux
         [XmlElement("NoOffsetLimitEnabled")]
         public bool NoOffsetLimitEnabled { get; set; }
 
+        [XmlElement("FineAdjustEnabled")]
+        public bool FineAdjustEnabled { get; set; }
+
         [XmlElement ("ShowDebugInfo")]
 		public bool ShowDebugInfo { get; set; }
 

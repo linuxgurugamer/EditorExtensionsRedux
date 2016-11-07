@@ -22,7 +22,7 @@
     int minor = 0; 
     int build = 0; 
 	int patch = 0;
-
+	bool versionSection = false;
 	int i = 0;
 	int i2 = 0;
 	string s;
@@ -39,24 +39,35 @@
 		{
 			if (line != null)
 			{
-
-				i = line.IndexOf(":");
-				i2 = line.IndexOf(",");
-				if (i >= 0 && i2 >= 0)
+				if (!versionSection)
 				{
-					s = line.Substring(i + 1, i2 - i - 1);
+					if (line.Contains("\"VERSION\""))
+						versionSection = true;
+				}
+				else
+				{
+					if (line.Contains("}"))
+							versionSection = false;
+					i = line.IndexOf(":");
+					i2 = line.IndexOf(",");
+					if (i2 == -1)
+						i2 = line.Length;
+					if (i >= 0 && i2 >= 0)
+					{
+						s = line.Substring(i + 1, i2 - i - 1);
 
-					if (major == 0 && line.Contains("MAJOR"))			
-						Int32.TryParse(s, out major);			
+						if (line.Contains("MAJOR"))			
+							Int32.TryParse(s, out major);			
 			
-					if (minor == 0 && line.Contains("MINOR"))			
-						Int32.TryParse(s, out minor);
+						if (line.Contains("MINOR"))			
+							Int32.TryParse(s, out minor);
 			
-					if (patch == 0 && line.Contains("PATCH"))			
-						Int32.TryParse(s, out patch);
+						if (line.Contains("PATCH"))			
+							Int32.TryParse(s, out patch);
 			
-					if (build == 0 && line.Contains("BUILD"))			
-						Int32.TryParse(s, out build);
+						if (line.Contains("BUILD"))			
+							Int32.TryParse(s, out build);
+					}
 				}
 			}
 		}

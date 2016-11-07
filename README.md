@@ -3,13 +3,31 @@
 ##
 ##
 
+## changes in 3.3.8
+	Fixed issue where NoOffsetLimits was not working upon entry into editor
+	Added ability to disable Fine Adjust window
+	Added window showing angle snaps, clickin on button will set that value
+
+## Change in 3.3.7
+	Added code to toggle no offset limit to settings window
+	Fixed code for toggling the no offset Limit
+	Added automatic updating of AssemblyVersion, from the .version file, displayed in the Settings window
+	Removed extra set of configs for the Reflection offsets
+	Fixed bug with local offset vs absolute offset;  Code was not using the local setting, was always using the absolute setting
+
+## Change in 3.3.6
+	Fixed  menu Show Tweakables, for when Advanced tweakables is enabled, to show at the right height
+	Fixed resizing of menu
+
 ## Change in 3.3.5
 	Added AnglesnapModIsToggle, if enabled, hitting the Mod-C (for Windows,ALT-C) will switch between 1 and the last setting
 	Added CycleSymmetryModeModIsToggle , if enabled, hitting the Mod-X (for Windows, ALT-X) will switch between 1 and the last setting
 	Reordered the settings windows, now all keystroke settings are on the Settings 2 window
 	Commented out old code blocks:  SymmetryModeCycle & AngleSnapCycle, which were replaced by Boop's code in Update()
 	Updated for 1.2.1
-	Fixed menu height to adjust depending on whether mass tweakables is on or off - Menu needs to be redisplayed by moving the mouse over the toolbar for height to be adjusted
+	Fixed menu height to adjust depending on whether mass tweakables is on or off - Menu 
+		needs to be redisplayed by moving the mouse over the toolbar for height to be adjusted, only applies when Advanced
+		Tweakables is off
 
 ## Change in 3.3.4
 	Changed "No Show Autostruts" to "Hide Autostruts" text on buttons

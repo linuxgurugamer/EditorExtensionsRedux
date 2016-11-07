@@ -75,6 +75,7 @@ namespace EditorExtensionsRedux
                     ShowDebugInfo = true,
                     ReRootEnabled = true,
                     NoOffsetLimitEnabled = true,
+                    FineAdjustEnabled = true,
                     AnglesnapModIsToggle = true,
                     CycleSymmetryModeModIsToggle = true
 				};

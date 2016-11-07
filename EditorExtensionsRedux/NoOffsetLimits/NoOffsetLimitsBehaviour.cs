@@ -100,7 +100,7 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
 
         public void OnDestroy()
         {
-            Log.Debug("OnDestroy");
+            Log.Debug("FreeOffsetBehaviour.OnDestroy");
             if (OnCleanup != null) OnCleanup();
             Log.Debug("Cleanup complete.");
         }
