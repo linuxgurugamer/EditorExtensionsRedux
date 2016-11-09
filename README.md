@@ -3,6 +3,9 @@
 ##
 ##
 
+## Changes in 3.3.9
+	Fixed (the right way) the no offset tool for local/absolute offsets
+
 ## changes in 3.3.8
 	Fixed issue where NoOffsetLimits was not working upon entry into editor
 	Added ability to disable Fine Adjust window

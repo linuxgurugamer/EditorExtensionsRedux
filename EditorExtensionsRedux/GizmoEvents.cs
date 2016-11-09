@@ -83,13 +83,13 @@ namespace EditorExtensionsRedux
 
 		private void RotateGizmoSpawned(EditorGizmos.GizmoRotate data)
 		{
-			Log.Info("Rotate gizmo was spawned");
+			Log.Info("Rotate gizmo was spawned 1");
 		}
 
 
 		private void OffsetGizmoSpawned(EditorGizmos.GizmoOffset data)
 		{
-			Log.Info("Offset gizmo was spawned");
+			Log.Info("Offset gizmo was spawned 1");
 		}
 
 
@@ -120,7 +120,7 @@ namespace EditorExtensionsRedux
 			GizmoEvents.offsetGizmoActive = false;
 			GizmoEvents.gizmosRotate = HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ();
 			GizmoEvents.gizmoRotateHandle = HighLogic.FindObjectOfType<EditorGizmos.GizmoRotateHandle> ();
-			Log.Info("Rotate gizmo was spawned");
+			Log.Info("Rotate gizmo was spawned 2");
 		}
 
 
@@ -130,7 +130,7 @@ namespace EditorExtensionsRedux
 			GizmoEvents.offsetGizmoActive = true;
 			GizmoEvents.gizmosOffset = HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ();
 			GizmoEvents.gizmoOffsetHandle = HighLogic.FindObjectOfType<EditorGizmos.GizmoOffsetHandle> ();
-			Log.Info("Offset gizmo was spawned");
+			Log.Info("Offset gizmo was spawned 2");
 		}
 	}
 	#endif

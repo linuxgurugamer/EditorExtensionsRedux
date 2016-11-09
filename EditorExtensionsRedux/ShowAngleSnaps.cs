@@ -36,6 +36,11 @@ namespace EditorExtensionsRedux
             this.enabled = false;
         }
 
+        public bool isVisible()
+        {
+            return this.enabled;
+        }
+
         void Awake()
         {
             Log.Debug("ShowAngleSnaps Awake()");
@@ -85,6 +90,10 @@ namespace EditorExtensionsRedux
             this.enabled = true;
         }
 
+        public void Hide()
+        {
+            CloseWindow();
+        }
 
         // private string[] _toolbarStrings = { "Settings 1", "Settings 2", "Angle Snap" };
         string keyMapToUpdate = string.Empty;

@@ -169,13 +169,9 @@ namespace EditorExtensionsRedux
                 b = _config.NoOffsetLimitEnabled;
                 _config.NoOffsetLimitEnabled = GUILayout.Toggle(_config.NoOffsetLimitEnabled, new GUIContent("No Offset Limit enabled"));
                 if (!b && _config.NoOffsetLimitEnabled)
-                    EditorExtensions.Instance.fob = gameObject.AddComponent<NoOffsetBehaviour.FreeOffsetBehaviour>();
-
+                    EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.Start();
                 if (b && !_config.NoOffsetLimitEnabled)
-                {
-                    Destroy(EditorExtensions.Instance.fob);
-                    NoOffsetBehaviour.FreeOffsetBehaviour.Instance = null;
-                }
+                    EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.OnDestroy();
 
                 GUILayout.EndHorizontal();
 

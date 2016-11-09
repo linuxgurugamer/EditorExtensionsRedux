@@ -249,6 +249,8 @@ namespace EditorExtensionsRedux
 
         public bool Visible { get; set; }
 
+        public NoOffsetBehaviour.FreeOffsetBehaviour fob;
+
         #region member vars
 
 
@@ -424,12 +426,6 @@ namespace EditorExtensionsRedux
 #endif
             editor = EditorLogic.fetch;
             Instance = this;
-
-            // FreeOffsetBehaviour needs to be initialized before InitConfig
-            EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour fob = new NoOffsetBehaviour.FreeOffsetBehaviour();
-            // Following needed to get it in memory
-            fob.Start();
-            fob.OnDestroy();
             InitConfig();
 
             if (!validVersion)
@@ -439,7 +435,8 @@ namespace EditorExtensionsRedux
             GameEvents.onEditorPartEvent.Add(EditorPartEvent);
             GameEvents.onEditorSymmetryModeChange.Add(EditorSymmetryModeChange);
 
-
+            if (cfg.NoOffsetLimitEnabled)
+                fob = gameObject.AddComponent<NoOffsetBehaviour.FreeOffsetBehaviour>();
 
 
             //			editor.srfAttachAngleSnap = 0;
@@ -466,6 +463,7 @@ namespace EditorExtensionsRedux
 
             GameEvents.onEditorPartEvent.Remove(EditorPartEvent);
             GameEvents.onEditorSymmetryModeChange.Remove(EditorSymmetryModeChange);
+            Destroy(fob);
             NoOffsetBehaviour.FreeOffsetBehaviour.Instance = null;
         }
 
@@ -592,12 +590,7 @@ namespace EditorExtensionsRedux
 
                 ReRootActive = cfg.ReRootEnabled;
                 NoOffsetLimit = cfg.NoOffsetLimitEnabled;
-                if (cfg.NoOffsetLimitEnabled)
-                {
-                    Log.Info("InitConfig NoOffsetLimitEnabled is true");
-                    EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.Start();
-                }
-
+               
                 Log.Debug("Initializing version " + pluginVersion.ToString());
             }
             catch (Exception ex)
@@ -891,7 +884,8 @@ namespace EditorExtensionsRedux
                         if (NoOffsetLimit)
                         {
                             OSDMessage(string.Format("No Offset Limit is active"));
-                            EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.Start();
+                            NoOffsetBehaviour.FreeOffsetBehaviour fob = gameObject.AddComponent<NoOffsetBehaviour.FreeOffsetBehaviour>();
+                            
                         }
                         else
                         {
@@ -900,7 +894,9 @@ namespace EditorExtensionsRedux
                             if (p != null)
                                 OSDMessage(string.Format("Change will take effect after deselecting current part"));
                             //    GameEvents.onEditorPartPlaced.Fire(p);
-                            EditorExtensionsRedux.NoOffsetBehaviour.FreeOffsetBehaviour.Instance.OnDestroy();
+                            Destroy(fob);
+                            NoOffsetBehaviour.FreeOffsetBehaviour.Instance = null;
+
                             // if (p != null)
                             //     GameEvents.onEditorPartPicked.Fire(p);
                         }
@@ -2087,9 +2083,20 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             if (_showMenu || _menuRect.Contains(Event.current.mousePosition))
                 lastTimeShown = Time.fixedTime;
             GUILayout.BeginVertical();
-            if (GUILayout.Button("Show Angle Snaps"))
+            if (_showAngleSnaps.isVisible())
             {
-                _showAngleSnaps.Show(cfg);
+                if (GUILayout.Button("Show Angle Snaps"))
+                {
+                    _showAngleSnaps.Hide();
+                }
+
+            }
+            else
+            {
+                if (GUILayout.Button("Show Angle Snaps"))
+                {
+                    _showAngleSnaps.Show(cfg);
+                }
             }
             GUILayout.EndVertical();
 

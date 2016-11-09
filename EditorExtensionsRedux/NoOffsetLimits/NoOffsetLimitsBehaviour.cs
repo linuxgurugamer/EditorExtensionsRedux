@@ -23,7 +23,7 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
         private delegate void CleanupFn();
         private CleanupFn OnCleanup;
 
-        private GizmoOffset gizmo;
+        private GizmoOffset gizmoOffset;        
 
         public void Start()
         {
@@ -35,7 +35,7 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
             Log.Debug("FreeOffsetBehaviour.Start");
 
             //			var st_offset_tweak = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_offset_tweak");
-            var st_offset_tweak = (KFSMState)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.ST_OFFSET_TWEAK);
+            var st_offset_tweak = (KFSMState)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.ST_OFFSET_TWEAK);           
 
             KFSMStateChange hookOffsetUpdateFn = (from) =>
             {
@@ -49,6 +49,8 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
 
                 //public static GizmoOffset Attach(Transform host, Quaternion rotOffset, Callback<Vector3> onMove, Callback<Vector3> onMoved, Camera refCamera = null);
 
+
+
                 Quaternion rotOffset = p.attRotation;
 
                 //                this.gizmoOffset = GizmoOffset.Attach(this.selectedPart.transform,
@@ -58,13 +60,35 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
 
                // this.audioSource.PlayOneShot(this.tweakGrabClip);
 
+                // gizmoRotate = (GizmoRotate)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.GIZMOROTATE);
 
-                gizmo = GizmoOffset.Attach(EditorLogic.SelectedPart.transform,
+                gizmoOffset = GizmoOffset.Attach(EditorLogic.SelectedPart.transform,
                     rotOffset,
 
                     new Callback<Vector3>((offset) =>
                     {
-                        p.transform.position = gizmo.transform.position;
+#if false
+                        if (lastSpace != gizmo.CoordSpace)
+                        {
+                            Space cs = gizmo.CoordSpace;
+                            gizmo.SetCoordSystem(lastSpace);
+
+                            gizmo.SetCoordSystem(cs);
+                            lastSpace = cs;
+                        }
+#endif
+                        if (gizmoOffset.CoordSpace == Space.Self)
+                        {
+                            gizmoOffset.transform.rotation = p.transform.rotation;
+                        }
+                        else
+                        {
+                            gizmoOffset.transform.rotation = Quaternion.identity;
+                        }
+
+                        Log.Info("coord sys: " + gizmoOffset.CoordSpace.ToString());
+
+                        p.transform.position = gizmoOffset.transform.position;
                         p.attPos = p.transform.localPosition - p.attPos0;
 
                         Log.Info("symCount: " + symCount.ToString());
@@ -83,12 +107,11 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
                         Refl.Invoke(EditorLogic.fetch, EditorExtensions.c.ONOFFSETGIZMOUPDATED, offset);
                     }), EditorLogic.fetch.editorCamera);
 
-                //((GizmoOffset)Refl.GetValue(EditorLogic.fetch, "\u0012")).Detach();
-                //Refl.SetValue(EditorLogic.fetch, "\u0012", gizmo);
+
                 //((GizmoOffset)Refl.GetValue(EditorLogic.fetch, "gizmoOffset")).Detach();
                 ((GizmoOffset)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.GIZMOOFFSET)).Detach();
                 //Refl.SetValue(EditorLogic.fetch, "gizmoOffset", gizmo);
-                Refl.SetValue(EditorLogic.fetch, EditorExtensions.c.GIZMOOFFSET, gizmo);
+                Refl.SetValue(EditorLogic.fetch, EditorExtensions.c.GIZMOOFFSET, gizmoOffset);
             };
             st_offset_tweak.OnEnter += hookOffsetUpdateFn;
             OnCleanup += () =>
@@ -97,6 +120,23 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
             };
             Log.Debug("Installed.");
         }
+#if true
+        void LateUpdate()
+        {
+            if (GameSettings.Editor_coordSystem.GetKeyUp(false) && !gizmoOffset.IsDragging)
+            {
+                if (gizmoOffset.CoordSpace == Space.Self)
+                {
+                    gizmoOffset.transform.rotation = EditorLogic.SelectedPart.transform.rotation;
+                }
+                else
+                {
+                    gizmoOffset.transform.rotation = Quaternion.identity;
+                }
+
+            }
+        }
+#endif
 
         public void OnDestroy()
         {
