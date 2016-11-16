@@ -67,16 +67,6 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
 
                     new Callback<Vector3>((offset) =>
                     {
-#if false
-                        if (lastSpace != gizmo.CoordSpace)
-                        {
-                            Space cs = gizmo.CoordSpace;
-                            gizmo.SetCoordSystem(lastSpace);
-
-                            gizmo.SetCoordSystem(cs);
-                            lastSpace = cs;
-                        }
-#endif
                         if (gizmoOffset.CoordSpace == Space.Self)
                         {
                             gizmoOffset.transform.rotation = p.transform.rotation;
@@ -120,9 +110,24 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
             };
             Log.Debug("Installed.");
         }
-#if true
-        void LateUpdate()
+
+        void Update()
         {
+            if (gizmoOffset == null || EditorLogic.SelectedPart == null)
+                return;
+            {
+#if false
+                if (EditorLogic.SelectedPart != null)
+                {
+                    GizmoOffset go = new GizmoOffset();
+                    Space sp = go.CoordSpace;
+                    Log.Info("gizmoOffset == null, EditorLogic.SelectedPart: " + EditorLogic.SelectedPart.partInfo.title);
+                    Log.Info("coordSpace: " + sp.ToString());
+                }
+#endif
+                //return;
+            }
+
             if (GameSettings.Editor_coordSystem.GetKeyUp(false) && !gizmoOffset.IsDragging)
             {
                 if (gizmoOffset.CoordSpace == Space.Self)
@@ -136,7 +141,7 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
 
             }
         }
-#endif
+
 
         public void OnDestroy()
         {

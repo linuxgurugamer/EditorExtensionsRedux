@@ -130,7 +130,26 @@ namespace EditorExtensionsRedux
 			GizmoEvents.offsetGizmoActive = true;
 			GizmoEvents.gizmosOffset = HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ();
 			GizmoEvents.gizmoOffsetHandle = HighLogic.FindObjectOfType<EditorGizmos.GizmoOffsetHandle> ();
-			Log.Info("Offset gizmo was spawned 2");
+
+            if (EditorLogic.SelectedPart != null)
+            {
+                
+                Space sp = GizmoEvents.gizmosOffset[0].CoordSpace;
+                Log.Info("gizmoOffset == null, EditorLogic.SelectedPart: " + EditorLogic.SelectedPart.partInfo.title);
+                Log.Info("coordSpace: " + sp.ToString());
+
+                if (GizmoEvents.gizmosOffset[0].CoordSpace == Space.Self)
+                {
+                    GizmoEvents.gizmosOffset[0].transform.rotation = EditorLogic.SelectedPart.transform.rotation;
+                }
+                else
+                {
+                    GizmoEvents.gizmosOffset[0].transform.rotation = Quaternion.identity;
+                }
+
+            }
+
+            Log.Info("Offset gizmo was spawned 2");
 		}
 	}
 	#endif

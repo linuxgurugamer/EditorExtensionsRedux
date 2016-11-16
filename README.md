@@ -3,6 +3,9 @@
 ##
 ##
 
+## Changes in 3.3.10	
+	Fixed null ref when F is pressed and no part is selected
+
 ## Changes in 3.3.9
 	Fixed (the right way) the no offset tool for local/absolute offsets
 

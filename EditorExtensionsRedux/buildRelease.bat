@@ -27,6 +27,7 @@ set /p VERSION= "Enter version: "
 
 mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux
 mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures
+mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux\Plugins
 mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux\PluginData
 mkdir %HOMEDIR%\install\GameData\EditorExtensionsRedux\PluginData\StripSymmetry
 
@@ -35,7 +36,7 @@ del /Q %HOMEDIR%\install\GameData\EditorExtensionsRedux
 del /Q %HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures
 
 
-copy /Y "%~dp0bin\Release\EditorExtensionsRedux.dll" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
+copy /Y "%~dp0bin\Release\EditorExtensionsRedux.dll" "%HOMEDIR%\install\GameData\EditorExtensionsRedux\Plugins"
 copy /Y "%~dp0bin\Release\Textures\*.png" "%HOMEDIR%\install\GameData\EditorExtensionsRedux\Textures"
 copy /Y "EditorExtensionsRedux.version" "%HOMEDIR%\install\GameData\EditorExtensionsRedux"
 
