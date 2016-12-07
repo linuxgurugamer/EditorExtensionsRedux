@@ -189,7 +189,7 @@ namespace EditorExtensionsRedux
 
                 return true;
             }
-            if (Versioning.version_major == 1 && Versioning.version_minor == 2 && (Versioning.Revision == 0 || Versioning.Revision == 1))
+            if (Versioning.version_major == 1 && Versioning.version_minor == 2 && (Versioning.Revision == 0 || Versioning.Revision == 1 || Versioning.Revision == 2))
             {
                 // SelectRoot
                 SELECTEDPART = 13;

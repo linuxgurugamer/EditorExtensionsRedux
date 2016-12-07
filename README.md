@@ -3,6 +3,9 @@
 ##
 ##
 
+## Changes in 3.3.10.1
+	updated versioning for 1.2.2
+
 ## Changes in 3.3.10	
 	Fixed null ref when F is pressed and no part is selected
 
