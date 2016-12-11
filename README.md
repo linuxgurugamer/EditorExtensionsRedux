@@ -3,6 +3,9 @@
 ##
 ##
 
+## Changes in 3.3.11
+	Fixed positioning of menu in Editor (it was too low)
+
 ## Changes in 3.3.10.1
 	updated versioning for 1.2.2
 

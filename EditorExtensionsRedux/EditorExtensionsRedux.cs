@@ -1976,8 +1976,8 @@ editor.angleSnapSprite.gameObject.SetActive (false);
         bool _showMenu = false;
         Rect _menuRect = new Rect();
         const float _menuWidth = 100.0f;
-        const float _menuHeightSmall = 140.0f;
-        const float _menuHeightLarge = 380.0f;
+        const float _menuHeightSmall = 165.0f;
+        const float _menuHeightLarge = 405.0f;
         const int _toolbarHeight = 42;
         //37
         bool oldAllowTweakingWithoutTweakables = GameSettings.ADVANCED_TWEAKABLES;
