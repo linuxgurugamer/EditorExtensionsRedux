@@ -103,14 +103,8 @@
       <Link>README.md</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="deploy.bat" />
-    <None Include="deploy-mac.sh" />
-    <None Include="EditorExtensionsRedux.version">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Content\DefaultKeys.txt" />
     <None Include="Textures\AppLauncherIcon.pdn" />
-    <None Include="buildRelease.bat" />
     <None Include="StripSymmetry\Gamedata\StripSymmetry\plugins\PluginData\StripSymmetry\config.xml" />
     <None Include="NoOffsetLimits\License.txt" />
   </ItemGroup>

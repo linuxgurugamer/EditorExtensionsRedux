@@ -8,17 +8,15 @@ using System.Reflection;
 
 using  EditorExtensionsRedux;
 
-namespace EditorExtensionsRedux.SelectRoot2 {
-	[KSPAddon(KSPAddon.Startup.EditorAny, false)]
-	public class SelectRoot2Behaviour : MonoBehaviour {
-        //	private Log log;
+namespace EditorExtensionsRedux {
 
-        public static SelectRoot2Behaviour Instance = null;
+    public partial class EditorExtensions
+    {
 
         private delegate void CleanupFn();
 		private CleanupFn OnCleanup;
 
-		/**
+        /**
 		 * The stock root selection has two states: 
 		 *  - st_root_unselected: Active after switching to root mode. Waits for mouse up, picks part and sets SelectedPart.
 		 *  - st_root_select: The state after the first click.
@@ -28,21 +26,11 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 		 * 
 		 * Needs to run after EditorLogic#Start() so the states are initialized.
 		 */
-		public void Start() {
-            Instance = this;
-			if (!EditorExtensions.validVersion)
-				return;
-                        
-            //if (!EditorExtensions.Instance.ReRootActive || !EditorExtensions.Instance.cfg.ReRootEnabled)
-            //    return;
 
-			//log = new Log(this.GetType().Name);
-			Log.Info("SelectRoot2 Start");
-
-			// Oh god, so much dirty reflection. Please don't sue me, Squad :(
-			//KerbalFSM editorFSM = (KerbalFSM)Refl.GetValue(EditorLogic.fetch, "\u0001");
-
-
+        public void EnableSelectRoot()
+        { 
+            // Oh god, so much dirty reflection. Please don't sue me, Squad :(
+            //KerbalFSM editorFSM = (KerbalFSM)Refl.GetValue(EditorLogic.fetch, "\u0001");
 			// Skip first click in root selection mode:
 			KFSMEvent skipFirstClickEvent = new KFSMEvent("SelectRoot2_skipFirstClickEvent");
 			skipFirstClickEvent.OnCheckCondition = (state) => {
@@ -63,7 +51,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 
 			//KFSMState st_root_unselected = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_root_unselected");
 			KFSMState st_root_unselected = (KFSMState)Refl.GetValue (EditorLogic.fetch, EditorExtensions.c.ST_ROOT_UNSELECTED);
-			InjectEvent (st_root_unselected, skipFirstClickEvent);
+			SelectRootInjectEvent (st_root_unselected, skipFirstClickEvent);
 
 			// Fix ability to select if already hovering:
 			KFSMStateChange fixAlreadyHoveringPartFn = (from) => {
@@ -141,7 +129,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 
 			//KFSMState st_place = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_place");
 			KFSMState st_place = (KFSMState)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.ST_PLACE);
-			InjectEvent(st_place, dropNewRootPartEvent);
+			SelectRootInjectEvent(st_place, dropNewRootPartEvent);
 				
 
 			Log.Info("Setup complete..");
@@ -158,7 +146,7 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 		}
 #endif
 
-		private void InjectEvent(KFSMState state, KFSMEvent injectedEvent) {
+		private void SelectRootInjectEvent(KFSMState state, KFSMEvent injectedEvent) {
 			state.AddEvent(injectedEvent);
 			OnCleanup += () => {
 //				((List<KFSMEvent>)Refl.GetValue(state, "stateEvents")).Remove(injectedEvent);
@@ -183,11 +171,11 @@ namespace EditorExtensionsRedux.SelectRoot2 {
 			Log.Info("Injected event " + injectedEvent.name + " into state " + state.name);
 		}
 
-		public void OnDestroy() {
-			if (!EditorExtensions.validVersion)
+		public void DisableSelectRoot() {
+			if (!validVersion)
 				return;
 			Log.Info("SelectRoot OnDestroy");
-			if(OnCleanup != null) OnCleanup();
+		    OnCleanup();
 			Log.Info("Cleanup complete.");
 		}
 	}

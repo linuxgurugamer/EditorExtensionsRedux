@@ -1,4 +1,5 @@
 ﻿##
+## See the README.md for current version info
 ##
 ## Editor Extensions v3.02 For KSP v1.1
 ## Changes in 3.0.2

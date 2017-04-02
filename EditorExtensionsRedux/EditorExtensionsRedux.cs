@@ -237,7 +237,7 @@ namespace EditorExtensionsRedux
     }
 
     [KSPAddon(KSPAddon.Startup.EditorAny, false)]
-    public class EditorExtensions : MonoBehaviour
+    public partial class EditorExtensions : MonoBehaviour
     {
         public static EditorExtensions Instance { get; private set; }
 
@@ -590,7 +590,13 @@ namespace EditorExtensionsRedux
 
                 ReRootActive = cfg.ReRootEnabled;
                 NoOffsetLimit = cfg.NoOffsetLimitEnabled;
-               
+
+                if (cfg.ReRootEnabled)
+                {
+                    OSDMessage(string.Format("Reroot is active"));
+                    EnableSelectRoot();                      
+                }
+
                 Log.Debug("Initializing version " + pluginVersion.ToString());
             }
             catch (Exception ex)
@@ -865,12 +871,12 @@ namespace EditorExtensionsRedux
                         if (ReRootActive)
                         {
                             OSDMessage(string.Format("Reroot is active"));
-                            EditorExtensionsRedux.SelectRoot2.SelectRoot2Behaviour.Instance.Start();
+                            EnableSelectRoot();
                         }
                         else
                         {
                             OSDMessage(string.Format("Reroot is not active"));
-                            EditorExtensionsRedux.SelectRoot2.SelectRoot2Behaviour.Instance.OnDestroy();
+                            DisableSelectRoot();
                         }
                     }
                 }

@@ -158,9 +158,15 @@ namespace EditorExtensionsRedux
                 bool b = _config.ReRootEnabled;
                 _config.ReRootEnabled = GUILayout.Toggle(_config.ReRootEnabled, new GUIContent("ReRoot enabled"));
                 if (!b && _config.ReRootEnabled)
-                    EditorExtensionsRedux.SelectRoot2.SelectRoot2Behaviour.Instance.Start();
+                {
+                    EditorExtensions.Instance.EnableSelectRoot();
+                    EditorExtensions.Instance.ReRootActive = true;
+                }
                 if (b && !_config.ReRootEnabled)
-                    EditorExtensionsRedux.SelectRoot2.SelectRoot2Behaviour.Instance.OnDestroy();
+                {
+                    EditorExtensions.Instance.DisableSelectRoot();
+                    EditorExtensions.Instance.ReRootActive = false;
+                }
 
                 GUILayout.EndHorizontal();
 
