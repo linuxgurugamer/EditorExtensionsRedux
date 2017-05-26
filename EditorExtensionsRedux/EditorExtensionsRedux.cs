@@ -232,6 +232,50 @@ namespace EditorExtensionsRedux
 
                 return true;
             }
+
+            if (Versioning.version_major == 1 && Versioning.version_minor == 3 && Versioning.Revision == 0 )
+            {
+                // SelectRoot
+                SELECTEDPART = 13;
+                ST_ROOT_SELECT = 83;
+                ST_ROOT_UNSELECTED = 82;
+                MODEMSG = 66;
+                ST_IDLE = 76;
+                ST_PLACE = 77;
+                ONMOUSEISOVER = 271;
+                GET_STATEEVENTS = 0;
+
+                // NoOffsetLimits
+                ST_OFFSET_TWEAK = 79;
+                SYMUPDATEATTACHNODE = 114;
+                GIZMOROTATE = 71;
+                GIZMOOFFSET = 72;
+
+                UPDATESYMMETRY = 61;
+                ONOFFSETGIZMOUPDATED = 35;
+
+                /* Gizmo offsets
+                 * 
+                    1 gridSnapInterval
+                    2 gridSnapIntervalFine
+                    3 useAngleSnap
+                    4 refCamera    
+                    5 pivot    
+                    6 rot0    
+                    7 hostRot0    
+                    8 host    
+                    9 onGizmoRotate    
+                    10 onGizmoRotated    
+                    11 isDragging    
+                    12 ssScaling    
+
+                 * 
+                 */
+                GRIDSNAPINTERVAL = 1;
+                GRIDSNAPINTERVALFINE = 2;
+
+                return true;
+            }
             return false;
         }
     }
@@ -405,10 +449,10 @@ namespace EditorExtensionsRedux
 #endif
 
         //Boop: Cache the editor hotkeys so we can keep consistency with whatever is in the settings.cfg file.
-        KeyCode HotkeyEditor_toggleSymModePrimary = GameSettings.Editor_toggleSymMode.primary;
-        KeyCode HotkeyEditor_toggleSymModeSecondary = GameSettings.Editor_toggleSymMode.secondary;
-        KeyCode HotkeyEditor_toggleAngleSnapPrimary = GameSettings.Editor_toggleAngleSnap.primary;
-        KeyCode HotkeyEditor_toggleAngleSnapSecondary = GameSettings.Editor_toggleAngleSnap.secondary;
+        KeyCodeExtended HotkeyEditor_toggleSymModePrimary = GameSettings.Editor_toggleSymMode.primary;
+        KeyCodeExtended HotkeyEditor_toggleSymModeSecondary = GameSettings.Editor_toggleSymMode.secondary;
+        KeyCodeExtended HotkeyEditor_toggleAngleSnapPrimary = GameSettings.Editor_toggleAngleSnap.primary;
+        KeyCodeExtended HotkeyEditor_toggleAngleSnapSecondary = GameSettings.Editor_toggleAngleSnap.secondary;
 
         //Unity, called after Awake()
         public void Start()
@@ -416,10 +460,10 @@ namespace EditorExtensionsRedux
             Log.Debug("Start()");
             Log.Debug("Version: " + Versioning.Revision);
             //Boop: Nuke the editor hotkeys so we can hijack them.
-            GameSettings.Editor_toggleSymMode.primary = KeyCode.None;
-            GameSettings.Editor_toggleSymMode.secondary = KeyCode.None;
-            GameSettings.Editor_toggleAngleSnap.primary = KeyCode.None;
-            GameSettings.Editor_toggleAngleSnap.secondary = KeyCode.None;
+            GameSettings.Editor_toggleSymMode.primary = new KeyCodeExtended(KeyCode.None);
+            GameSettings.Editor_toggleSymMode.secondary = new KeyCodeExtended(KeyCode.None);
+            GameSettings.Editor_toggleAngleSnap.primary = new KeyCodeExtended(KeyCode.None);
+            GameSettings.Editor_toggleAngleSnap.secondary = new KeyCodeExtended(KeyCode.None);
 
 #if DEBUG
             localdumpReflection();
@@ -621,17 +665,17 @@ namespace EditorExtensionsRedux
                 return;
 
             //Boop: Override stock Angle Snap manipulation
-            if ((Input.GetKeyDown(HotkeyEditor_toggleAngleSnapPrimary) || Input.GetKeyDown(HotkeyEditor_toggleAngleSnapSecondary)))
+            if ((ExtendedInput.GetKeyDown(HotkeyEditor_toggleAngleSnapPrimary) || ExtendedInput.GetKeyDown(HotkeyEditor_toggleAngleSnapSecondary)))
             {
                 int currentAngleIndex = cfg.AngleSnapValues.IndexOf(editor.srfAttachAngleSnap);
                 float newAngle;
 
-                if (Input.GetKey(GameSettings.Editor_fineTweak.primary) || Input.GetKey(GameSettings.Editor_fineTweak.secondary))
+                if (ExtendedInput.GetKey(GameSettings.Editor_fineTweak.primary) || ExtendedInput.GetKey(GameSettings.Editor_fineTweak.secondary))
                 {
                     // Decrease snap
                     newAngle = cfg.AngleSnapValues[currentAngleIndex == 0 ? cfg.AngleSnapValues.Count - 1 : currentAngleIndex - 1];
                 }
-                else if (Input.GetKey(GameSettings.MODIFIER_KEY.primary) || Input.GetKey(GameSettings.MODIFIER_KEY.secondary))
+                else if (ExtendedInput.GetKey(GameSettings.MODIFIER_KEY.primary) || ExtendedInput.GetKey(GameSettings.MODIFIER_KEY.secondary))
                 {
                     if (editor.srfAttachAngleSnap > 0)
                     {
@@ -688,9 +732,9 @@ namespace EditorExtensionsRedux
             }
 
             //Boop: Override stock Symmetry manipulation.
-            if ((Input.GetKeyDown(HotkeyEditor_toggleSymModePrimary) || Input.GetKeyDown(HotkeyEditor_toggleSymModeSecondary)))
+            if ((ExtendedInput.GetKeyDown(HotkeyEditor_toggleSymModePrimary) || ExtendedInput.GetKeyDown(HotkeyEditor_toggleSymModeSecondary)))
             {
-                if (Input.GetKey(GameSettings.Editor_fineTweak.primary) || Input.GetKey(GameSettings.Editor_fineTweak.secondary))
+                if (ExtendedInput.GetKey(GameSettings.Editor_fineTweak.primary) || ExtendedInput.GetKey(GameSettings.Editor_fineTweak.secondary))
                 {
                     if (editor.symmetryMethod == SymmetryMethod.Radial)
                     {
@@ -709,7 +753,7 @@ namespace EditorExtensionsRedux
                     }
                     return;
                 }
-                else if (Input.GetKey(GameSettings.MODIFIER_KEY.primary) || Input.GetKey(GameSettings.MODIFIER_KEY.secondary))
+                else if (ExtendedInput.GetKey(GameSettings.MODIFIER_KEY.primary) || ExtendedInput.GetKey(GameSettings.MODIFIER_KEY.secondary))
                 {
                     if (preResetSymmetryMode > 0)
                     {
