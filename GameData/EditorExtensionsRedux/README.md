@@ -6,6 +6,7 @@
 ## Changes in 3.3.12
 	Fixed issue where changing the Reroot setting in the settings window wasn't toggling the internal reroot flag
 	Changed SelectRoot code from being a separate MonoBehaviour to being a part of the EditorExtensions class
+	Updated buildRelease to use local GameData directory for release
 
 ## Changes in 3.3.11
 	Fixed positioning of menu in Editor (it was too low)
