@@ -1,13 +1,13 @@
 
 
-mkdir R:\KSP_1.3.0_dev\GameData\EditorExtensionsRedux
-mkdir R:\KSP_1.3.0_dev\GameData\EditorExtensionsRedux\Textures
-mkdir R:\KSP_1.3.0_dev\GameData\EditorExtensionsRedux\PluginData
-mkdir R:\KSP_1.3.0_dev\GameData\EditorExtensionsRedux\PluginData\StripSymmetry
+mkdir R:\KSP_1.3.1_dev\GameData\EditorExtensionsRedux
+mkdir R:\KSP_1.3.1_dev\GameData\EditorExtensionsRedux\Textures
+mkdir R:\KSP_1.3.1_dev\GameData\EditorExtensionsRedux\PluginData
+mkdir R:\KSP_1.3.1_dev\GameData\EditorExtensionsRedux\PluginData\StripSymmetry
 
 
 
-set H=R:\KSP_1.3.0_dev
+set H=R:\KSP_1.3.1_dev
 echo %H%
 
 set d=%H%

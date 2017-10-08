@@ -18,9 +18,9 @@ If you REALLY want to, here is what you will need to do to fix the Reflection is
 
 Compile in debug mode
 
-1. Install and start the game
+1. Install and start the game, go into the Editor (either SPH or VAB)
 2. Exit, and open up the output_log.txt file
-3. Look in the file EditorExtensionsRedux.cs, near the top, in the Init function, you will see wher a number of constants have their values set depending on the version.
+3. Look in the file EditorExtensionsRedux.cs, near the top, in the Init function, you will see where a number of constants have their values set depending on the version.
 4. Create a new section for 1.2, copy them in from one of the other sections.
 5. Look in the log file, for lines beginning with:
     EditorLogic Field name
@@ -250,6 +250,49 @@ namespace EditorExtensionsRedux
                 SYMUPDATEATTACHNODE = 114;
                 GIZMOROTATE = 71;
                 GIZMOOFFSET = 72;
+
+                UPDATESYMMETRY = 61;
+                ONOFFSETGIZMOUPDATED = 35;
+
+                /* Gizmo offsets
+                 * 
+                    1 gridSnapInterval
+                    2 gridSnapIntervalFine
+                    3 useAngleSnap
+                    4 refCamera    
+                    5 pivot    
+                    6 rot0    
+                    7 hostRot0    
+                    8 host    
+                    9 onGizmoRotate    
+                    10 onGizmoRotated    
+                    11 isDragging    
+                    12 ssScaling    
+
+                 * 
+                 */
+                GRIDSNAPINTERVAL = 1;
+                GRIDSNAPINTERVALFINE = 2;
+
+                return true;
+            }
+            if (Versioning.version_major == 1 && Versioning.version_minor == 3 && Versioning.Revision == 1)
+            {
+                // SelectRoot
+                SELECTEDPART = 14;
+                ST_ROOT_SELECT = 84;
+                ST_ROOT_UNSELECTED = 83;
+                MODEMSG = 67;
+                ST_IDLE = 77;
+                ST_PLACE = 78;
+                ONMOUSEISOVER = 274;
+                GET_STATEEVENTS = 0;
+
+                // NoOffsetLimits
+                ST_OFFSET_TWEAK = 80;
+                SYMUPDATEATTACHNODE = 115;
+                GIZMOROTATE = 72;
+                GIZMOOFFSET = 73;
 
                 UPDATESYMMETRY = 61;
                 ONOFFSETGIZMOUPDATED = 35;
