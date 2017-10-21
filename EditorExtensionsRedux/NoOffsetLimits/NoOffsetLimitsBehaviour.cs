@@ -30,6 +30,8 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
             Instance = this;
             if (!EditorExtensions.validVersion)
                 return;
+            if (EditorLogic.SelectedPart.isCompund)
+                return;
 
             //log = new Log(this.GetType().Name);
             Log.Debug("FreeOffsetBehaviour.Start");

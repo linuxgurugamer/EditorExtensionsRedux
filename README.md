@@ -3,6 +3,15 @@
 ##
 ##
 
+## Changes in 3.3.15
+	Added check for compound part in NoOffsetLimits, will not work on compound parts
+
+## Changes in 3.3.14
+	Updated for KSP 1.3.1
+
+## Changes in 3.3.13
+	
+
 ## Changes in 3.3.12
 	Fixed issue where changing the Reroot setting in the settings window wasn't toggling the internal reroot flag
 	Changed SelectRoot code from being a separate MonoBehaviour to being a part of the EditorExtensions class

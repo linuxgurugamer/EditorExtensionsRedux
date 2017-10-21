@@ -99,10 +99,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\README.md">
-      <Link>README.md</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Content\DefaultKeys.txt" />
     <None Include="Textures\AppLauncherIcon.pdn" />
     <None Include="StripSymmetry\Gamedata\StripSymmetry\plugins\PluginData\StripSymmetry\config.xml" />
