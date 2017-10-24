@@ -3,6 +3,10 @@
 ##
 ##
 
+3.3.16
+	Removed compound part check, was not working
+	Hotkeys no longer trigger while text input field has focus
+
 ## Changes in 3.3.15
 	Added check for compound part in NoOffsetLimits, will not work on compound parts
 

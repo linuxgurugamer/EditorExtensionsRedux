@@ -23,26 +23,25 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
         private delegate void CleanupFn();
         private CleanupFn OnCleanup;
 
-        private GizmoOffset gizmoOffset;        
+        private GizmoOffset gizmoOffset;
 
         public void Start()
         {
             Instance = this;
             if (!EditorExtensions.validVersion)
                 return;
-            if (EditorLogic.SelectedPart.isCompund)
-                return;
 
             //log = new Log(this.GetType().Name);
             Log.Debug("FreeOffsetBehaviour.Start");
 
             //			var st_offset_tweak = (KFSMState)Refl.GetValue(EditorLogic.fetch, "st_offset_tweak");
-            var st_offset_tweak = (KFSMState)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.ST_OFFSET_TWEAK);           
+            var st_offset_tweak = (KFSMState)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.ST_OFFSET_TWEAK);
 
             KFSMStateChange hookOffsetUpdateFn = (from) =>
             {
 
                 var p = EditorLogic.SelectedPart;
+                p.onEditorStartTweak();
                 var parent = p.parent;
                 var symCount = p.symmetryCounterparts.Count;
                 //var attachNode = Refl.GetValue(EditorLogic.fetch, "\u001B\u0002");
@@ -60,7 +59,7 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
                 //                    new Callback<Vector3>(this.onOffsetGizmoUpdated), 
                 //                    this.editorCamera);
 
-               // this.audioSource.PlayOneShot(this.tweakGrabClip);
+                // this.audioSource.PlayOneShot(this.tweakGrabClip);
 
                 // gizmoRotate = (GizmoRotate)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.GIZMOROTATE);
 
@@ -78,8 +77,6 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
                             gizmoOffset.transform.rotation = Quaternion.identity;
                         }
 
-                        Log.Info("coord sys: " + gizmoOffset.CoordSpace.ToString());
-
                         p.transform.position = gizmoOffset.transform.position;
                         p.attPos = p.transform.localPosition - p.attPos0;
 
@@ -91,7 +88,7 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
                         }
 
                         GameEvents.onEditorPartEvent.Fire(ConstructionEventType.PartOffsetting, EditorLogic.SelectedPart);
-                    }), 
+                    }),
 
                     new Callback<Vector3>((offset) =>
                     {
@@ -135,10 +132,12 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
                 if (gizmoOffset.CoordSpace == Space.Self)
                 {
                     gizmoOffset.transform.rotation = EditorLogic.SelectedPart.transform.rotation;
+                   // ScreenMessages.PostScreenMessage(EditorLogic.cacheAutoLOC_6001221, this.modeMsg);
                 }
                 else
                 {
                     gizmoOffset.transform.rotation = Quaternion.identity;
+                   // ScreenMessages.PostScreenMessage(EditorLogic.cacheAutoLOC_6001222, this.modeMsg);
                 }
 
             }
