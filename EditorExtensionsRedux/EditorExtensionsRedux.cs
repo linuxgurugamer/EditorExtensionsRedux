@@ -594,7 +594,32 @@ namespace EditorExtensionsRedux
                 }
             }
         }
+#if false
+        const string launchSiteName_LaunchPad = "LaunchPad";
+        const string launchSiteName_Runway = "Runway";
+        void ToggleLaunchDestination()
+        {
+            // Alt+M - Toggle VAB/SPH editor mode (while staying in the same hangar)
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                if (editor.launchSiteName == launchSiteName_Runway)
+                {
+                    //editor.editorType = EditorLogic.EditorMode.VAB;
+                    editor.launchSiteName = launchSiteName_LaunchPad;
 
+                    OSDMessage("VAB/Launchpad Mode");
+                }
+                else
+                {
+                    //editor.editorType = EditorLogic.EditorMode.SPH;
+                    editor.launchSiteName = launchSiteName_Runway;
+                    editor.symmetryMode = 1;
+                    OSDMessage("SPH/Runway Mode");
+                }
+                return;
+            }
+        }
+#endif
         void EditorSymmetryModeChange(int symMode)
         {
             Log.Debug("EditorSymmetryModeChange: " + symMode.ToString());
@@ -715,6 +740,7 @@ namespace EditorExtensionsRedux
             if (inputFieldIsFocused)
                 return;
 
+            //ToggleLaunchDestination();
             //Boop: Override stock Angle Snap manipulation
             if ((ExtendedInput.GetKeyDown(HotkeyEditor_toggleAngleSnapPrimary) || ExtendedInput.GetKeyDown(HotkeyEditor_toggleAngleSnapSecondary)))
             {
