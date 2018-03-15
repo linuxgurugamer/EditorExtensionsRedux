@@ -3,6 +3,10 @@
 ##
 ##
 
+3.3.17
+	Updated for 1.4.1
+	Added ClickThroughBlocker as a  hard dependency
+
 3.3.16
 	Removed compound part check, was not working
 	Hotkeys no longer trigger while text input field has focus
