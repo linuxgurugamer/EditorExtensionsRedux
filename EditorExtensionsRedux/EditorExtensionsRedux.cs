@@ -11,6 +11,7 @@ using KSP.UI.Screens;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using ClickThroughFix;
 
 /*
  * 
@@ -297,6 +298,50 @@ namespace EditorExtensionsRedux
 
                 UPDATESYMMETRY = 61;
                 ONOFFSETGIZMOUPDATED = 35;
+
+                /* Gizmo offsets
+                 * 
+                    1 gridSnapInterval
+                    2 gridSnapIntervalFine
+                    3 useAngleSnap
+                    4 refCamera    
+                    5 pivot    
+                    6 rot0    
+                    7 hostRot0    
+                    8 host    
+                    9 onGizmoRotate    
+                    10 onGizmoRotated    
+                    11 isDragging    
+                    12 ssScaling    
+
+                 * 
+                 */
+                GRIDSNAPINTERVAL = 1;
+                GRIDSNAPINTERVALFINE = 2;
+
+                return true;
+            }
+
+            if (Versioning.version_major == 1 && Versioning.version_minor == 4 && Versioning.Revision == 1)
+            {
+                // SelectRoot
+                SELECTEDPART = 14;
+                ST_ROOT_SELECT = 89;
+                ST_ROOT_UNSELECTED = 88;
+                MODEMSG = 71;
+                ST_IDLE = 82;
+                ST_PLACE = 83;
+                ONMOUSEISOVER = 277;
+                GET_STATEEVENTS = 0;
+
+                // NoOffsetLimits
+                ST_OFFSET_TWEAK = 85;
+                SYMUPDATEATTACHNODE = 120;
+                GIZMOROTATE = 76;
+                GIZMOOFFSET = 77;
+
+                UPDATESYMMETRY = 62;
+                ONOFFSETGIZMOUPDATED = 36;
 
                 /* Gizmo offsets
                  * 
@@ -2161,7 +2206,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                 Rect _menuRect = new Rect(Screen.width / 2f - (sizeOfWarningLabel.x / 2f), Screen.height / 2 - sizeOfWarningLabel.y,
                                      sizeOfWarningLabel.x, sizeOfWarningLabel.y * 2);
 
-                _menuRect = GUILayout.Window(this.GetInstanceID(), _menuRect, ShowWarning, "EEX Menu");
+                _menuRect = ClickThruBlocker.GUILayoutWindow(this.GetInstanceID(), _menuRect, ShowWarning, "EEX Menu");
                 return;
             }
             if (oldAllowTweakingWithoutTweakables != allowTweakingWithoutTweakables)
@@ -2176,7 +2221,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             if (Event.current.type == EventType.Layout)
             {
                 if (_showMenu || _menuRect.Contains(Event.current.mousePosition) || (Time.fixedTime - lastTimeShown < 0.5f))
-                    _menuRect = GUILayout.Window(this.GetInstanceID(), _menuRect, MenuContent, "EEX Menu");
+                    _menuRect = ClickThruBlocker.GUILayoutWindow(this.GetInstanceID(), _menuRect, MenuContent, "EEX Menu");
                 else
                     _menuRect = new Rect();
             }

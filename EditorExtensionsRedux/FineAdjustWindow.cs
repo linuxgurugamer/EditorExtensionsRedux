@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using ClickThroughFix;
 
 #if true
 namespace EditorExtensionsRedux
@@ -63,7 +64,7 @@ namespace EditorExtensionsRedux
 					tstyle.normal.textColor = Color.yellow;
 				}
 				_windowRect.yMax = _windowRect.yMin;
-				_windowRect = GUILayout.Window (this.GetInstanceID (), _windowRect, WindowContent, _windowTitle, tstyle);
+				_windowRect = ClickThruBlocker.GUILayoutWindow (this.GetInstanceID (), _windowRect, WindowContent, _windowTitle, tstyle);
 			}
 		}
 
