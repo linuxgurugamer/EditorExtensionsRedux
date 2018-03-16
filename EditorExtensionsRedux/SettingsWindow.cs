@@ -70,7 +70,7 @@ namespace EditorExtensionsRedux
 		void OnGUI ()
 		{
 			if (Event.current.type == EventType.Layout) {
-				_windowRect.yMax = _windowRect.yMin;
+				//_windowRect.yMax = _windowRect.yMin;
 				_windowRect = ClickThruBlocker.GUILayoutWindow (this.GetInstanceID (), _windowRect, WindowContent, _windowTitle);
 			}
 		}
@@ -104,7 +104,12 @@ namespace EditorExtensionsRedux
 
 		void WindowContent (int windowID)
 		{
-			toolbarInt = GUILayout.Toolbar (toolbarInt, _toolbarStrings);
+			int newToolbarInt = GUILayout.Toolbar (toolbarInt, _toolbarStrings);
+            if (newToolbarInt != toolbarInt)
+            {
+                _windowRect.yMax = _windowRect.yMin;
+                toolbarInt = newToolbarInt;
+            }
 
 			GUILayout.BeginVertical ("box");
 

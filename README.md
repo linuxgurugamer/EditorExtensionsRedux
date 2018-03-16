@@ -3,6 +3,9 @@
 ##
 ##
 
+3.3.18
+	Changed resize of settings window from just before ClickThroughBlocker.GUILayoutWindow to after to toolbar, to avoid confusing the ClickThroughBlocker
+
 3.3.17
 	Updated for 1.4.1
 	Added ClickThroughBlocker as a  hard dependency
