@@ -38,12 +38,17 @@ namespace EditorExtensionsRedux
 		void DrawLine(Vector3 start, Vector3 end)
 		{
 			LineRenderer line = gameObject.AddComponent<LineRenderer>();
-			line.SetColors (Color.blue, Color.blue);
+			//line.SetColors (Color.blue, Color.blue);
+            line.startColor = Color.blue;
+            line.endColor = Color.blue;
 			//line.useWorldSpace = false;
-			line.SetVertexCount (2);
+			//line.SetVertexCount (2);
+            line.positionCount = 2;
 			line.SetPosition(0, start);
 			line.SetPosition(1, end);
-			line.SetWidth (0.5f, 0.1f);
+			//line.SetWidth (0.5f, 0.1f);
+            line.startWidth = 0.5f;
+            line.endWidth = 0.1f;
 			line.material = material;
 
 		}

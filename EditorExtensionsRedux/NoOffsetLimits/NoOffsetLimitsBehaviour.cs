@@ -41,6 +41,12 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
             {
 
                 var p = EditorLogic.SelectedPart;
+
+                if (p != null && p.GetType() == typeof(CompoundPart))
+                {
+                    return;
+                }
+
                 p.onEditorStartTweak();
                 var parent = p.parent;
                 var symCount = p.symmetryCounterparts.Count;
@@ -125,6 +131,12 @@ namespace EditorExtensionsRedux.NoOffsetBehaviour
                 }
 #endif
                 //return;
+            }
+
+            Part p = EditorLogic.SelectedPart;
+            if (p != null && p.GetType() == typeof(CompoundPart))
+            {
+                return;
             }
 
             if (GameSettings.Editor_coordSystem.GetKeyUp(false) && !gizmoOffset.IsDragging)
