@@ -2352,8 +2352,8 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     {
                         if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
                         {
-                            p.autoStrutMode = Part.AutoStrutMode.Off;
-                            p.UpdateAutoStrut();
+                            p.autoStrutMode = Part.AutoStrutMode.Grandparent;
+                            p.ToggleAutoStrut();
                         }
                     }
                     OSDMessage("Autostruts turned OFF for all current Parts in Vessel (except forced).");
@@ -2367,12 +2367,10 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                         if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
                         {
                             // First set off to get timers set properly with the toggle, then update to Grandparent
-                            p.autoStrutMode = Part.AutoStrutMode.Off;
-                            // The ToggleAutoStrut will set the mode to Heaviest
+                            p.autoStrutMode = Part.AutoStrutMode.Root;
                             p.ToggleAutoStrut();
 
-                            p.autoStrutMode = Part.AutoStrutMode.Grandparent;
-                            p.UpdateAutoStrut();
+
                         }
                     }
                     OSDMessage("Autostruts set to 'Grandparent' for all current Parts in Vessel (except forced).");
@@ -2584,11 +2582,25 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     {
                         Part.AutoStrutMode asm = p.autoStrutMode;
                         p.autoStrutMode = Part.AutoStrutMode.Off;
+
                         // The ToggleAutoStrut will set the mode to Heaviest
                         p.ToggleAutoStrut();
-
-                        p.autoStrutMode = asm;
-                        p.UpdateAutoStrut();
+                        switch (asm)
+                        {
+                            case Part.AutoStrutMode.Off:
+                                p.autoStrutMode = Part.AutoStrutMode.Grandparent;
+                                break;
+                            case Part.AutoStrutMode.Root:
+                                p.autoStrutMode = Part.AutoStrutMode.Heaviest;
+                                break;
+                            case Part.AutoStrutMode.Heaviest:
+                                p.autoStrutMode = Part.AutoStrutMode.Off;
+                                break;
+                            case Part.AutoStrutMode.Grandparent:
+                                p.autoStrutMode = Part.AutoStrutMode.Root;
+                                break;
+                        }
+                        p.ToggleAutoStrut();
                     }
                 }
             }

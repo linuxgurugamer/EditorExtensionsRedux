@@ -3,6 +3,10 @@
 ##
 ##
 
+3.3.19.1
+	Fixed issue when displaying autostruts, most got reset to Heaviest
+	Fixed issue when setting AS to grandparent, was setting to Heaviest
+
 3.3.19
 	Updated obsolete Linerenderer calls
 	Fixed NoOffsetLimit code to NOT activate when a compound part is being moved with the offset gizmo
