@@ -3,6 +3,9 @@
 ##
 ##
 
+3.3.19.2
+	Fixed fuzzy button 
+
 3.3.19.1
 	Fixed issue when displaying autostruts, most got reset to Heaviest
 	Fixed issue when setting AS to grandparent, was setting to Heaviest

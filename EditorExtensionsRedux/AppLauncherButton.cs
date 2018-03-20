@@ -43,8 +43,81 @@ namespace EditorExtensionsRedux
 			Log.Debug ("ApplicationLauncher on" + state.ToString ());
 			EditorExtensions.Instance.Visible = state;
 		}
+        /// <summary>
+        /// Copied from ToolbarController
+        /// </summary>
+        /// 
+              //
+        // The following function was initially copied from @JPLRepo's AmpYear mod, which is covered by the GPL, as is this mod
+        //
+        // This function will attempt to load either a PNG or a JPG from the specified path.  
+        // It first checks to see if the actual file is there, if not, it then looks for either a PNG or a JPG
+        //
+        // easier to specify different cases than to change case to lower.  This will fail on MacOS and Linux
+        // if a suffix has mixed case
+        static string[] imgSuffixes = new string[] { ".png", ".jpg", ".gif", ".PNG", ".JPG", ".GIF" };
+        public static Boolean LoadImageFromFile(ref Texture2D tex, String fileNamePath)
+        {
+
+            Boolean blnReturn = false;
+            try
+            {
+                string path = fileNamePath;
+                if (!System.IO.File.Exists(fileNamePath))
+                {
+                    // Look for the file with an appended suffix.
+                    for (int i = 0; i < imgSuffixes.Length; i++)
+
+                        if (System.IO.File.Exists(fileNamePath + imgSuffixes[i]))
+                        {
+                            path = fileNamePath + imgSuffixes[i];
+                            break;
+                        }
+                }
+
+                //File Exists check
+                if (System.IO.File.Exists(path))
+                {
+                    try
+                    {
+                        tex.LoadImage(System.IO.File.ReadAllBytes(path));
+                        blnReturn = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error("Failed to load the texture:" + path);
+                        Log.Error(ex.Message);
+                    }
+                }
+                else
+                {
+                    Log.Error("Cannot find texture to load:" + fileNamePath);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Failed to load (are you missing a file):" + fileNamePath);
+                Log.Error(ex.Message);
+            }
+            return blnReturn;
+        }
+
+        Texture2D GetTexture(string path, bool b)
+        {
+
+            Texture2D tex = new Texture2D(16, 16, TextureFormat.ARGB32, false);
+
+            if (LoadImageFromFile(ref tex, KSPUtil.ApplicationRootPath + "GameData/" + path))
+                return tex;
+            return tex;
+        }
+/// <summary>
+/// End of copy
+/// </summary>
 
-		private void OnGuiAppLauncherReady ()
+        private void OnGuiAppLauncherReady ()
 		{
 			if (this.button == null) {
 				try {
@@ -64,7 +137,7 @@ namespace EditorExtensionsRedux
 						null, //RUIToggleButton.onEnable
 						null, //RUIToggleButton.onDisable
 						ApplicationLauncher.AppScenes.VAB | ApplicationLauncher.AppScenes.SPH, //visibleInScenes
-						GameDatabase.Instance.GetTexture (texPathDefault, false) //texture
+						GetTexture (texPathDefault, false) //texture
 					);
 					Log.Debug ("Added ApplicationLauncher button");
 				} catch (Exception ex) {
