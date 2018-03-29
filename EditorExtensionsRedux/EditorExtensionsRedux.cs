@@ -321,7 +321,7 @@ namespace EditorExtensionsRedux
 
                 return true;
             }
-
+#if false
             if (Versioning.version_major == 1 && Versioning.version_minor == 4 && Versioning.Revision == 1)
             {
                 // SelectRoot
@@ -363,6 +363,90 @@ namespace EditorExtensionsRedux
                 GRIDSNAPINTERVAL = 1;
                 GRIDSNAPINTERVALFINE = 2;
 
+                return true;
+            }
+#endif
+            if (Versioning.version_major == 1 && Versioning.version_minor == 4 && Versioning.Revision >=1)
+            {
+                //Log.Debug("State/Event enumeration done.");
+                EditorLogic el = EditorLogic.fetch;
+                int c = 0;
+                foreach (FieldInfo FI in el.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+                {
+                    switch (FI.Name)
+                    {
+                        case "selectedPart":
+                            SELECTEDPART = c; break;
+                        case "st_root_select":
+                            ST_ROOT_SELECT = c; break;
+                        case "st_root_unselected":
+                            ST_ROOT_UNSELECTED = c; break;
+                        case "modeMsg":
+                            MODEMSG = c; break;
+                        case "st_idle":
+                            ST_IDLE = c; break;
+                        case "st_place":
+                            ST_PLACE = c; break;
+                        case "st_offset_tweak":
+                            ST_OFFSET_TWEAK = c; break;
+                        case "symUpdateAttachNode":
+                            SYMUPDATEATTACHNODE = c; break;
+                        case "gizmoRotate":
+                            GIZMOROTATE = c; break;
+                        case "gizmoOffset":
+                            GIZMOOFFSET = c; break;
+                    }
+                    c++;
+                }
+
+                MethodInfo[] leMethods = typeof(EditorLogic).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                if (leMethods != null)
+                {
+                    c = 0;
+                    foreach (MethodInfo FI in leMethods)
+                    {
+                        switch (FI.Name)
+                        {
+                            case "UpdateSymmetry":
+                                UPDATESYMMETRY = c; break;
+                            case "onOffsetGizmoUpdated":
+                                ONOFFSETGIZMOUPDATED = c; break;
+                        }
+                        c++;
+                    }
+                }
+
+                MethodInfo[] parts = typeof(Part).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                if (parts != null)
+                {
+                    c = 0;
+                    foreach (MethodInfo FI in parts)
+                    {
+                        switch (FI.Name)
+                        {
+                            case "OnMouseIsOver":
+                                ONMOUSEISOVER = c; break;
+                        }
+                        c++;
+                    }
+                }
+
+
+
+                MethodInfo[] ks = typeof(KFSMState).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                if (ks != null)
+                {
+                    c = 0;
+                    foreach (MethodInfo FI in ks)
+                    {
+                        switch (FI.Name)
+                        {
+                            case "get_StateEvents":
+                                GET_STATEEVENTS = c; break;
+                        }
+                        c++;
+                    }
+                }
                 return true;
             }
             return false;

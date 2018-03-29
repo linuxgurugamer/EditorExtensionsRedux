@@ -3,6 +3,9 @@
 ##
 ##
 
+3.3.19.3
+	Added code to dynamically assign Reflection offsets.  Hopefully this will eliminate the need to do manual changes in the future
+	 
 3.3.19.2
 	Fixed fuzzy button 
 
