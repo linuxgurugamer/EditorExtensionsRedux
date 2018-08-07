@@ -217,7 +217,34 @@ namespace EditorExtensionsRedux
 					GUILayout.Label ("Waiting for key");
 				}
 
-				GUILayout.BeginHorizontal ();
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Reset Symmetry Mode & Angle Snap keys"))
+                {
+                    // Editor_toggleSymMode = X
+                    // Editor_toggleAngleSnap = C
+                   
+                    // First reset the HotkeyEditor settings
+                    EditorExtensions.Instance.HotkeyEditor_toggleSymModePrimary = new KeyCodeExtended(KeyCode.X);
+                    EditorExtensions.Instance.HotkeyEditor_toggleSymModeSecondary = new KeyCodeExtended(KeyCode.None);
+                    EditorExtensions.Instance.HotkeyEditor_toggleAngleSnapPrimary = new KeyCodeExtended(KeyCode.C);
+                    EditorExtensions.Instance.HotkeyEditor_toggleAngleSnapSecondary = new KeyCodeExtended(KeyCode.None);
+                    // Now reset the GameSettings
+                    GameSettings.Editor_toggleSymMode.primary = EditorExtensions.Instance.HotkeyEditor_toggleSymModePrimary;
+                    GameSettings.Editor_toggleSymMode.secondary = EditorExtensions.Instance.HotkeyEditor_toggleSymModeSecondary;
+                    GameSettings.Editor_toggleAngleSnap.primary = EditorExtensions.Instance.HotkeyEditor_toggleAngleSnapPrimary;
+                    GameSettings.Editor_toggleAngleSnap.secondary = EditorExtensions.Instance.HotkeyEditor_toggleAngleSnapSecondary;
+                    // and Save the game settings
+                    GameSettings.SaveSettings();
+
+                    //Finally,  set the Gamesetting key to null (see other locations for info)
+                    GameSettings.Editor_toggleSymMode.primary = new KeyCodeExtended(KeyCode.None);
+                    GameSettings.Editor_toggleSymMode.secondary = new KeyCodeExtended(KeyCode.None);
+                    GameSettings.Editor_toggleAngleSnap.primary = new KeyCodeExtended(KeyCode.None);
+                    GameSettings.Editor_toggleAngleSnap.secondary = new KeyCodeExtended(KeyCode.None);
+                }
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal ();
 				GUILayout.Label ("Surface attachment:", settingsLabelLayout);
 				if (keyMapToUpdate == "am" && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.AttachmentMode = _lastKeyPressed;

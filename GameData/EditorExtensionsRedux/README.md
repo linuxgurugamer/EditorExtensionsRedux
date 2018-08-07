@@ -3,8 +3,15 @@
 ##
 ##
 
+3.3.19.5
+	Added button to Settings page 2 to "Reset Symmetry Mode & Angle Snap keys"
+	"
+3.3.19.4
+	Added some extra checking to be sure all needed Reflection values have been found
+
 3.3.19.3
 	Added code to dynamically assign Reflection offsets.  Hopefully this will eliminate the need to do manual changes in the future
+	Updated version to allow all 1.4.*
 	 
 3.3.19.2
 	Fixed fuzzy button 

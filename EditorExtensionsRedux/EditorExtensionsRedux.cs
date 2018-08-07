@@ -235,7 +235,7 @@ namespace EditorExtensionsRedux
                 return true;
             }
 
-            if (Versioning.version_major == 1 && Versioning.version_minor == 3 && Versioning.Revision == 0 )
+            if (Versioning.version_major == 1 && Versioning.version_minor == 3 && Versioning.Revision == 0)
             {
                 // SelectRoot
                 SELECTEDPART = 13;
@@ -366,8 +366,27 @@ namespace EditorExtensionsRedux
                 return true;
             }
 #endif
-            if (Versioning.version_major == 1 && Versioning.version_minor == 4 && Versioning.Revision >=1)
+            if (Versioning.version_major == 1 && Versioning.version_minor == 4 && Versioning.Revision >= 1)
             {
+                SELECTEDPART = -1;
+                ST_ROOT_SELECT = -1;
+                ST_ROOT_UNSELECTED = -1;
+                MODEMSG = -1;
+                ST_IDLE = -1;
+                ST_PLACE = -1;
+                ONMOUSEISOVER = -1;
+                GET_STATEEVENTS = -1;
+
+                // NoOffsetLimits
+                ST_OFFSET_TWEAK = -1;
+                SYMUPDATEATTACHNODE = -1;
+                GIZMOROTATE = -1;
+                GIZMOOFFSET = -1;
+
+                UPDATESYMMETRY = -1;
+                ONOFFSETGIZMOUPDATED = -1;
+
+
                 //Log.Debug("State/Event enumeration done.");
                 EditorLogic el = EditorLogic.fetch;
                 int c = 0;
@@ -446,6 +465,27 @@ namespace EditorExtensionsRedux
                         }
                         c++;
                     }
+                }
+                if (SELECTEDPART == -1 ||
+                    ST_ROOT_SELECT == -1 ||
+                    ST_ROOT_UNSELECTED == -1 ||
+                    MODEMSG == -1 ||
+                    ST_IDLE == -1 ||
+                    ST_PLACE == -1 ||
+                    ONMOUSEISOVER == -1 ||
+                    GET_STATEEVENTS == -1 ||
+
+                    // NoOffsetLimits
+                    ST_OFFSET_TWEAK == -1 ||
+                    SYMUPDATEATTACHNODE == -1 ||
+                    GIZMOROTATE == -1 ||
+                    GIZMOOFFSET == -1 ||
+
+                    UPDATESYMMETRY == -1 ||
+                    ONOFFSETGIZMOUPDATED == -1)
+                {
+                    Log.Error("Missing values in Reflection");
+                    return false;
                 }
                 return true;
             }
@@ -622,10 +662,10 @@ namespace EditorExtensionsRedux
 #endif
 
         //Boop: Cache the editor hotkeys so we can keep consistency with whatever is in the settings.cfg file.
-        KeyCodeExtended HotkeyEditor_toggleSymModePrimary = GameSettings.Editor_toggleSymMode.primary;
-        KeyCodeExtended HotkeyEditor_toggleSymModeSecondary = GameSettings.Editor_toggleSymMode.secondary;
-        KeyCodeExtended HotkeyEditor_toggleAngleSnapPrimary = GameSettings.Editor_toggleAngleSnap.primary;
-        KeyCodeExtended HotkeyEditor_toggleAngleSnapSecondary = GameSettings.Editor_toggleAngleSnap.secondary;
+        internal KeyCodeExtended HotkeyEditor_toggleSymModePrimary = GameSettings.Editor_toggleSymMode.primary;
+        internal KeyCodeExtended HotkeyEditor_toggleSymModeSecondary = GameSettings.Editor_toggleSymMode.secondary;
+        internal KeyCodeExtended HotkeyEditor_toggleAngleSnapPrimary = GameSettings.Editor_toggleAngleSnap.primary;
+        internal KeyCodeExtended HotkeyEditor_toggleAngleSnapSecondary = GameSettings.Editor_toggleAngleSnap.secondary;
 
         //Unity, called after Awake()
         public void Start()
@@ -808,8 +848,8 @@ namespace EditorExtensionsRedux
                         //for debug, replace if version isn't exactly the same
                         bool versionMismatch = (cfg.FileVersion == null || fileVersion != pluginVersion);
 #else
-						//replace if x.x doesn't match
-						bool versionMismatch = (cfg.FileVersion == null || fileVersion.Major < pluginVersion.Major || (fileVersion.Major == pluginVersion.Major && fileVersion.Minor < pluginVersion.Minor));
+                        //replace if x.x doesn't match
+                        bool versionMismatch = (cfg.FileVersion == null || fileVersion.Major < pluginVersion.Major || (fileVersion.Major == pluginVersion.Major && fileVersion.Minor < pluginVersion.Minor));
 #endif
 
                         if (versionMismatch)
@@ -822,7 +862,7 @@ namespace EditorExtensionsRedux
                             Log.Debug("Config file is current");
                         }
                     }
-                   
+
                 }
                 else
                 {
@@ -836,7 +876,7 @@ namespace EditorExtensionsRedux
                 if (cfg.ReRootEnabled)
                 {
                     OSDMessage(string.Format("Reroot is active"));
-                    EnableSelectRoot();                      
+                    EnableSelectRoot();
                 }
 
                 Log.Debug("Initializing version " + pluginVersion.ToString());
@@ -1136,7 +1176,7 @@ namespace EditorExtensionsRedux
                         {
                             OSDMessage(string.Format("No Offset Limit is active"));
                             NoOffsetBehaviour.FreeOffsetBehaviour fob = gameObject.AddComponent<NoOffsetBehaviour.FreeOffsetBehaviour>();
-                            
+
                         }
                         else
                         {
@@ -1463,7 +1503,7 @@ namespace EditorExtensionsRedux
             return false;
         }
 
-#region Alignments
+        #region Alignments
 
         void AlignToTopOfParent(Part p)
         {
@@ -1861,9 +1901,9 @@ namespace EditorExtensionsRedux
             }
         }
 
-#endregion
+        #endregion
 
-#region Editor Actions
+        #region Editor Actions
 
         void AddUndo()
         {
@@ -2136,15 +2176,17 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             {
                 Log.Error("Error getting active Gizmos: " + ex.Message);
 #else
-			} catch (Exception) {
+            }
+            catch (Exception)
+            {
 #endif
                 return false;
             }
         }
 
-#endregion
+        #endregion
 
-#region GUI
+        #region GUI
 
         //private Rect _settingsWindowRect;
         GUIStyle osdLabelStyle, symmetryLabelStyle;
@@ -2561,7 +2603,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             ScreenMessages.PostScreenMessage(message, cfg.OnScreenMessageTime, ScreenMessageStyle.LOWER_CENTER);
         }
 
-#region Snap labels
+        #region Snap labels
 
         const int FONTSIZE = 14;
 
@@ -2759,8 +2801,8 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
     }
 }
