@@ -63,7 +63,7 @@ namespace EditorExtensionsRedux
 					_windowTitle = _windowTitle + " Active";
 					tstyle.normal.textColor = Color.yellow;
 				}
-				_windowRect.yMax = _windowRect.yMin;
+				//_windowRect.yMax = _windowRect.yMin;
 				_windowRect = ClickThruBlocker.GUILayoutWindow (this.GetInstanceID (), _windowRect, WindowContent, _windowTitle, tstyle);
 			}
 		}
