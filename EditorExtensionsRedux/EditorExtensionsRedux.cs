@@ -2476,7 +2476,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     RefreshParts();
                     foreach (Part p in parts)
                     {
-                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode) && p.AllowAutoStruts() == true)
+                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
                         {
                             p.autoStrutMode = Part.AutoStrutMode.Grandparent;
                             p.ToggleAutoStrut();
