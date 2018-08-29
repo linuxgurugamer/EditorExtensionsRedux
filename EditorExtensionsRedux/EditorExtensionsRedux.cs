@@ -2490,7 +2490,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     RefreshParts();
                     foreach (Part p in parts)
                     {
-                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
+                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode) && p.AllowAutoStruts() == true)
                         {
                             // First set off to get timers set properly with the toggle, then update to Grandparent
                             p.autoStrutMode = Part.AutoStrutMode.Root;
@@ -2507,7 +2507,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     RefreshParts();
                     foreach (Part p in parts)
                     {
-                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
+                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode) && p.AllowAutoStruts() == true)
                         {
                             // p.autoStrutMode = Part.AutoStrutMode.Heaviest;;
 
@@ -2526,7 +2526,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     RefreshParts();
                     foreach (Part p in parts)
                     {
-                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
+                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode) && p.AllowAutoStruts() == true)
                         {
                             // p.autoStrutMode = Part.AutoStrutMode.Root;
 
