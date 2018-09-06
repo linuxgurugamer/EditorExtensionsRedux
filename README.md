@@ -1,7 +1,12 @@
 ﻿##
-## Editor Extensions For KSP v1.2.x
+## Editor Extensions 
 ##
 ##
+
+3.3.19.7
+	Removed unnecessary line from AssemblyVersion.tt:  <#@ assembly name="EnvDTE" #>
+	From @lisias:
+		Amending 4x4cheessecake fixe for the Mass AutoStrut problem. This allows to "recover" a mangled vessel.
 
 3.3.19.6
 	Thanks to 4x4cheesecake for these fixes:

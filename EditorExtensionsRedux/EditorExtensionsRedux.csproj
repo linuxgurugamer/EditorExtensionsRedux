@@ -120,7 +120,7 @@
       <HintPath>R:\KSP_1.4.3_dev\KSP_x64_Data\Managed\Assembly-UnityScript-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="ClickThroughBlocker">
-      <HintPath>R:\KSP_1.4.3_dev\GameData\ClickThroughBlocker\Plugins\ClickThroughBlocker.dll</HintPath>
+      <HintPath>R:\KSP_1.4.3_dev\GameData\000_ClickThroughBlocker\Plugins\ClickThroughBlocker.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -137,14 +137,22 @@
     <PostBuildEvent>
 start /D D:\Users\jbb\github\EditorExtensionsRedux /WAIT deploy.bat  $(TargetDir) $(TargetFileName)
 
+
+
 if $(ConfigurationName) == Release (
+
+
 	start /D D:\Users\jbb\github\EditorExtensionsRedux /WAIT buildRelease.bat $(TargetDir) $(TargetFileName)
+
+
 )
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
 set textTemplatingPath="%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Community\Common7\IDE \texttransform.exe"
+
+
 
 %25textTemplatingPath%25 "$(ProjectDir)AssemblyVersion.tt"</PreBuildEvent>
   </PropertyGroup>
