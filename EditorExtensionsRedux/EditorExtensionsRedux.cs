@@ -366,7 +366,7 @@ namespace EditorExtensionsRedux
                 return true;
             }
 #endif
-            if (Versioning.version_major == 1 && Versioning.version_minor == 4 && Versioning.Revision >= 1)
+            if (Versioning.version_major == 1 && Versioning.version_minor >= 4 && Versioning.Revision >= 0)
             {
                 SELECTEDPART = -1;
                 ST_ROOT_SELECT = -1;

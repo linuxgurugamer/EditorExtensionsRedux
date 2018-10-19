@@ -3,6 +3,9 @@
 ##
 ##
 
+3.3.19.8
+	Version bump for 1.5 rebuild
+
 3.3.19.7
 	Removed unnecessary line from AssemblyVersion.tt:  <#@ assembly name="EnvDTE" #>
 	From @lisias:
