@@ -366,7 +366,7 @@ namespace EditorExtensionsRedux
                 return true;
             }
 #endif
-            if (Versioning.version_major == 1 && Versioning.version_minor == 4 && Versioning.Revision >= 1)
+            if (Versioning.version_major == 1 && Versioning.version_minor >= 4 && Versioning.Revision >= 0)
             {
                 SELECTEDPART = -1;
                 ST_ROOT_SELECT = -1;
@@ -2476,10 +2476,15 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     RefreshParts();
                     foreach (Part p in parts)
                     {
-                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode))
+                        if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode)) try
                         {
                             p.autoStrutMode = Part.AutoStrutMode.Grandparent;
                             p.ToggleAutoStrut();
+                        }
+                        catch(Exception e)
+                        {
+                            p.autoStrutMode = Part.AutoStrutMode.Off;
+                            Debug.LogException(e);
                         }
                     }
                     OSDMessage("Autostruts turned OFF for all current Parts in Vessel (except forced).");

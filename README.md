@@ -1,11 +1,24 @@
 ﻿##
-## Editor Extensions For KSP v1.2.x
+## Editor Extensions 
 ##
 ##
 
+3.3.19.8
+	Version bump for 1.5 rebuild
+
+3.3.19.7
+	Removed unnecessary line from AssemblyVersion.tt:  <#@ assembly name="EnvDTE" #>
+	From @lisias:
+		Amending 4x4cheessecake fixe for the Mass AutoStrut problem. This allows to "recover" a mangled vessel.
+
+3.3.19.6
+	Thanks to 4x4cheesecake for these fixes:
+		Added an additional logical operator to prevent autostruts beeing applied to parts which don't allow them.
+		Fixed a visual issue regarding the 'Fine Adjustment' window. It's no longer flickering when dragging it around.
+
 3.3.19.5
 	Added button to Settings page 2 to "Reset Symmetry Mode & Angle Snap keys"
-	"
+	
 3.3.19.4
 	Added some extra checking to be sure all needed Reflection values have been found
 
