@@ -63,7 +63,7 @@ namespace EditorExtensionsRedux
 		void OnGUI ()
 		{
 			if (Event.current.type == EventType.Layout) {
-				_windowRect.yMax = _windowRect.yMin;
+				//_windowRect.yMax = _windowRect.yMin;
 				_windowRect = ClickThruBlocker.GUILayoutWindow (this.GetInstanceID (), _windowRect, WindowContent, _windowTitle);
 			}
 		}
