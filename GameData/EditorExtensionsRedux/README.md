@@ -3,6 +3,9 @@
 ##
 ##
 
+3.3.19.9
+	Fix flickering in editor when moving mouse over angle snap window
+
 3.3.19.8
 	Version bump for 1.5 rebuild
 
