@@ -1588,25 +1588,32 @@ namespace EditorExtensionsRedux
         {
             List<PartMovement> pmToDel = null;
 
-            foreach (PartMovement pm in partMovement)
+            for (int i = partMovement.Count - 1; i >= 0; i--)            
             {
-                if (pm.local)
+                PartMovement pm = partMovement[i];
+                try
                 {
-                    Vector3 v = Vector3.Lerp(pm.startPos, pm.endPos, (float)((Time.fixedTime - pm.startTime) / pm.time));
-                    pm.p.transform.localPosition = v;
-                    pm.p.attPos0 = pm.p.transform.localPosition;
-                }
-                else
+                    if (pm.local)
+                    {
+                        Vector3 v = Vector3.Lerp(pm.startPos, pm.endPos, (float)((Time.fixedTime - pm.startTime) / pm.time));
+                        pm.p.transform.localPosition = v;
+                        pm.p.attPos0 = pm.p.transform.localPosition;
+                    }
+                    else
+                    {
+                        Vector3 v = Vector3.Lerp(pm.startPos, pm.endPos, (float)((Time.fixedTime - pm.startTime) / pm.time));
+                        pm.p.transform.position = v;
+                        pm.p.attPos = pm.p.transform.position;
+                    }
+                    if (Time.fixedTime > pm.endtime)
+                    {
+                        if (pmToDel == null)
+                            pmToDel = new List<PartMovement>();
+                        pmToDel.Add(pm);
+                    }
+                } catch
                 {
-                    Vector3 v = Vector3.Lerp(pm.startPos, pm.endPos, (float)((Time.fixedTime - pm.startTime) / pm.time));
-                    pm.p.transform.position = v;
-                    pm.p.attPos = pm.p.transform.position;
-                }
-                if (Time.fixedTime > pm.endtime)
-                {
-                    if (pmToDel == null)
-                        pmToDel = new List<PartMovement>();
-                    pmToDel.Add(pm);
+                    partMovement.Remove(pm);
                 }
             }
             if (pmToDel != null)

@@ -3,6 +3,10 @@
 ##
 ##
 
+3.3.19.10
+	Fixed issue when detaching a moving part in the editor (while it's snapping)
+	Updated version info
+
 3.3.19.9
 	Fix flickering in editor when moving mouse over angle snap window
 
