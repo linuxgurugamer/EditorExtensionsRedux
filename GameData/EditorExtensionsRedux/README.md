@@ -2,6 +2,8 @@
 ## Editor Extensions 
 ##
 ##
+3.3.20
+	Added new feature activated by default letter B:  Centers the vessel horizontally in the editor, and lowers it to 5m high
 
 3.3.19.10
 	Fixed issue when detaching a moving part in the editor (while it's snapping)

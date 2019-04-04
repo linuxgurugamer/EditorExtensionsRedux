@@ -256,7 +256,22 @@ namespace EditorExtensionsRedux
 				}
 				GUILayout.EndHorizontal ();
 
-				GUILayout.BeginHorizontal ();
+                
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Horizontal Center in Editor:", settingsLabelLayout);
+                if (keyMapToUpdate == "vs" && _lastKeyPressed != KeyCode.None)
+                {
+                    _config.KeyMap.HorizontalCenter = _lastKeyPressed;
+                    keyMapToUpdate = string.Empty;
+                }
+                if (GUILayout.Button(_config.KeyMap.HorizontalCenter.ToString()))
+                {
+                    _lastKeyPressed = KeyCode.None;
+                    keyMapToUpdate = "vs";
+                }
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal ();
 				GUILayout.Label ("Vertical snap:", settingsLabelLayout);
 				if (keyMapToUpdate == "vs" && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.VerticalSnap = _lastKeyPressed;

@@ -1132,6 +1132,12 @@ namespace EditorExtensionsRedux
                     HorizontalAlign(fineKeyDown);
                     return;
                 }
+                // B - Horizontally center vessel in editor
+                if (Input.GetKeyDown(cfg.KeyMap.HorizontalCenter))
+                {
+                    CenterAlign(fineKeyDown);
+                    return;
+                }
 
                 //Space - when no part is selected, reset camera
                 if (Input.GetKeyDown(cfg.KeyMap.ResetCamera) && !EditorLogic.SelectedPart)
@@ -1750,7 +1756,7 @@ namespace EditorExtensionsRedux
             throw new NotImplementedException();
         }
 
-        void CenterHorizontallyOnParent(Part p, bool otherHorizontal = false)
+        void CenterHorizontallyOnParent(Part p, bool otherHorizontal = false, float yDiff = 0)
         {
             if (partMovementContains(p))
                 return;
@@ -1765,16 +1771,34 @@ namespace EditorExtensionsRedux
 
             if (otherHorizontal)
             {
-                pm.endPos = new Vector3(0f, p.transform.localPosition.y, p.transform.localPosition.z);
+                pm.endPos = new Vector3(0f, p.transform.localPosition.y + yDiff, p.transform.localPosition.z);
                 //p.transform.localPosition = new Vector3(0f, p.transform.localPosition.y, p.transform.localPosition.z);
                 //p.attPos0.x = 0f;
             }
             else
             {
-                pm.endPos = new Vector3(p.transform.localPosition.x, p.transform.localPosition.y, 0f);
+                pm.endPos = new Vector3(p.transform.localPosition.x, p.transform.localPosition.y + yDiff, 0f);
                 //p.transform.localPosition = new Vector3(p.transform.localPosition.x, p.transform.localPosition.y, 0f);
                 //p.attPos0.z = 0f;
             }
+            partMovement.Add(pm);
+        }
+
+        void CenterHorizontallyOnPoint(Part p, float yDiff)
+        {
+            PartMovement pm = new PartMovement();
+            pm.p = p;
+            pm.local = true;
+            pm.startPos = p.transform.localPosition;
+            pm.time = timeToMovePM;
+            pm.startTime = Time.fixedTime;
+            pm.endtime = Time.fixedTime + pm.time;
+
+            
+            pm.endPos = new Vector3(0, p.transform.localPosition.y + yDiff, 0f);
+            //p.transform.localPosition = new Vector3(p.transform.localPosition.x, p.transform.localPosition.y, 0f);
+            //p.attPos0.z = 0f;
+
             partMovement.Add(pm);
         }
 
@@ -1890,6 +1914,26 @@ namespace EditorExtensionsRedux
                 Log.Error("Error trying to Horizontally align: " + ex.Message);
             }
             return;
+        }
+
+        void CenterAlign(bool otherHorizontal = false)
+        {
+            Part sp = EditorLogic.RootPart;
+            // first find lowest part, and calculate the diff between the Y and 15
+            var l = EditorLogic.FindPartsInChildren(sp);
+            float x = 9999;
+            foreach (var p in l)
+                x = Math.Min(x, p.transform.position.y);
+            float yDiff = 5 - x;
+
+            //move selected part
+            CenterHorizontallyOnPoint(sp, yDiff);
+
+            //move any symmetry siblings/counterparts
+            foreach (Part symPart in sp.symmetryCounterparts)
+            {
+                CenterHorizontallyOnParent(symPart, otherHorizontal, yDiff);
+            }
         }
 
         void AlignCompoundPart(CompoundPart part, bool snapHeights)

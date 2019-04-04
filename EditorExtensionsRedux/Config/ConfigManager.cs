@@ -80,19 +80,20 @@ namespace EditorExtensionsRedux
                     CycleSymmetryModeModIsToggle = true
 				};
 
-				KeyMaps defaultKeys = new KeyMaps () {
-					AttachmentMode = KeyCode.T,
-					PartClipping = KeyCode.Z,
-					ResetCamera = KeyCode.Space,
-					ZoomSelected = KeyCode.KeypadPeriod,
-					VerticalSnap = KeyCode.V,
-					HorizontalSnap = KeyCode.H,
-					CompoundPartAlign = KeyCode.U,
+                KeyMaps defaultKeys = new KeyMaps() {
+                    AttachmentMode = KeyCode.T,
+                    PartClipping = KeyCode.Z,
+                    ResetCamera = KeyCode.Space,
+                    ZoomSelected = KeyCode.KeypadPeriod,
+                    VerticalSnap = KeyCode.V,
+                    HorizontalSnap = KeyCode.H,
+                    HorizontalCenter = KeyCode.B,
+                    CompoundPartAlign = KeyCode.U,
                     ToggleReRoot = KeyCode.K,
                     ToggleNoOffsetLimit = KeyCode.L,
                     StartMasterSnap = KeyCode.LeftControl,
 
-					Up = KeyCode.UpArrow,
+                    Up = KeyCode.UpArrow,
 					Down = KeyCode.DownArrow,
 					Left = KeyCode.LeftArrow,
 					Right = KeyCode.RightArrow,

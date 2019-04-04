@@ -76,7 +76,10 @@ namespace EditorExtensionsRedux
 		[XmlElement ("PartClipping")]
 		public KeyCode PartClipping { get; set; }
 
-		[XmlElement ("VerticalSnap")]
+        [XmlElement("HorizontalCenter")]
+        public KeyCode HorizontalCenter { get; set; }
+
+        [XmlElement ("VerticalSnap")]
 		public KeyCode VerticalSnap { get; set; }
 
         [XmlElement("HorizontalSnap")]
@@ -91,12 +94,11 @@ namespace EditorExtensionsRedux
         [XmlElement("StartMasterSnap")]
         public KeyCode StartMasterSnap { get; set; }
 
+        [XmlElement("CompoundPartAlign")]
+        public KeyCode CompoundPartAlign { get; set; }
 
-        [XmlElement ("CompoundPartAlign")]
-		public KeyCode CompoundPartAlign { get; set; }
 
-
-		[XmlElement ("Up")]
+        [XmlElement ("Up")]
 		public KeyCode Up { get; set; }
 		[XmlElement ("Down")]
 		public KeyCode Down { get; set; }
