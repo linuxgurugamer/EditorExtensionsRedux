@@ -2,6 +2,10 @@
 ## Editor Extensions 
 ##
 ##
+3.3.21
+	Added entry to pop-up menu to reset the mode & snap keys
+	Updated AssemblyVersion.tt to be location independent
+
 3.3.20
 	Added new feature activated by default letter B:  Centers the vessel horizontally in the editor, and lowers it to 5m high
 
