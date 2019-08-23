@@ -501,10 +501,13 @@ namespace EditorExtensionsRedux
 			}
 
 			if (GUILayout.Button ("Defaults")) {
-				_config = ConfigManager.CreateDefaultConfig (_configFilePath, _version);				
+				_config = ConfigManager.CreateDefaultConfig (_configFilePath, "DefaultSnap", _version);				
 			}
-
-			if (GUILayout.Button ("Save")) {
+            if (GUILayout.Button("Stock"))
+            {
+                _config = ConfigManager.CreateDefaultConfig(_configFilePath, "StockSnap", _version);
+            }
+            if (GUILayout.Button ("Save")) {
 				ConfigManager.SaveConfig (_config, _configFilePath);
 				CloseWindow ();
 			}

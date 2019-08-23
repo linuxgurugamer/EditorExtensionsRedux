@@ -55,16 +55,37 @@ namespace EditorExtensionsRedux
 			}
 		}
 
+        static List<float> LoadDefaults( string filePath)
+        {
+            List<float> snapValues = new List<float>();
+            if (!System.IO.File.Exists(filePath))
+                return new List<float> { 0.0f, 1.0f, 5.0f, 15.0f, 22.5f, 30.0f, 45.0f, 60.0f, 90.0f };
+            ConfigNode fileNode = ConfigNode.Load(filePath);
+            ConfigNode dataNode = fileNode.GetNode("EEX");
+
+            var values = dataNode.GetValuesList("SnapValue");
+            foreach (var v in values)
+            {
+                try
+                {
+                    float f = float.Parse(v);
+                    snapValues.Add(f);
+                }
+                catch { }
+            }
+            return snapValues;
+        }
+
 		/// <summary>
 		/// Creates a new config file with defaults
 		/// will replace any existing file
 		/// </summary>
 		/// <returns>New config object with default settings</returns>
-		public static ConfigData CreateDefaultConfig (string configFilePath, string version)
-		{
-			try {
+		public static ConfigData CreateDefaultConfig (string configFilePath, string snapConfig, string version)
+		{            
+            try {
                 ConfigData defaultConfig = new ConfigData() {
-                    AngleSnapValues = new List<float> { 0.0f, 1.0f, 5.0f, 15.0f, 22.5f, 30.0f, 45.0f, 60.0f, 90.0f },
+                    AngleSnapValues = LoadDefaults(KSPUtil.ApplicationRootPath + "GameData/EditorExtensionsRedux/PluginData/" + snapConfig + ".cfg"),
                     MaxSymmetry = 20,
                     // Rapidzoom by Fwiffo 
                     RapidZoom = true,

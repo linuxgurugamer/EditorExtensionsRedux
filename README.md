@@ -2,6 +2,11 @@
 ## Editor Extensions 
 ##
 ##
+3.3.22
+	Added default config files for the angle snaps.  
+	Added new button to select the stock angle snap defaults
+	Added InstallChecker
+
 3.3.21
 	Added entry to pop-up menu to reset the mode & snap keys
 	Updated AssemblyVersion.tt to be location independent
