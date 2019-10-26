@@ -16,6 +16,27 @@ using UnityEngine;
 
 namespace EditorExtensionsRedux
 {
+    [KSPAddon(KSPAddon.Startup.Instantly, true)]
+    internal class Startup : MonoBehaviour
+    {
+        private void Start()
+        {
+            string v = "n/a";
+            AssemblyTitleAttribute attributes = (AssemblyTitleAttribute)Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(AssemblyTitleAttribute), false);
+            string title = attributes?.Title;
+            if (title == null)
+            {
+                title = "TitleNotAvailable";
+            }
+            v = Assembly.GetExecutingAssembly().FullName;
+            if (v == null)
+            {
+                v = "VersionNotAvailable";
+            }
+            Debug.Log("[" + title + "] Version " + v);
+        }
+    }
+
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
     internal class InstallChecker : MonoBehaviour
     {

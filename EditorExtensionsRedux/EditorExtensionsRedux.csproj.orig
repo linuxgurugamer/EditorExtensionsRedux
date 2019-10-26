@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{00BCEB91-0000-0000-0000-000000000000}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>EditorExtensionsRedux</RootNamespace>
+    <AssemblyName>EditorExtensionsRedux</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ReleaseVersion>2.0</ReleaseVersion>
+    <AssemblyInfoFilePath>Properties\AssemblyInfo.cs</AssemblyInfoFilePath>
+    <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+    <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+    <AssemblyVersionSettings>
+    </AssemblyVersionSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="AfterBuild" command="deploy.bat" externalConsole="True" pauseExternalConsole="True" />
+        <Command type="AfterBuild" command="buildRelease.bat" externalConsole="True" pauseExternalConsole="True" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="AfterBuild" command="deploy.bat" externalConsole="True" pauseExternalConsole="True" />
+      </CustomCommands>
+    </CustomCommands>
+    <ConsolePause>false</ConsolePause>
+    <ErrorReport>prompt</ErrorReport>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyVersion.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyVersion.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InstallChecker.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EditorExtensionsRedux.cs" />
+    <Compile Include="Logging.cs" />
+    <Compile Include="SettingsWindow.cs" />
+    <Compile Include="AppLauncherButton.cs" />
+    <Compile Include="DebugAutoLoadSave.cs" />
+    <Compile Include="Config\ConfigData.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="PartInfoWindow.cs" />
+    <Compile Include="ShowAngleSnaps.cs" />
+    <Compile Include="Utility.cs" />
+    <Compile Include="GUIWindow.cs" />
+    <Compile Include="StrutWindow.cs" />
+    <Compile Include="CompoundPartUtil.cs" />
+    <Compile Include="LineDrawer.cs" />
+    <Compile Include="SelectRoot2Behaviour.cs" />
+    <Compile Include="StripSymmetry\Enums.cs" />
+    <Compile Include="StripSymmetry\ExtensionMethods.cs" />
+    <Compile Include="StripSymmetry\Hotkey.cs" />
+    <Compile Include="StripSymmetry\OSD.cs" />
+    <Compile Include="StripSymmetry\StripSymmetry.cs" />
+    <Compile Include="StripSymmetry\Tools.cs" />
+    <Compile Include="StripSymmetry\Tuple.cs" />
+    <Compile Include="NoOffsetLimits\NoOffsetLimitsBehaviour.cs" />
+    <Compile Include="FineAdjustWindow.cs" />
+    <Compile Include="GizmoEvents.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Content Include="AssemblyVersion.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
+    </Content>
+    <Content Include="License.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\AppLauncherIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\AppLauncherIcon-On.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\AppLauncherIcon-Off.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\DefaultKeys.txt" />
+    <None Include="Textures\AppLauncherIcon.pdn" />
+    <None Include="StripSymmetry\Gamedata\StripSymmetry\plugins\PluginData\StripSymmetry\config.xml" />
+    <None Include="NoOffsetLimits\License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>R:\KSP_1.7.3_dev\KSP_x64_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>R:\KSP_1.7.3_dev\KSP_x64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-UnityScript-firstpass">
+      <HintPath>R:\KSP_1.7.3_dev\KSP_x64_Data\Managed\Assembly-UnityScript-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="ClickThroughBlocker">
+      <HintPath>R:\KSP_1.7.3_dev\GameData\000_ClickThroughBlocker\Plugins\ClickThroughBlocker.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>R:\KSP_1.7.3_dev\KSP_x64_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>R:\KSP_1.7.3_dev\KSP_x64_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+start /D D:\Users\jbb\github\EditorExtensionsRedux /WAIT deploy.bat  $(TargetDir) $(TargetFileName)
+
+
+
+if $(ConfigurationName) == Release (
+
+
+	start /D D:\Users\jbb\github\EditorExtensionsRedux /WAIT buildRelease.bat $(TargetDir) $(TargetFileName)
+
+
+)
+</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+set textTemplatingPath="%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Community\Common7\IDE \texttransform.exe"
+
+
+
+%25textTemplatingPath%25 "$(ProjectDir)AssemblyVersion.tt"</PreBuildEvent>
+  </PropertyGroup>
+</Project>

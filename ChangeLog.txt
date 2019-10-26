@@ -1,0 +1,217 @@
+ChangeLog
+
+
+3.4.0
+	Updated for KSP 1.8
+	Moved changelog into separate file
+
+3.3.22
+	Added default config files for the angle snaps.  
+	Added new button to select the stock angle snap defaults
+	Added InstallChecker
+
+3.3.21
+	Added entry to pop-up menu to reset the mode & snap keys
+	Updated AssemblyVersion.tt to be location independent
+
+3.3.20
+	Added new feature activated by default letter B:  Centers the vessel horizontally in the editor, and lowers it to 5m high
+
+3.3.19.10
+	Fixed issue when detaching a moving part in the editor (while it's snapping)
+	Updated version info
+
+3.3.19.9
+	Fix flickering in editor when moving mouse over angle snap window
+
+3.3.19.8
+	Version bump for 1.5 rebuild
+
+3.3.19.7
+	Removed unnecessary line from AssemblyVersion.tt:  <#@ assembly name="EnvDTE" #>
+	From @lisias:
+		Amending 4x4cheessecake fixe for the Mass AutoStrut problem. This allows to "recover" a mangled vessel.
+
+3.3.19.6
+	Thanks to 4x4cheesecake for these fixes:
+		Added an additional logical operator to prevent autostruts beeing applied to parts which don't allow them.
+		Fixed a visual issue regarding the 'Fine Adjustment' window. It's no longer flickering when dragging it around.
+
+3.3.19.5
+	Added button to Settings page 2 to "Reset Symmetry Mode & Angle Snap keys"
+	
+3.3.19.4
+	Added some extra checking to be sure all needed Reflection values have been found
+
+3.3.19.3
+	Added code to dynamically assign Reflection offsets.  Hopefully this will eliminate the need to do manual changes in the future
+	Updated version to allow all 1.4.*
+	 
+3.3.19.2
+	Fixed fuzzy button 
+
+3.3.19.1
+	Fixed issue when displaying autostruts, most got reset to Heaviest
+	Fixed issue when setting AS to grandparent, was setting to Heaviest
+
+3.3.19
+	Updated obsolete Linerenderer calls
+	Fixed NoOffsetLimit code to NOT activate when a compound part is being moved with the offset gizmo
+
+3.3.18
+	Changed resize of settings window from just before ClickThroughBlocker.GUILayoutWindow to after to toolbar, to avoid confusing the ClickThroughBlocker
+
+3.3.17
+	Updated for 1.4.1
+	Added ClickThroughBlocker as a  hard dependency
+
+3.3.16
+	Removed compound part check, was not working
+	Hotkeys no longer trigger while text input field has focus
+
+## Changes in 3.3.15
+	Added check for compound part in NoOffsetLimits, will not work on compound parts
+
+## Changes in 3.3.14
+	Updated for KSP 1.3.1
+
+## Changes in 3.3.13
+	
+
+## Changes in 3.3.12
+	Fixed issue where changing the Reroot setting in the settings window wasn't toggling the internal reroot flag
+	Changed SelectRoot code from being a separate MonoBehaviour to being a part of the EditorExtensions class
+	Updated buildRelease to use local GameData directory for release
+
+## Changes in 3.3.11
+	Fixed positioning of menu in Editor (it was too low)
+
+## Changes in 3.3.10.1
+	updated versioning for 1.2.2
+
+## Changes in 3.3.10	
+	Fixed null ref when F is pressed and no part is selected
+
+## Changes in 3.3.9
+	Fixed (the right way) the no offset tool for local/absolute offsets
+
+## changes in 3.3.8
+	Fixed issue where NoOffsetLimits was not working upon entry into editor
+	Added ability to disable Fine Adjust window
+	Added window showing angle snaps, clickin on button will set that value
+
+## Change in 3.3.7
+	Added code to toggle no offset limit to settings window
+	Fixed code for toggling the no offset Limit
+	Added automatic updating of AssemblyVersion, from the .version file, displayed in the Settings window
+	Removed extra set of configs for the Reflection offsets
+	Fixed bug with local offset vs absolute offset;  Code was not using the local setting, was always using the absolute setting
+
+## Change in 3.3.6
+	Fixed  menu Show Tweakables, for when Advanced tweakables is enabled, to show at the right height
+	Fixed resizing of menu
+
+## Change in 3.3.5
+	Added AnglesnapModIsToggle, if enabled, hitting the Mod-C (for Windows,ALT-C) will switch between 1 and the last setting
+	Added CycleSymmetryModeModIsToggle , if enabled, hitting the Mod-X (for Windows, ALT-X) will switch between 1 and the last setting
+	Reordered the settings windows, now all keystroke settings are on the Settings 2 window
+	Commented out old code blocks:  SymmetryModeCycle & AngleSnapCycle, which were replaced by Boop's code in Update()
+	Updated for 1.2.1
+	Fixed menu height to adjust depending on whether mass tweakables is on or off - Menu 
+		needs to be redisplayed by moving the mouse over the toolbar for height to be adjusted, only applies when Advanced
+		Tweakables is off
+
+## Change in 3.3.4
+	Changed "No Show Autostruts" to "Hide Autostruts" text on buttons
+	MasterSnap now can be turned off by clicking anywhere not on a part.  Previously, had to click on another part
+
+## Changes in 3.3.3
+	Added Autostrut and Rigidity buttons, thanks @Boop:
+		All Rigid
+		Disable Rigid
+		Toggle Rigid
+		No Autostruts
+		AS Grandparent
+		AS Heaviest
+		AS Root
+		Show Autostruts
+	Added No Offset Limit Toggle
+
+## Changes in 3.3.2
+	Added ability to disable the SelectRoot functionality, so you can use the stock SelectRoot to change the root on a shadow assembly
+	Added Master Snap mode. This allows you to snap parts to any random part, not just the parent. This works for both horizontal and vertical snapping. The part selected as the master will be highlighted
+	Snapping is shown visually via a smooth movement of the part from the original location to the destination
+
+## Changes in 3.3.1
+	Fixed bug with no offset limit preventing swap between local and absolute coordinates
+
+## Changes in 3.3.0
+	Added ability to disable internal reroot, so that you can use the stock reroot to reroot shadow part assemblies
+  
+## Changes in 3.2.15
+	Boop's changes for more robust symmetry and angle snap cycling (thanks Boop and Fwiffo).
+    
+## Changes in 3.2.14
+	Updated values for KSP 1.1.3
+	center horizontally on z-axis with shift+H. (thanks OliverPA77)
+
+## Changes in 3.2.13
+	Fixed Fine Adjustments window (inability to close it or change the values)
+	Now saves both angle snap value and whether it was on/off after exiting editor session
+	Fixed issue with fine adjust translation wouldn't work if snap was on
+
+## Changes in 3.2.12
+	Fixed rotation gizmo to not angle snap when anglesnap is off
+	Replaced code which did FindObjectsOftype with GizmoEvents class for performance improvement
+	Updated FineAdjustments window to detect which gizmo is active
+
+## Changes in 3.2.11
+	Added 1/4 second delay in hiding menu
+
+## Changes in 3.2.10
+	Added UI scaling code to position of EEX menu
+	Fixed accidently disabling the ability to change the anglesnap on/off by clicking the sprite
+
+## Changes in 3.2.9
+	Removed old code from the FineAdjust Update function which was causing an exception
+	Reduced height of popup menu
+	Fixed bug where clicking on the symmetry sprite (the one which changes the angle snap degrees) when the angle was zero
+	would not allow surface attachments to anything other than the +z axis:
+		"I can place the battery only on the +z axis of the structure.  I cannot place it on -z, +x, -x"
+	Removed performance issue when Fine Adjustments window was shown
+	Reduced performance impact when fine adjustments are being done
+
+## Changes in 3.2.8
+	Added code from Fwiffo to fix bug where changing the angle snap while in rotate mode would not affect the rotate gizmo
+	Added code from Fwiffo for Rapid Zoom
+	Note:  Code from Fwiffo was modified to use the Reflection offsets rather than names to maintain compatibility with Linux & OSX
+	Fixed bug where going into the rotate gizmo the first time without changing the snap would have a rotation snap of 15 when it should have been zero
+
+	NEW FEATURE:  Fine Adjust
+	Fine Adjust window added
+	New config window for fine adjust keys
+	When Fine Adjust window is open, keys will do fine adjustments depending on which gizmo is selected:
+		Default keys:	arrow keys + rightShift & rightControl
+
+## Changes in 3.2.7
+	Added code so that typing in text fields will be ignored by mod
+
+## Changes in 3.2.6
+	Added compatility for 1.1.2
+
+## Changes in 3.2.5
+	Added back 1.1.0 compatiblity
+	Added check for compatibility with specific KSP versions, currently 1.1.0 & 1.1.1
+
+## Changes in 3.2.4
+	Fixed offsets to eliminate nullrefs
+
+## Changes in 3.2.3
+	Updated for 1.1.1
+
+## Changes in 3.2.2
+
+Includes submods:
+	Strip Symmetry
+	No Offset Limits
+	SelectRoot2Behaviour
