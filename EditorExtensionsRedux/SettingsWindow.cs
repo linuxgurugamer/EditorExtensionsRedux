@@ -32,12 +32,12 @@ namespace EditorExtensionsRedux
 		//ctor
 		public SettingsWindow ()
 		{
-			//start disabled
-			this.enabled = false;
 		}
 
 		void Awake ()
 		{
+			//start disabled
+			this.enabled = false;
 			Log.Debug ("SettingsWindow Awake()");
 		}
 

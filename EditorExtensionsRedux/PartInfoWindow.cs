@@ -32,13 +32,14 @@ namespace EditorExtensionsRedux
 		//ctor
 		public PartInfoWindow ()
 		{
-			//start disabled
-			this.enabled = false;
+
 		}
-		#if false
 		void Awake ()
 		{
-		}
+			//start disabled
+			this.enabled = false;
+        }
+		#if false
 
 		void Update ()
 		{

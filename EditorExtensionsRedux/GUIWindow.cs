@@ -29,12 +29,12 @@ namespace EditorExtensionsRedux
 		//ctor
 		public GUIWindow ()
 		{
-			//start disabled
-			this.enabled = false;
 		}
 
 		internal virtual void Awake ()
 		{
+			//start disabled
+			this.enabled = false;
 		}
 
 		internal virtual void Update ()
