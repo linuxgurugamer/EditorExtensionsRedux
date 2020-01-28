@@ -1,5 +1,8 @@
 ChangeLog
 
+3.4.1
+	Added stock settings page to specify height of vessel when using the CenterAdjust mode ('b'), one entry for vab and one for sph
+
 3.4.0.3
 	Removed LineDrawer.cs since it was unused.  Untested
 	Moved "enabled = false" from cctor to Awake methods()

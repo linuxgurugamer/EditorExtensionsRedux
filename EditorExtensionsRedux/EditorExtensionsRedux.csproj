@@ -65,6 +65,7 @@
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="PartInfoWindow.cs" />
     <Compile Include="ShowAngleSnaps.cs" />
+    <Compile Include="StockSettings.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="GUIWindow.cs" />
     <Compile Include="StrutWindow.cs" />

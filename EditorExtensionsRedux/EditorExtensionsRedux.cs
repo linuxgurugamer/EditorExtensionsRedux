@@ -1924,7 +1924,9 @@ namespace EditorExtensionsRedux
             float x = 9999;
             foreach (var p in l)
                 x = Math.Min(x, p.transform.position.y);
-            float yDiff = 5 - x;
+            float height = (EditorDriver.editorFacility == EditorFacility.VAB) ?
+                HighLogic.CurrentGame.Parameters.CustomParams<EEX>().vabHeight : HighLogic.CurrentGame.Parameters.CustomParams<EEX>().sphHeight;
+            float yDiff = height - x;
 
             //move selected part
             CenterHorizontallyOnPoint(sp, yDiff);
