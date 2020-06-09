@@ -1,5 +1,8 @@
 ChangeLog
 
+3.4.1.1
+	Fixed typo in stock settings page
+
 3.4.1
 	Added stock settings page to specify height of vessel when using the CenterAdjust mode ('b'), one entry for vab and one for sph
 

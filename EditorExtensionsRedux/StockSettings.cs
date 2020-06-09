@@ -23,7 +23,7 @@ namespace EditorExtensionsRedux
         public float vabHeight = 5f;
 
         [GameParameters.CustomFloatParameterUI("Height of bottom of vessel in SPH", minValue = 0, maxValue = 20, stepCount = 101, displayFormat = "F4",
-            toolTip = "In the VAB, height bottom of vessel is moved to when using the 'b' function to adjust the position")]
+            toolTip = "In the SPH, height bottom of vessel is moved to when using the 'b' function to adjust the position")]
         public float sphHeight = 5f;
 
   
