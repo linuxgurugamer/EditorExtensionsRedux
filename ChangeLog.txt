@@ -1,5 +1,8 @@
 ChangeLog
 
+3.4.2
+	Fixed fine adjust to dynamically get gizmo offsets.  This fixes the broken FineAdjust in 1.11 and is compatible with 1.10
+
 3.4.1.1
 	Fixed typo in stock settings page
 

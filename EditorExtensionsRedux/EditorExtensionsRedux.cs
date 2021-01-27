@@ -85,6 +85,7 @@ namespace EditorExtensionsRedux
 
         public bool Init()
         {
+#if false
             if (Versioning.version_major == 1 && Versioning.version_minor == 1 && Versioning.Revision == 0 /*&& Versioning.BuildID == 1024 */)
             {
                 // SelectRoot
@@ -321,6 +322,7 @@ namespace EditorExtensionsRedux
 
                 return true;
             }
+#endif
 #if false
             if (Versioning.version_major == 1 && Versioning.version_minor == 4 && Versioning.Revision == 1)
             {
@@ -392,6 +394,7 @@ namespace EditorExtensionsRedux
                 int c = 0;
                 foreach (FieldInfo FI in el.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
                 {
+                    Log.Info("FI.Name: " + FI.Name);
                     switch (FI.Name)
                     {
                         case "selectedPart":
@@ -422,9 +425,10 @@ namespace EditorExtensionsRedux
                 if (leMethods != null)
                 {
                     c = 0;
-                    foreach (MethodInfo FI in leMethods)
+                    foreach (MethodInfo MI in leMethods)
                     {
-                        switch (FI.Name)
+                        Log.Info("MI.Name: " + MI.Name);
+                        switch (MI.Name)
                         {
                             case "UpdateSymmetry":
                                 UPDATESYMMETRY = c; break;
@@ -466,6 +470,9 @@ namespace EditorExtensionsRedux
                         c++;
                     }
                 }
+
+
+
                 if (SELECTEDPART == -1 ||
                     ST_ROOT_SELECT == -1 ||
                     ST_ROOT_UNSELECTED == -1 ||
@@ -493,6 +500,74 @@ namespace EditorExtensionsRedux
         }
     }
 
+    public class GIZMOS
+    {
+        public static bool offsetInitted = false, rotateInitted = false;
+        public GIZMOS(Constants c, bool doRotate = false, bool doOffset = false)
+
+        {
+            if (doRotate && !rotateInitted)
+            {
+#if false
+                var gizmosRotate = HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate>();
+                if (gizmosRotate.Length == 0)
+                {
+                    Log.Error("gizmosRotate.Length is 0");
+                    return;
+                }
+#endif
+                rotateInitted = true;
+                //var gizmoRotate = gizmosRotate[0];
+
+                MethodInfo[] egMethods = typeof(EditorGizmos.GizmoRotate).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                Log.Info("egMethods.length: " + egMethods.Length);
+                for (int cnt = 0; cnt < egMethods.Length; cnt++)
+                {
+                    switch (egMethods[cnt].Name)
+                    {
+                        case "OnHandleRotateStart":
+                            c.GIZMOROTATE_ONHANDLEROTATESTART = cnt;
+                            break;
+                        case "OnHandleRotate":
+                            c.GIZMOROTATE_ONHANDLEROTATE = cnt ;
+                            break;
+                        case "OnHandleRotateEnd":
+                            c.GIZMOROTATE_ONHANDLEROTATEEND = cnt;
+                            break;
+                    }
+                }
+                Log.Info("GIZMOROTATE_ONHANDLEROTATESTART: " + c.GIZMOROTATE_ONHANDLEROTATESTART +
+                    ", GIZMOROTATE_ONHANDLEROTATE: " + c.GIZMOROTATE_ONHANDLEROTATE +
+                    ", GIZMOROTATE_ONHANDLEROTATEEND: " + c.GIZMOROTATE_ONHANDLEROTATEEND);
+            }
+            if (doOffset && !offsetInitted)
+            {
+                MethodInfo[] egMethods = typeof(EditorGizmos.GizmoOffset).GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                offsetInitted = true;
+                for (int cnt = 0; cnt < egMethods.Length; cnt++)
+                {
+                    switch (egMethods[cnt].Name)
+                    {
+                        case "OnHandleMoveStart":
+                            c.GIZMOOFFSET_ONHANDLEMOVESTART = cnt;
+                            break;
+                        case "OnHandleMove":
+                            c.GIZMOOFFSET_ONHANDLEMOVE = cnt ;
+                            break;
+                        case "OnHandleMoveEnd":
+                            c.GIZMOOFFSET_ONHANDLEMOVEEND = cnt ;
+                            break;
+                    }
+                }
+                Log.Info("GIZMOOFFSET_ONHANDLEMOVESTART: " + c.GIZMOOFFSET_ONHANDLEMOVESTART +
+                    ", GIZMOOFFSET_ONHANDLEMOVE: " + c.GIZMOOFFSET_ONHANDLEMOVE +
+                    ", GIZMOOFFSET_ONHANDLEMOVEEND: " + c.GIZMOOFFSET_ONHANDLEMOVEEND);
+            }
+        }
+    }
+
     [KSPAddon(KSPAddon.Startup.EditorAny, false)]
     public partial class EditorExtensions : MonoBehaviour
     {
@@ -508,7 +583,7 @@ namespace EditorExtensionsRedux
 
         public NoOffsetBehaviour.FreeOffsetBehaviour fob;
 
-        #region member vars
+#region member vars
 
 
 
@@ -550,7 +625,7 @@ namespace EditorExtensionsRedux
         static int preResetSymmetryMode = 0;
 
         static bool last_VAB_USE_ANGLE_SNAP = true;
-        #endregion
+#endregion
 
         //	public EditorExtensions (){}
 
@@ -1279,11 +1354,15 @@ namespace EditorExtensionsRedux
 #if true
                 if (_fineAdjustWindow.isEnabled())
                 {
+
                     Vector3 axis;
                     //					var gizmosOffset = HighLogic.FindObjectsOfType<EditorGizmos.GizmoOffset> ();
                     //					if (gizmosOffset.Length > 0) {
                     if (GizmoEvents.offsetGizmoActive)
                     {
+
+                        new GIZMOS(c, false, true);
+
                         GizmoEvents.gizmoRotateHandle = null;
                         GizmoEvents.rotateGizmoActive = false;
                         if (EditorLogic.SelectedPart != null)
@@ -1384,8 +1463,11 @@ namespace EditorExtensionsRedux
                             GizmoEvents.offsetGizmoActive = false;
                         }
                     }
-                    else
+
+                    if (GizmoEvents.rotateGizmoActive)
                     {
+                        new GIZMOS(c, true, false);
+
                         GizmoEvents.gizmoOffsetHandle = null;
                         GizmoEvents.offsetGizmoActive = false;
                         //						var gizmosRotate = HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ();
@@ -1405,6 +1487,7 @@ namespace EditorExtensionsRedux
                                         axis = Vector3.forward;
                                     else
                                         axis = Vector3.left;
+
                                     Refl.Invoke(GizmoEvents.gizmosRotate[0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATESTART, GizmoEvents.gizmoRotateHandle, axis);
                                     Refl.Invoke(GizmoEvents.gizmosRotate[0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATE, GizmoEvents.gizmoRotateHandle, axis, rotation);
                                     Refl.Invoke(GizmoEvents.gizmosRotate[0], EditorExtensions.c.GIZMOROTATE_ONHANDLEROTATEEND, GizmoEvents.gizmoRotateHandle, axis, 0.0f);
@@ -1509,7 +1592,7 @@ namespace EditorExtensionsRedux
             return false;
         }
 
-        #region Alignments
+#region Alignments
 
         void AlignToTopOfParent(Part p)
         {
@@ -1594,7 +1677,7 @@ namespace EditorExtensionsRedux
         {
             List<PartMovement> pmToDel = null;
 
-            for (int i = partMovement.Count - 1; i >= 0; i--)            
+            for (int i = partMovement.Count - 1; i >= 0; i--)
             {
                 PartMovement pm = partMovement[i];
                 try
@@ -1617,7 +1700,8 @@ namespace EditorExtensionsRedux
                             pmToDel = new List<PartMovement>();
                         pmToDel.Add(pm);
                     }
-                } catch
+                }
+                catch
                 {
                     partMovement.Remove(pm);
                 }
@@ -1794,7 +1878,7 @@ namespace EditorExtensionsRedux
             pm.startTime = Time.fixedTime;
             pm.endtime = Time.fixedTime + pm.time;
 
-            
+
             pm.endPos = new Vector3(0, p.transform.localPosition.y + yDiff, 0f);
             //p.transform.localPosition = new Vector3(p.transform.localPosition.x, p.transform.localPosition.y, 0f);
             //p.attPos0.z = 0f;
@@ -1954,9 +2038,9 @@ namespace EditorExtensionsRedux
             }
         }
 
-        #endregion
+#endregion
 
-        #region Editor Actions
+#region Editor Actions
 
         void AddUndo()
         {
@@ -2237,9 +2321,9 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
 
-        #endregion
+#endregion
 
-        #region GUI
+#region GUI
 
         //private Rect _settingsWindowRect;
         GUIStyle osdLabelStyle, symmetryLabelStyle;
@@ -2559,15 +2643,15 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                     foreach (Part p in parts)
                     {
                         if (!doNotMessWithAutoStrutModes.Contains(p.autoStrutMode)) try
-                        {
-                            p.autoStrutMode = Part.AutoStrutMode.Grandparent;
-                            p.ToggleAutoStrut();
-                        }
-                        catch(Exception e)
-                        {
-                            p.autoStrutMode = Part.AutoStrutMode.Off;
-                            Debug.LogException(e);
-                        }
+                            {
+                                p.autoStrutMode = Part.AutoStrutMode.Grandparent;
+                                p.ToggleAutoStrut();
+                            }
+                            catch (Exception e)
+                            {
+                                p.autoStrutMode = Part.AutoStrutMode.Off;
+                                Debug.LogException(e);
+                            }
                     }
                     OSDMessage("Autostruts turned OFF for all current Parts in Vessel (except forced).");
                 }
@@ -2690,7 +2774,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             ScreenMessages.PostScreenMessage(message, cfg.OnScreenMessageTime, ScreenMessageStyle.LOWER_CENTER);
         }
 
-        #region Snap labels
+#region Snap labels
 
         const int FONTSIZE = 14;
 
@@ -2888,8 +2972,8 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
     }
 }
