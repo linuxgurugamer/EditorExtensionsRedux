@@ -1,5 +1,11 @@
 ChangeLog
 
+3.4.3
+	Added code from Rememberer mod at mod author @Krazy1 request,  remembers the last sort setting for the Editor part list.
+		Original thread: https://forum.kerbalspaceprogram.com/index.php?/topic/203114-rememberer/&tab=comments#comment-3991624
+	Minor optimization of Rememberer initialization code
+	Rememberer is automatically disabled if PRUNE is found
+
 3.4.2
 	Fixed fine adjust to dynamically get gizmo offsets.  This fixes the broken FineAdjust in 1.11 and is compatible with 1.10
 

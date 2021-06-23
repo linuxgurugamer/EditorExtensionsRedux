@@ -59,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EditorExtensionsRedux.cs" />
     <Compile Include="Logging.cs" />
+    <Compile Include="Rememberer\Rememberer.cs" />
     <Compile Include="SettingsWindow.cs" />
     <Compile Include="AppLauncherButton.cs" />
     <Compile Include="DebugAutoLoadSave.cs" />
@@ -125,6 +126,7 @@
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <PostBuildEvent>
 set KSPDIR=$(KSPDIR)
