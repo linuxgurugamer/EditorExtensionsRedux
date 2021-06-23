@@ -8,7 +8,7 @@ rem VERSIONFILE is the name of the version file, usually the same as GAMEDATA,
 rem    but not always
 
 set H=%KSPDIR%
-rem set H=%KSPDIR_1110%
+
 set GAMEDIR=EditorExtensionsRedux
 set GAMEDATA="GameData"
 set VERSIONFILE=%GAMEDIR%.version

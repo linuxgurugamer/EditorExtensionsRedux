@@ -20,7 +20,7 @@ namespace Rememberer
             sortAsc = asc;
         }
 
-        const string FILE = "GameData/EditorExtensionsRedux/RememEditor.cfg";
+        const string FILE = "GameData/EditorExtensionsRedux/PluginData/RememEditor.cfg";
         const string SORTASC_NAME = "partListSortAsc";
         const string SORTINDEX_NAME = "partListSortIndex";
 
@@ -30,7 +30,6 @@ namespace Rememberer
             {
                 if (modIdent == a.name)
                     return true;
-
             }
             return false;
         }
@@ -45,16 +44,19 @@ namespace Rememberer
             {
                 if (hasMod("PRUNE"))
                 {
+                    EditorExtensionsRedux.Log.Info("Rememberer.Start, PRUNE found");
+
                     disabled = true;
                     return;
                 }
-                EditorExtensionsRedux.Log.Info("RememEditor - Start");
 
                 // Imports initial sort settings from config file into a default "root" Config Node
                 nodeFile = ConfigNode.Load(KSPUtil.ApplicationRootPath + FILE);
-                sortAsc = Convert.ToBoolean(nodeFile.GetValue(SORTASC_NAME));  // true: ascending, false: descending
-                sortIndex = Convert.ToInt32(nodeFile.GetValue(SORTINDEX_NAME));  // 0: mame, 1: mass, 2: cost, 3: size
-
+                if (nodeFile != null)
+                {
+                    sortAsc = Convert.ToBoolean(nodeFile.GetValue(SORTASC_NAME));  // true: ascending, false: descending
+                    sortIndex = Convert.ToInt32(nodeFile.GetValue(SORTINDEX_NAME));  // 0: mame, 1: mass, 2: cost, 3: size
+                }
                 // set initial sort method
                 EditorPartList.Instance.partListSorter.ClickButton(sortIndex);
                 if (!sortAsc)
@@ -68,13 +70,12 @@ namespace Rememberer
 
         public void OnDisable()
         {
-            if (nodeFile == null)
-                return;
+            nodeFile = new ConfigNode();
 
-            EditorExtensionsRedux.Log.Info("RememEditor - Disable");
-            nodeFile.SetValue(SORTASC_NAME, sortAsc.ToString());
-            nodeFile.SetValue(SORTINDEX_NAME, sortIndex.ToString());
+            nodeFile.SetValue(SORTASC_NAME, sortAsc.ToString(), true);
+            nodeFile.SetValue(SORTINDEX_NAME, sortIndex.ToString(), true);
             nodeFile.Save(KSPUtil.ApplicationRootPath + FILE);
+
             //EditorPartList is already disabled when OnDisable is called so remove callback gives NRE
             //EditorPartList.Instance.partListSorter.RemoveOnSortCallback(SortCB);
         }

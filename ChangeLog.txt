@@ -1,5 +1,8 @@
 ChangeLog
 
+3.4.3.1
+	Fixed saving and loading of Rememberer cfg file
+
 3.4.3
 	Added code from Rememberer mod at mod author @Krazy1 request,  remembers the last sort setting for the Editor part list.
 		Original thread: https://forum.kerbalspaceprogram.com/index.php?/topic/203114-rememberer/&tab=comments#comment-3991624
