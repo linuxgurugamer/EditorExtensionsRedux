@@ -57,13 +57,13 @@ namespace Rememberer
                     sortAsc = Convert.ToBoolean(nodeFile.GetValue(SORTASC_NAME));  // true: ascending, false: descending
                     sortIndex = Convert.ToInt32(nodeFile.GetValue(SORTINDEX_NAME));  // 0: mame, 1: mass, 2: cost, 3: size
                 }
+            }
                 // set initial sort method
                 EditorPartList.Instance.partListSorter.ClickButton(sortIndex);
                 if (!sortAsc)
                 {
                     EditorPartList.Instance.partListSorter.ClickButton(sortIndex);
                 }
-            }
             //Track the user's sort changes
             EditorPartList.Instance.partListSorter.AddOnSortCallback(SortCB);
         }

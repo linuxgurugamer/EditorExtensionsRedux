@@ -1,5 +1,8 @@
 ChangeLog
 
+3.4.3.2
+	Fixed setting of Rememberer settings when entering the editor a second (and further) times
+
 3.4.3.1
 	Fixed saving and loading of Rememberer cfg file
 
