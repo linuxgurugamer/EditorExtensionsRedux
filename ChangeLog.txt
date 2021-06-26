@@ -1,5 +1,8 @@
 ChangeLog
 
+3.4.3.3
+	Updated .version file for min version of KSP to 1.11.1
+
 3.4.3.2
 	Fixed setting of Rememberer settings when entering the editor a second (and further) times
 
