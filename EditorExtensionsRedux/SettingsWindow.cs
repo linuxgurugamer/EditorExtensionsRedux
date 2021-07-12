@@ -259,7 +259,7 @@ namespace EditorExtensionsRedux
                 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Horizontal Center in Editor:", settingsLabelLayout);
-                if (keyMapToUpdate == "vs" && _lastKeyPressed != KeyCode.None)
+                if (keyMapToUpdate == "hc" && _lastKeyPressed != KeyCode.None)
                 {
                     _config.KeyMap.HorizontalCenter = _lastKeyPressed;
                     keyMapToUpdate = string.Empty;
@@ -267,7 +267,7 @@ namespace EditorExtensionsRedux
                 if (GUILayout.Button(_config.KeyMap.HorizontalCenter.ToString()))
                 {
                     _lastKeyPressed = KeyCode.None;
-                    keyMapToUpdate = "vs";
+                    keyMapToUpdate = "hc";
                 }
                 GUILayout.EndHorizontal();
 

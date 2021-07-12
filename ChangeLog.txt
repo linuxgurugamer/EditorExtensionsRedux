@@ -1,5 +1,9 @@
 ChangeLog
 
+3.4.3.4
+	Fixed update of Vertical Snap keycode
+	Added AssemblyFileVersion
+
 3.4.3.3
 	Updated .version file for min version of KSP to 1.11.1
 
