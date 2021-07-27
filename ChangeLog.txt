@@ -1,5 +1,10 @@
 ChangeLog
 
+3.4.3.5
+	Added AssemblyFileVersion
+	Updated version file for 1.12
+	Removed some whitespace (formatting issues in code only)
+
 3.4.3.4
 	Fixed update of Vertical Snap keycode
 	Added AssemblyFileVersion
