@@ -1,5 +1,9 @@
 ChangeLog
 
+3.4.3.6
+	Thanks to forum user @ozraven for this:
+		Fixed a null ref which occurred when clicking in a debug window
+
 3.4.3.5
 	Added AssemblyFileVersion
 	Updated version file for 1.12

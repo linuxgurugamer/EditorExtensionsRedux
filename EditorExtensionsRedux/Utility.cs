@@ -14,7 +14,7 @@ namespace EditorExtensionsRedux
             EditorLogic ed = EditorLogic.fetch;
             if (ed != null && Physics.Raycast(ray, out hit))
             {
-                return ed.ship.Parts.Find(p => p.gameObject == hit.transform.gameObject);
+                return ed.ship.Parts.Find(p => p != null && p.gameObject == hit.transform.gameObject);
             }
             return null;
         }

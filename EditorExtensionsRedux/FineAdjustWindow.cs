@@ -82,7 +82,7 @@ namespace EditorExtensionsRedux
 		AdjustmentType adjType = AdjustmentType.translation;
 		string adjTypeStr = "Translation";
 		public float offset = 0.01f;
-		public float rotation = 1.0f;
+		public float rotationZZ = 1.0f;
 		public int offsetDeltaIndex = 2;
 		public int rotationdeltaIndex = 0;
 
@@ -205,9 +205,9 @@ namespace EditorExtensionsRedux
 				if (GUILayout.Button ("-", GUILayout.Width (20))) {
 					switch (adjType) {
 					case AdjustmentType.rotation:
-						rotation -= getDelta (rotationdeltaIndex);
-						if (rotation <= 0.0f)
-							rotation = getDelta (rotationdeltaIndex);
+						rotationZZ -= getDelta (rotationdeltaIndex);
+						if (rotationZZ <= 0.0f)
+							rotationZZ = getDelta (rotationdeltaIndex);
 					
 						break;
 					case AdjustmentType.translation:
@@ -220,7 +220,7 @@ namespace EditorExtensionsRedux
 				}
 				switch (adjType) {
 				case AdjustmentType.rotation:
-					GUILayout.Label (rotation.ToString (), "TextField");
+					GUILayout.Label (rotationZZ.ToString (), "TextField");
 					break;
 				case AdjustmentType.translation:
 					GUILayout.Label (offset.ToString (), "TextField");
@@ -230,7 +230,7 @@ namespace EditorExtensionsRedux
 				if (GUILayout.Button ("+", GUILayout.Width (20))) {
 					switch (adjType) {
 					case AdjustmentType.rotation:
-						rotation += getDelta (rotationdeltaIndex);
+						rotationZZ += getDelta (rotationdeltaIndex);
 						break;
 					case AdjustmentType.translation:
 						offset += getDelta (offsetDeltaIndex);

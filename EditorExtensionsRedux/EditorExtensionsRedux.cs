@@ -1479,7 +1479,7 @@ namespace EditorExtensionsRedux
                                 //var gizmosRotate = HighLogic.FindObjectsOfType<EditorGizmos.GizmoRotate> ();
                                 //								if (gizmoRotateHandle == null)
                                 //									gizmoRotateHandle = HighLogic.FindObjectOfType<EditorGizmos.GizmoRotateHandle> ();
-                                float rotation = FineAdjustWindow.Instance.rotation;
+                                float rotation = FineAdjustWindow.Instance.rotationZZ;
 
                                 if (Input.GetKey(cfg.KeyMap.Down))
                                 {
