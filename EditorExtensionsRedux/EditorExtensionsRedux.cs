@@ -737,11 +737,10 @@ namespace EditorExtensionsRedux
 #endif
 
         //Boop: Cache the editor hotkeys so we can keep consistency with whatever is in the settings.cfg file.
-        internal static KeyCodeExtended HotkeyEditor_toggleSymModePrimary; // = GameSettings.Editor_toggleSymMode.primary;
-        internal static KeyCodeExtended HotkeyEditor_toggleSymModeSecondary; // = GameSettings.Editor_toggleSymMode.secondary;
-        internal static KeyCodeExtended HotkeyEditor_toggleAngleSnapPrimary; // = GameSettings.Editor_toggleAngleSnap.primary;
-        internal static KeyCodeExtended HotkeyEditor_toggleAngleSnapSecondary;// = GameSettings.Editor_toggleAngleSnap.secondary;
-        internal static bool hotkeysInitted = false;
+        internal  KeyCodeExtended HotkeyEditor_toggleSymModePrimary; // = GameSettings.Editor_toggleSymMode.primary;
+        internal  KeyCodeExtended HotkeyEditor_toggleSymModeSecondary; // = GameSettings.Editor_toggleSymMode.secondary;
+        internal  KeyCodeExtended HotkeyEditor_toggleAngleSnapPrimary; // = GameSettings.Editor_toggleAngleSnap.primary;
+        internal  KeyCodeExtended HotkeyEditor_toggleAngleSnapSecondary;// = GameSettings.Editor_toggleAngleSnap.secondary;
 
         //Unity, called after Awake()
         public void Start()
@@ -750,13 +749,11 @@ namespace EditorExtensionsRedux
             Log.Debug("Version: " + Versioning.Revision);
 
             //Boop: Cache the editor hotkeys so we can keep consistency with whatever is in the settings.cfg file.
-            if (!hotkeysInitted)
             {
                 HotkeyEditor_toggleSymModePrimary = GameSettings.Editor_toggleSymMode.primary;
                 HotkeyEditor_toggleSymModeSecondary = GameSettings.Editor_toggleSymMode.secondary;
                 HotkeyEditor_toggleAngleSnapPrimary = GameSettings.Editor_toggleAngleSnap.primary;
                 HotkeyEditor_toggleAngleSnapSecondary = GameSettings.Editor_toggleAngleSnap.secondary;
-                hotkeysInitted = true;
             }
 
             //Boop: Nuke the editor hotkeys so we can hijack them.
