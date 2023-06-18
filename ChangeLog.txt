@@ -1,5 +1,8 @@
 ChangeLog
 
+3.4.4
+	Moved initiation of cached values for the toggles from being initted at class instantiation to in the Start
+
 3.4.3.6
 	Thanks to forum user @ozraven for this:
 		Fixed a null ref which occurred when clicking in a debug window

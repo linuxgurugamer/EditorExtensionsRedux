@@ -530,7 +530,7 @@ namespace EditorExtensionsRedux
                             c.GIZMOROTATE_ONHANDLEROTATESTART = cnt;
                             break;
                         case "OnHandleRotate":
-                            c.GIZMOROTATE_ONHANDLEROTATE = cnt ;
+                            c.GIZMOROTATE_ONHANDLEROTATE = cnt;
                             break;
                         case "OnHandleRotateEnd":
                             c.GIZMOROTATE_ONHANDLEROTATEEND = cnt;
@@ -554,10 +554,10 @@ namespace EditorExtensionsRedux
                             c.GIZMOOFFSET_ONHANDLEMOVESTART = cnt;
                             break;
                         case "OnHandleMove":
-                            c.GIZMOOFFSET_ONHANDLEMOVE = cnt ;
+                            c.GIZMOOFFSET_ONHANDLEMOVE = cnt;
                             break;
                         case "OnHandleMoveEnd":
-                            c.GIZMOOFFSET_ONHANDLEMOVEEND = cnt ;
+                            c.GIZMOOFFSET_ONHANDLEMOVEEND = cnt;
                             break;
                     }
                 }
@@ -583,7 +583,7 @@ namespace EditorExtensionsRedux
 
         public NoOffsetBehaviour.FreeOffsetBehaviour fob;
 
-#region member vars
+        #region member vars
 
 
 
@@ -625,7 +625,7 @@ namespace EditorExtensionsRedux
         static int preResetSymmetryMode = 0;
 
         static bool last_VAB_USE_ANGLE_SNAP = true;
-#endregion
+        #endregion
 
         //	public EditorExtensions (){}
 
@@ -737,16 +737,28 @@ namespace EditorExtensionsRedux
 #endif
 
         //Boop: Cache the editor hotkeys so we can keep consistency with whatever is in the settings.cfg file.
-        internal KeyCodeExtended HotkeyEditor_toggleSymModePrimary = GameSettings.Editor_toggleSymMode.primary;
-        internal KeyCodeExtended HotkeyEditor_toggleSymModeSecondary = GameSettings.Editor_toggleSymMode.secondary;
-        internal KeyCodeExtended HotkeyEditor_toggleAngleSnapPrimary = GameSettings.Editor_toggleAngleSnap.primary;
-        internal KeyCodeExtended HotkeyEditor_toggleAngleSnapSecondary = GameSettings.Editor_toggleAngleSnap.secondary;
+        internal static KeyCodeExtended HotkeyEditor_toggleSymModePrimary; // = GameSettings.Editor_toggleSymMode.primary;
+        internal static KeyCodeExtended HotkeyEditor_toggleSymModeSecondary; // = GameSettings.Editor_toggleSymMode.secondary;
+        internal static KeyCodeExtended HotkeyEditor_toggleAngleSnapPrimary; // = GameSettings.Editor_toggleAngleSnap.primary;
+        internal static KeyCodeExtended HotkeyEditor_toggleAngleSnapSecondary;// = GameSettings.Editor_toggleAngleSnap.secondary;
+        internal static bool hotkeysInitted = false;
 
         //Unity, called after Awake()
         public void Start()
         {
             Log.Debug("Start()");
             Log.Debug("Version: " + Versioning.Revision);
+
+            //Boop: Cache the editor hotkeys so we can keep consistency with whatever is in the settings.cfg file.
+            if (!hotkeysInitted)
+            {
+                HotkeyEditor_toggleSymModePrimary = GameSettings.Editor_toggleSymMode.primary;
+                HotkeyEditor_toggleSymModeSecondary = GameSettings.Editor_toggleSymMode.secondary;
+                HotkeyEditor_toggleAngleSnapPrimary = GameSettings.Editor_toggleAngleSnap.primary;
+                HotkeyEditor_toggleAngleSnapSecondary = GameSettings.Editor_toggleAngleSnap.secondary;
+                hotkeysInitted = true;
+            }
+
             //Boop: Nuke the editor hotkeys so we can hijack them.
             GameSettings.Editor_toggleSymMode.primary = new KeyCodeExtended(KeyCode.None);
             GameSettings.Editor_toggleSymMode.secondary = new KeyCodeExtended(KeyCode.None);
@@ -1592,7 +1604,7 @@ namespace EditorExtensionsRedux
             return false;
         }
 
-#region Alignments
+        #region Alignments
 
         void AlignToTopOfParent(Part p)
         {
@@ -2038,9 +2050,9 @@ namespace EditorExtensionsRedux
             }
         }
 
-#endregion
+        #endregion
 
-#region Editor Actions
+        #region Editor Actions
 
         void AddUndo()
         {
@@ -2321,9 +2333,9 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
 
-#endregion
+        #endregion
 
-#region GUI
+        #region GUI
 
         //private Rect _settingsWindowRect;
         GUIStyle osdLabelStyle, symmetryLabelStyle;
@@ -2774,7 +2786,7 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             ScreenMessages.PostScreenMessage(message, cfg.OnScreenMessageTime, ScreenMessageStyle.LOWER_CENTER);
         }
 
-#region Snap labels
+        #region Snap labels
 
         const int FONTSIZE = 14;
 
@@ -2972,8 +2984,8 @@ editor.angleSnapSprite.gameObject.SetActive (false);
             }
         }
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
     }
 }
