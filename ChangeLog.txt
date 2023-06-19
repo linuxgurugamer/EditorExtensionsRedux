@@ -1,5 +1,8 @@
 ChangeLog
 
+3.4.4.1
+	Added code to check for key values for toggleSymMode and toggleAngleSnap being null upon entry, if they are, then it resets to the default (X & C) and saves the settings
+
 3.4.4
 	Moved initiation of cached values for the toggles from being initted at class instantiation to in the Start
 

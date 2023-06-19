@@ -750,6 +750,22 @@ namespace EditorExtensionsRedux
 
             //Boop: Cache the editor hotkeys so we can keep consistency with whatever is in the settings.cfg file.
             {
+                //Log.Info("GameSettings.Editor_toggleSymMode.primary: " + GameSettings.Editor_toggleSymMode.primary);
+                //Log.Info("GameSettings.Editor_toggleSymMode.secondary: " + GameSettings.Editor_toggleSymMode.secondary);
+                //Log.Info("GameSettings.Editor_toggleAngleSnap.primary: " + GameSettings.Editor_toggleAngleSnap.primary);
+                //Log.Info("GameSettings.Editor_toggleAngleSnap.secondary: " + GameSettings.Editor_toggleAngleSnap.secondary);
+                if (GameSettings.Editor_toggleSymMode.primary.code == KeyCode.None)
+                {
+                    Log.Error("GameSettings.Editor_toggleSymMode.primary set to NONE on entry to EEX, resetting to X");
+                    GameSettings.Editor_toggleSymMode.primary  = new KeyCodeExtended(KeyCode.X);
+                    GameSettings.SaveSettings();
+                }
+                if (GameSettings.Editor_toggleAngleSnap.primary.code == KeyCode.None)
+                {
+                    Log.Error("GameSettings.Editor_toggleAngleSnap.primary set to NONE on entry to EEX, resetting to C");
+                    GameSettings.Editor_toggleAngleSnap.primary = new KeyCodeExtended(KeyCode.C);
+                    GameSettings.SaveSettings();
+                }
                 HotkeyEditor_toggleSymModePrimary = GameSettings.Editor_toggleSymMode.primary;
                 HotkeyEditor_toggleSymModeSecondary = GameSettings.Editor_toggleSymMode.secondary;
                 HotkeyEditor_toggleAngleSnapPrimary = GameSettings.Editor_toggleAngleSnap.primary;
@@ -801,7 +817,12 @@ namespace EditorExtensionsRedux
             GameSettings.Editor_toggleSymMode.secondary = HotkeyEditor_toggleSymModeSecondary;
             GameSettings.Editor_toggleAngleSnap.primary = HotkeyEditor_toggleAngleSnapPrimary;
             GameSettings.Editor_toggleAngleSnap.secondary = HotkeyEditor_toggleAngleSnapSecondary;
-
+            {
+                Log.Info("GameSettings.Editor_toggleSymMode.primary: " + GameSettings.Editor_toggleSymMode.primary);
+                Log.Info("GameSettings.Editor_toggleSymMode.secondary: " + GameSettings.Editor_toggleSymMode.secondary);
+                Log.Info("GameSettings.Editor_toggleAngleSnap.primary: " + GameSettings.Editor_toggleAngleSnap.primary);
+                Log.Info("GameSettings.Editor_toggleAngleSnap.secondary: " + GameSettings.Editor_toggleAngleSnap.secondary);
+            }
             GameEvents.onEditorPartEvent.Remove(EditorPartEvent);
             GameEvents.onEditorSymmetryModeChange.Remove(EditorSymmetryModeChange);
             Destroy(fob);
