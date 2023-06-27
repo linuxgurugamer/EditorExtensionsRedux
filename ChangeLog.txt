@@ -1,5 +1,10 @@
 ChangeLog
 
+3.4.5
+	Finally found the real problem for the Symmetry and AngleSnap keys get set to null, thanks to @NathenKell for pointing
+	out what was happening.  See full description in EditorExtensionsRedux.cs, line 513
+	Moved the code to set and reset the key values into methods to eliminate duplicated code and avoid errors
+
 3.4.4.1
 	Added code to check for key values for toggleSymMode and toggleAngleSnap being null upon entry, if they are, then it resets to the default (X & C) and saves the settings
 

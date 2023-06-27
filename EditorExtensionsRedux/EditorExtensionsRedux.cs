@@ -85,289 +85,6 @@ namespace EditorExtensionsRedux
 
         public bool Init()
         {
-#if false
-            if (Versioning.version_major == 1 && Versioning.version_minor == 1 && Versioning.Revision == 0 /*&& Versioning.BuildID == 1024 */)
-            {
-                // SelectRoot
-                SELECTEDPART = 13;
-                ST_ROOT_SELECT = 77;
-                ST_ROOT_UNSELECTED = 76;
-                MODEMSG = 60;
-                ST_IDLE = 70;
-                ST_PLACE = 71;
-                ONMOUSEISOVER = 250;
-                GET_STATEEVENTS = 0;
-
-                // NoOffsetLimits
-                ST_OFFSET_TWEAK = 73;
-                SYMUPDATEATTACHNODE = 108;
-                GIZMOOFFSET = 66;
-
-                UPDATESYMMETRY = 64;
-                ONOFFSETGIZMOUPDATED = 35;
-
-                return true;
-            }
-            if (Versioning.version_major == 1 && Versioning.version_minor == 1 && (Versioning.Revision == 1 || Versioning.Revision == 2) /*&& Versioning.BuildID == 1024 */)
-            {
-                // SelectRoot
-                SELECTEDPART = 13;
-                ST_ROOT_SELECT = 80;
-                ST_ROOT_UNSELECTED = 79;
-                MODEMSG = 63;
-                ST_IDLE = 73;
-                ST_PLACE = 74;
-                ONMOUSEISOVER = 250; // ?
-                GET_STATEEVENTS = 0; // ??
-
-                // NoOffsetLimits
-                ST_OFFSET_TWEAK = 76;
-                SYMUPDATEATTACHNODE = 111;
-                GIZMOOFFSET = 69;
-
-                UPDATESYMMETRY = 62;
-                ONOFFSETGIZMOUPDATED = 35;
-
-                /* Gizmo offsets
-				 * 
-					1 gridSnapInterval
-					2 gridSnapIntervalFine
-					3 useAngleSnap
-					4 refCamera    
-					5 pivot    
-					6 rot0    
-					7 hostRot0    
-					8 host    
-					9 onGizmoRotate    
-					10 onGizmoRotated    
-					11 isDragging    
-					12 ssScaling    
-
-				 * 
-				 */
-                GRIDSNAPINTERVAL = 1;
-                GRIDSNAPINTERVALFINE = 2;
-
-                return true;
-            }
-            if (Versioning.version_major == 1 && Versioning.version_minor == 1 && Versioning.Revision == 3 /*&& Versioning.BuildID == 1024 */)
-            {
-                // SelectRoot
-                SELECTEDPART = 13;
-                ST_ROOT_SELECT = 80;
-                ST_ROOT_UNSELECTED = 79;
-                MODEMSG = 63;
-                ST_IDLE = 73;
-                ST_PLACE = 74;
-                ONMOUSEISOVER = 252;
-                GET_STATEEVENTS = 0;
-
-                // NoOffsetLimits
-                ST_OFFSET_TWEAK = 76;
-                SYMUPDATEATTACHNODE = 111;
-                GIZMOOFFSET = 69;
-
-                UPDATESYMMETRY = 62;
-                ONOFFSETGIZMOUPDATED = 35;
-
-                /* Gizmo offsets
-				 * 
-					1 gridSnapInterval
-					2 gridSnapIntervalFine
-					3 useAngleSnap
-					4 refCamera    
-					5 pivot    
-					6 rot0    
-					7 hostRot0    
-					8 host    
-					9 onGizmoRotate    
-					10 onGizmoRotated    
-					11 isDragging    
-					12 ssScaling    
-
-				 * 
-				 */
-                GRIDSNAPINTERVAL = 1;
-                GRIDSNAPINTERVALFINE = 2;
-
-                return true;
-            }
-            if (Versioning.version_major == 1 && Versioning.version_minor == 2 && (Versioning.Revision == 0 || Versioning.Revision == 1 || Versioning.Revision == 2))
-            {
-                // SelectRoot
-                SELECTEDPART = 13;
-                ST_ROOT_SELECT = 79;
-                ST_ROOT_UNSELECTED = 78;
-                MODEMSG = 62;
-                ST_IDLE = 72;
-                ST_PLACE = 73;
-                ONMOUSEISOVER = 265;
-                GET_STATEEVENTS = 0;
-
-                // NoOffsetLimits
-                ST_OFFSET_TWEAK = 75;
-                SYMUPDATEATTACHNODE = 110;
-                GIZMOROTATE = 67;
-                GIZMOOFFSET = 68;
-
-                UPDATESYMMETRY = 61;
-                ONOFFSETGIZMOUPDATED = 35;
-
-                /* Gizmo offsets
-                 * 
-                    1 gridSnapInterval
-                    2 gridSnapIntervalFine
-                    3 useAngleSnap
-                    4 refCamera    
-                    5 pivot    
-                    6 rot0    
-                    7 hostRot0    
-                    8 host    
-                    9 onGizmoRotate    
-                    10 onGizmoRotated    
-                    11 isDragging    
-                    12 ssScaling    
-
-                 * 
-                 */
-                GRIDSNAPINTERVAL = 1;
-                GRIDSNAPINTERVALFINE = 2;
-
-                return true;
-            }
-
-            if (Versioning.version_major == 1 && Versioning.version_minor == 3 && Versioning.Revision == 0)
-            {
-                // SelectRoot
-                SELECTEDPART = 13;
-                ST_ROOT_SELECT = 83;
-                ST_ROOT_UNSELECTED = 82;
-                MODEMSG = 66;
-                ST_IDLE = 76;
-                ST_PLACE = 77;
-                ONMOUSEISOVER = 271;
-                GET_STATEEVENTS = 0;
-
-                // NoOffsetLimits
-                ST_OFFSET_TWEAK = 79;
-                SYMUPDATEATTACHNODE = 114;
-                GIZMOROTATE = 71;
-                GIZMOOFFSET = 72;
-
-                UPDATESYMMETRY = 61;
-                ONOFFSETGIZMOUPDATED = 35;
-
-                /* Gizmo offsets
-                 * 
-                    1 gridSnapInterval
-                    2 gridSnapIntervalFine
-                    3 useAngleSnap
-                    4 refCamera    
-                    5 pivot    
-                    6 rot0    
-                    7 hostRot0    
-                    8 host    
-                    9 onGizmoRotate    
-                    10 onGizmoRotated    
-                    11 isDragging    
-                    12 ssScaling    
-
-                 * 
-                 */
-                GRIDSNAPINTERVAL = 1;
-                GRIDSNAPINTERVALFINE = 2;
-
-                return true;
-            }
-            if (Versioning.version_major == 1 && Versioning.version_minor == 3 && Versioning.Revision == 1)
-            {
-                // SelectRoot
-                SELECTEDPART = 14;
-                ST_ROOT_SELECT = 84;
-                ST_ROOT_UNSELECTED = 83;
-                MODEMSG = 67;
-                ST_IDLE = 77;
-                ST_PLACE = 78;
-                ONMOUSEISOVER = 274;
-                GET_STATEEVENTS = 0;
-
-                // NoOffsetLimits
-                ST_OFFSET_TWEAK = 80;
-                SYMUPDATEATTACHNODE = 115;
-                GIZMOROTATE = 72;
-                GIZMOOFFSET = 73;
-
-                UPDATESYMMETRY = 61;
-                ONOFFSETGIZMOUPDATED = 35;
-
-                /* Gizmo offsets
-                 * 
-                    1 gridSnapInterval
-                    2 gridSnapIntervalFine
-                    3 useAngleSnap
-                    4 refCamera    
-                    5 pivot    
-                    6 rot0    
-                    7 hostRot0    
-                    8 host    
-                    9 onGizmoRotate    
-                    10 onGizmoRotated    
-                    11 isDragging    
-                    12 ssScaling    
-
-                 * 
-                 */
-                GRIDSNAPINTERVAL = 1;
-                GRIDSNAPINTERVALFINE = 2;
-
-                return true;
-            }
-#endif
-#if false
-            if (Versioning.version_major == 1 && Versioning.version_minor == 4 && Versioning.Revision == 1)
-            {
-                // SelectRoot
-                SELECTEDPART = 14;
-                ST_ROOT_SELECT = 89;
-                ST_ROOT_UNSELECTED = 88;
-                MODEMSG = 71;
-                ST_IDLE = 82;
-                ST_PLACE = 83;
-                ONMOUSEISOVER = 277;
-                GET_STATEEVENTS = 0;
-
-                // NoOffsetLimits
-                ST_OFFSET_TWEAK = 85;
-                SYMUPDATEATTACHNODE = 120;
-                GIZMOROTATE = 76;
-                GIZMOOFFSET = 77;
-
-                UPDATESYMMETRY = 62;
-                ONOFFSETGIZMOUPDATED = 36;
-
-                /* Gizmo offsets
-                 * 
-                    1 gridSnapInterval
-                    2 gridSnapIntervalFine
-                    3 useAngleSnap
-                    4 refCamera    
-                    5 pivot    
-                    6 rot0    
-                    7 hostRot0    
-                    8 host    
-                    9 onGizmoRotate    
-                    10 onGizmoRotated    
-                    11 isDragging    
-                    12 ssScaling    
-
-                 * 
-                 */
-                GRIDSNAPINTERVAL = 1;
-                GRIDSNAPINTERVALFINE = 2;
-
-                return true;
-            }
-#endif
             if (Versioning.version_major == 1 && Versioning.version_minor >= 4 && Versioning.Revision >= 0)
             {
                 SELECTEDPART = -1;
@@ -742,30 +459,78 @@ namespace EditorExtensionsRedux
         internal  KeyCodeExtended HotkeyEditor_toggleAngleSnapPrimary; // = GameSettings.Editor_toggleAngleSnap.primary;
         internal  KeyCodeExtended HotkeyEditor_toggleAngleSnapSecondary;// = GameSettings.Editor_toggleAngleSnap.secondary;
 
+
+        internal void SetKeysToSavedSettings()
+        {
+            GameSettings.Editor_toggleSymMode.primary = EditorExtensions.Instance.HotkeyEditor_toggleSymModePrimary;
+            GameSettings.Editor_toggleSymMode.secondary = EditorExtensions.Instance.HotkeyEditor_toggleSymModeSecondary;
+            GameSettings.Editor_toggleAngleSnap.primary = EditorExtensions.Instance.HotkeyEditor_toggleAngleSnapPrimary;
+            GameSettings.Editor_toggleAngleSnap.secondary = EditorExtensions.Instance.HotkeyEditor_toggleAngleSnapSecondary;
+        }
+        internal void SetKeysToNoneValue()
+        {
+            GameSettings.Editor_toggleSymMode.primary = new KeyCodeExtended(KeyCode.None);
+            GameSettings.Editor_toggleSymMode.secondary = new KeyCodeExtended(KeyCode.None);
+            GameSettings.Editor_toggleAngleSnap.primary = new KeyCodeExtended(KeyCode.None);
+            GameSettings.Editor_toggleAngleSnap.secondary = new KeyCodeExtended(KeyCode.None);
+        }
+        //
+        // This is to protect against another mod saving the game settings while these values are set to null.
+        // This will reset the values back to stock, save it and then set them null again 
+        //
+        void OnGameSettingsWritten()
+        {
+            Log.Info("OnGameSettingsWritten, resetting Symmetry and Angle keys after a save to original settings and saving");
+            // Reset the GameSettings
+            
+            SetKeysToSavedSettings();
+
+            SafeWriteSettings();
+
+            SetKeysToNoneValue();
+        }
+
+        public void SafeWriteSettings()
+        {
+            Log.Info("SafeWriteSettings");
+            GameEvents.OnGameSettingsWritten.Remove(OnGameSettingsWritten);
+            GameSettings.SaveSettings();
+            GameEvents.OnGameSettingsWritten.Add(OnGameSettingsWritten);
+
+        }
         //Unity, called after Awake()
         public void Start()
         {
             Log.Debug("Start()");
             Log.Debug("Version: " + Versioning.Revision);
-
             //Boop: Cache the editor hotkeys so we can keep consistency with whatever is in the settings.cfg file.
             {
-                //Log.Info("GameSettings.Editor_toggleSymMode.primary: " + GameSettings.Editor_toggleSymMode.primary);
-                //Log.Info("GameSettings.Editor_toggleSymMode.secondary: " + GameSettings.Editor_toggleSymMode.secondary);
-                //Log.Info("GameSettings.Editor_toggleAngleSnap.primary: " + GameSettings.Editor_toggleAngleSnap.primary);
-                //Log.Info("GameSettings.Editor_toggleAngleSnap.secondary: " + GameSettings.Editor_toggleAngleSnap.secondary);
+                // Following section is set to fix an old bug, where sometimes the Symmetry and AngleSnap keys get set to null
+                // This is only a partial fix, which really just resets the keys to the stock default if a None value is detected.
+                // It's caused by another mod saving the settings which now have the two values set to NULL by this mod, 
+                // and then for whatever reason, the game exits before EEX can save the correct settings.
+
+                // The second part of the fix was adding the method OnGameSettingsWritten(), which watches for anything
+                // which saves the Settings file.  When that happens, the method will set the correct values to the keys, save it
+                // and then set them back to what the mod requires.
+                //
+                // The SafeWrite is the third part of the fix, where the SaveSettings is prefixed by removing the event call, 
+                // saving the settings and then putting the event call back.  This prevents an endless loop
+                //
+
                 if (GameSettings.Editor_toggleSymMode.primary.code == KeyCode.None)
                 {
                     Log.Error("GameSettings.Editor_toggleSymMode.primary set to NONE on entry to EEX, resetting to X");
                     GameSettings.Editor_toggleSymMode.primary  = new KeyCodeExtended(KeyCode.X);
-                    GameSettings.SaveSettings();
+                    SafeWriteSettings();
                 }
                 if (GameSettings.Editor_toggleAngleSnap.primary.code == KeyCode.None)
                 {
                     Log.Error("GameSettings.Editor_toggleAngleSnap.primary set to NONE on entry to EEX, resetting to C");
                     GameSettings.Editor_toggleAngleSnap.primary = new KeyCodeExtended(KeyCode.C);
-                    GameSettings.SaveSettings();
+                    SafeWriteSettings();
                 }
+
                 HotkeyEditor_toggleSymModePrimary = GameSettings.Editor_toggleSymMode.primary;
                 HotkeyEditor_toggleSymModeSecondary = GameSettings.Editor_toggleSymMode.secondary;
                 HotkeyEditor_toggleAngleSnapPrimary = GameSettings.Editor_toggleAngleSnap.primary;
@@ -773,12 +538,9 @@ namespace EditorExtensionsRedux
             }
 
             //Boop: Nuke the editor hotkeys so we can hijack them.
-            GameSettings.Editor_toggleSymMode.primary = new KeyCodeExtended(KeyCode.None);
-            GameSettings.Editor_toggleSymMode.secondary = new KeyCodeExtended(KeyCode.None);
-            GameSettings.Editor_toggleAngleSnap.primary = new KeyCodeExtended(KeyCode.None);
-            GameSettings.Editor_toggleAngleSnap.secondary = new KeyCodeExtended(KeyCode.None);
+            SetKeysToNoneValue();
 
-#if DEBUG
+#if DEBUGfalse
             localdumpReflection();
 #endif
             editor = EditorLogic.fetch;
@@ -791,6 +553,7 @@ namespace EditorExtensionsRedux
 
             GameEvents.onEditorPartEvent.Add(EditorPartEvent);
             GameEvents.onEditorSymmetryModeChange.Add(EditorSymmetryModeChange);
+            GameEvents.OnGameSettingsWritten.Add(OnGameSettingsWritten);
 
             if (cfg.NoOffsetLimitEnabled)
                 fob = gameObject.AddComponent<NoOffsetBehaviour.FreeOffsetBehaviour>();
@@ -825,6 +588,8 @@ namespace EditorExtensionsRedux
             }
             GameEvents.onEditorPartEvent.Remove(EditorPartEvent);
             GameEvents.onEditorSymmetryModeChange.Remove(EditorSymmetryModeChange);
+            GameEvents.OnGameSettingsWritten.Remove(OnGameSettingsWritten);
+
             Destroy(fob);
             NoOffsetBehaviour.FreeOffsetBehaviour.Instance = null;
         }
@@ -894,6 +659,8 @@ namespace EditorExtensionsRedux
             }
         }
 #endif
+
+
         void EditorSymmetryModeChange(int symMode)
         {
             Log.Debug("EditorSymmetryModeChange: " + symMode.ToString());
@@ -1761,61 +1528,6 @@ namespace EditorExtensionsRedux
         }
 
 
-#if false
-        public enum horizontaltype { leftright, forwardback };
-        public void AdjustHorizontalPositionOnParent(Part p, horizontaltype type, float position, float adj)
-        {
-
-            HorizontalPositionOnParent(p, type, position);
-            foreach (Part sympart in p.symmetryCounterparts)
-            {
-                switch (type)
-                {
-                    case horizontaltype.leftright:
-                        HorizontalPositionOnParent(sympart, type, sympart.attPos0.z - adj);
-                        break;
-                    case horizontaltype.forwardback:
-                        HorizontalPositionOnParent(sympart, type, sympart.attPos0.x - adj);
-                        break;
-                }
-                //HorizontalPositionOnParent (sympart, type, position);
-            }
-        }
-
-        public void HorizontalPositionOnParent(Part p, horizontaltype type, float position)
-        {
-            if (p.parent != null)
-            {
-                        if (partMovementContains(p))
-                    return;
-
-                PartMovement pm = new PartMovement();
-                pm.p = p;
-                pm.local = true;
-                pm.startPos = p.transform.localPosition;
-                pm.endPos = new Vector3(p.transform.position.x, masterSnapPart.transform.position.y, p.transform.position.z);
-                pm.time = timeToMovePM;
-                pm.startTime = Time.fixedTime;
-                pm.endtime = Time.fixedTime + pm.time;
-               
-
-                switch (type)
-                {
-                    case horizontaltype.forwardback:
-                        pm.endPos = new Vector3(position, p.transform.localPosition.y, p.transform.localPosition.z);
-                        //p.transform.localPosition = new Vector3(position, p.transform.localPosition.y, p.transform.localPosition.z);
-                        //p.attPos0.x = position;
-                        break;
-                    case horizontaltype.leftright:
-                        pm.endPos = new Vector3(p.transform.localPosition.x, p.transform.localPosition.y, position);
-                        //p.transform.localPosition = new Vector3(p.transform.localPosition.x, p.transform.localPosition.y, position);
-                        //p.attPos0.z = position;
-                        break;
-                }
-                partMovement.Add(pm);
-            }
-        }
-#endif
         public enum axis { x, y, z };
         public void RotatePartOnParent(Part p, axis xyz, float amt)
         {
@@ -2610,18 +2322,12 @@ editor.angleSnapSprite.gameObject.SetActive (false);
                 EditorExtensions.Instance.HotkeyEditor_toggleAngleSnapPrimary = new KeyCodeExtended(KeyCode.C);
                 EditorExtensions.Instance.HotkeyEditor_toggleAngleSnapSecondary = new KeyCodeExtended(KeyCode.None);
                 // Now reset the GameSettings
-                GameSettings.Editor_toggleSymMode.primary = EditorExtensions.Instance.HotkeyEditor_toggleSymModePrimary;
-                GameSettings.Editor_toggleSymMode.secondary = EditorExtensions.Instance.HotkeyEditor_toggleSymModeSecondary;
-                GameSettings.Editor_toggleAngleSnap.primary = EditorExtensions.Instance.HotkeyEditor_toggleAngleSnapPrimary;
-                GameSettings.Editor_toggleAngleSnap.secondary = EditorExtensions.Instance.HotkeyEditor_toggleAngleSnapSecondary;
+                SetKeysToSavedSettings();
                 // and Save the game settings
-                GameSettings.SaveSettings();
+                SafeWriteSettings();
 
                 //Finally,  set the Gamesetting key to null (see other locations for info)
-                GameSettings.Editor_toggleSymMode.primary = new KeyCodeExtended(KeyCode.None);
-                GameSettings.Editor_toggleSymMode.secondary = new KeyCodeExtended(KeyCode.None);
-                GameSettings.Editor_toggleAngleSnap.primary = new KeyCodeExtended(KeyCode.None);
-                GameSettings.Editor_toggleAngleSnap.secondary = new KeyCodeExtended(KeyCode.None);
+                SetKeysToNoneValue();
 
                 ScreenMessages.PostScreenMessage("Symmetry Mode & Angle Snap keys have been reset", 3f, ScreenMessageStyle.UPPER_CENTER);
 
