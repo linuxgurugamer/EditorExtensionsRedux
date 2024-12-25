@@ -47,7 +47,7 @@
     </CustomCommands>
     <ConsolePause>false</ConsolePause>
     <ErrorReport>prompt</ErrorReport>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyVersion.cs">
