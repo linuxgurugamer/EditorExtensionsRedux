@@ -869,6 +869,7 @@ namespace EditorExtensionsRedux
                     {
                         editor.symmetryMode = 1;
                     }
+                    GameEvents.onEditorSymmetryModeChange.Fire(editor.symmetryMode);
                     return;
                 }
                 else if (ExtendedInput.GetKey(GameSettings.MODIFIER_KEY.primary) || ExtendedInput.GetKey(GameSettings.MODIFIER_KEY.secondary))
@@ -884,6 +885,7 @@ namespace EditorExtensionsRedux
                             preResetSymmetryMode = editor.symmetryMode;
                         editor.symmetryMode = 0;
                     }
+                    GameEvents.onEditorSymmetryModeChange.Fire(editor.symmetryMode);
                 }
                 else
                 {
@@ -902,6 +904,7 @@ namespace EditorExtensionsRedux
                     {
                         editor.symmetryMode = 1;
                     }
+                    GameEvents.onEditorSymmetryModeChange.Fire(editor.symmetryMode);
                     return;
                 }
             }
