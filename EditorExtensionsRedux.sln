@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.8
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditorExtensionsRedux", "EditorExtensionsRedux\EditorExtensionsRedux.csproj", "{00BCEB91-0000-0000-0000-000000000000}"
 EndProject
@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		deploy.bat = deploy.bat
 		EditorExtensionsRedux.version = EditorExtensionsRedux.version
 		jenkins.txt = jenkins.txt
+		README-WEB.md = README-WEB.md
 		README.md = README.md
 		VersionHistory.md = VersionHistory.md
 	EndProjectSection

@@ -1,5 +1,12 @@
 ChangeLog
 
+3.4.6
+	Thanks to github user @SofieBrink:
+		Changed debugging symbol mode to portable to facilitate attaching the VisualStudio unity debugger.
+		Updated Override stock Symmetry manipulation to fire the missing event.
+	Updated version file to use github for new version info
+	Added README-WEB.md to hold copy of forum page
+
 3.4.5
 	Finally found the real problem for the Symmetry and AngleSnap keys get set to null, thanks to @NathenKell for pointing
 	out what was happening.  See full description in EditorExtensionsRedux.cs, line 513
