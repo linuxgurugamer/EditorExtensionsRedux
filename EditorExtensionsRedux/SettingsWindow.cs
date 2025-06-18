@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using UnityEngine;
 using ClickThroughFix;
 
@@ -94,7 +95,7 @@ namespace EditorExtensionsRedux
 		}
 
 		private int toolbarInt = 0;
-		private string[] _toolbarStrings = { "Settings 1", "Settings 2", "Angle Snap" };
+		private string[] _toolbarStrings = { Localizer.Format("#LOC_EEX_93"), Localizer.Format("#LOC_EEX_94"), Localizer.Format("#LOC_EEX_95") };
 		string keyMapToUpdate = string.Empty;
 		string newAngleString = string.Empty;
 		public int angleGridIndex = -1;
@@ -111,38 +112,38 @@ namespace EditorExtensionsRedux
                 toolbarInt = newToolbarInt;
             }
 
-			GUILayout.BeginVertical ("box");
+			GUILayout.BeginVertical (Localizer.Format("#LOC_EEX_66"));
 
 			#region Settings
 			if (toolbarInt == 0)
             {
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Version: " + _version.ToString ());
+				GUILayout.Label (Localizer.Format("#LOC_EEX_96") + _version.ToString ());
 				GUILayout.EndHorizontal ();
 
 #if DEBUG
-				GUILayout.Label ("Debug Build");
-				GUILayout.Label ("_lastKeyPressed: " + _lastKeyPressed.ToString ());
+				GUILayout.Label (Localizer.Format("#LOC_EEX_97"));
+				GUILayout.Label (Localizer.Format("#LOC_EEX_98") + _lastKeyPressed.ToString ());
 #endif
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Message delay:", settingsLabelLayout);
+				GUILayout.Label (Localizer.Format("#LOC_EEX_99"), settingsLabelLayout);
 				if (GUILayout.Button ("-")) {
 					_config.OnScreenMessageTime -= 0.5f;
 				}
-				GUILayout.Label (_config.OnScreenMessageTime.ToString (), "TextField");
+				GUILayout.Label (_config.OnScreenMessageTime.ToString (), Localizer.Format("#LOC_EEX_62"));
 				if (GUILayout.Button ("+")) {
 					_config.OnScreenMessageTime += 0.5f;
 				}
 				GUILayout.EndHorizontal ();
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Max symmetry:", settingsLabelLayout);
+				GUILayout.Label (Localizer.Format("#LOC_EEX_100"), settingsLabelLayout);
 				if (GUILayout.Button ("-")) {
 					_config.MaxSymmetry--;
 				}
-				GUILayout.Label (_config.MaxSymmetry.ToString (), "TextField");
+				GUILayout.Label (_config.MaxSymmetry.ToString (), Localizer.Format("#LOC_EEX_62"));
 				if (GUILayout.Button ("+")) {
 					_config.MaxSymmetry++;
 				}
@@ -151,7 +152,7 @@ namespace EditorExtensionsRedux
 // Following contributed by Fwiffo
 
 				GUILayout.BeginHorizontal (GUILayout.ExpandWidth (true));
-				_config.RapidZoom = GUILayout.Toggle (_config.RapidZoom, new GUIContent ("Tap then hold for rapid zoom" /* , "Tap the zoom hotkey then quickly hold it to zoom faster"*/));
+				_config.RapidZoom = GUILayout.Toggle (_config.RapidZoom, new GUIContent (Localizer.Format("#LOC_EEX_101") /* , "Tap the zoom hotkey then quickly hold it to zoom faster"*/));
 				GUILayout.EndHorizontal ();
 
                 //GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
@@ -162,7 +163,7 @@ namespace EditorExtensionsRedux
 // End of Fwiffo
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
                 bool b = _config.ReRootEnabled;
-                _config.ReRootEnabled = GUILayout.Toggle(_config.ReRootEnabled, new GUIContent("ReRoot enabled"));
+                _config.ReRootEnabled = GUILayout.Toggle(_config.ReRootEnabled, new GUIContent(Localizer.Format("#LOC_EEX_102")));
                 if (!b && _config.ReRootEnabled)
                 {
                     EditorExtensions.Instance.EnableSelectRoot();
@@ -193,16 +194,16 @@ namespace EditorExtensionsRedux
 
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
                 b = _config.FineAdjustEnabled;
-                _config.FineAdjustEnabled = GUILayout.Toggle(_config.FineAdjustEnabled, new GUIContent("Fine Adjust enabled"));
+                _config.FineAdjustEnabled = GUILayout.Toggle(_config.FineAdjustEnabled, new GUIContent(Localizer.Format("#LOC_EEX_103")));
                 GUILayout.EndHorizontal();
                 
 
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-                _config.AnglesnapModIsToggle = GUILayout.Toggle(_config.AnglesnapModIsToggle, new GUIContent("Anglesnap + Mod Toggles")); 
+                _config.AnglesnapModIsToggle = GUILayout.Toggle(_config.AnglesnapModIsToggle, new GUIContent(Localizer.Format("#LOC_EEX_104"))); 
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-                _config.CycleSymmetryModeModIsToggle = GUILayout.Toggle(_config.CycleSymmetryModeModIsToggle, new GUIContent("Cycle Symmetry Mode + Mod Toggles"));
+                _config.CycleSymmetryModeModIsToggle = GUILayout.Toggle(_config.CycleSymmetryModeModIsToggle, new GUIContent(Localizer.Format("#LOC_EEX_105")));
                 GUILayout.EndHorizontal();
 
             }
@@ -212,13 +213,13 @@ namespace EditorExtensionsRedux
             {
 
                 if (keyMapToUpdate == string.Empty) {
-					GUILayout.Label ("Click button and press key to change");
+					GUILayout.Label (Localizer.Format("#LOC_EEX_106"));
 				} else {
-					GUILayout.Label ("Waiting for key");
+					GUILayout.Label (Localizer.Format("#LOC_EEX_107"));
 				}
 
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Reset Symmetry Mode & Angle Snap keys"))
+                if (GUILayout.Button(Localizer.Format("#LOC_EEX_108")))
                 {
                     // Editor_toggleSymMode = X
                     // Editor_toggleAngleSnap = C
@@ -239,21 +240,21 @@ namespace EditorExtensionsRedux
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Surface attachment:", settingsLabelLayout);
-				if (keyMapToUpdate == "am" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_109"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_110") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.AttachmentMode = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.AttachmentMode.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "am";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_110");
 				}
 				GUILayout.EndHorizontal ();
 
                 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Horizontal Center in Editor:", settingsLabelLayout);
-                if (keyMapToUpdate == "hc" && _lastKeyPressed != KeyCode.None)
+                GUILayout.Label(Localizer.Format("#LOC_EEX_111"), settingsLabelLayout);
+                if (keyMapToUpdate == Localizer.Format("#LOC_EEX_112") && _lastKeyPressed != KeyCode.None)
                 {
                     _config.KeyMap.HorizontalCenter = _lastKeyPressed;
                     keyMapToUpdate = string.Empty;
@@ -261,50 +262,50 @@ namespace EditorExtensionsRedux
                 if (GUILayout.Button(_config.KeyMap.HorizontalCenter.ToString()))
                 {
                     _lastKeyPressed = KeyCode.None;
-                    keyMapToUpdate = "hc";
+                    keyMapToUpdate = Localizer.Format("#LOC_EEX_112");
                 }
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Vertical snap:", settingsLabelLayout);
-				if (keyMapToUpdate == "vs" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_113"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_114") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.VerticalSnap = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.VerticalSnap.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "vs";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_114");
 				}
 				GUILayout.EndHorizontal ();
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Horizontal snap:", settingsLabelLayout);
-				if (keyMapToUpdate == "hs" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_115"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_116") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.HorizontalSnap = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.HorizontalSnap.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "hs";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_116");
 				}
 				GUILayout.EndHorizontal ();
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Strut/fuel align:", settingsLabelLayout);
-				if (keyMapToUpdate == "cpa" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_117"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_118") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.CompoundPartAlign = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.CompoundPartAlign.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "cpa";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_118");
 				}
 				GUILayout.EndHorizontal ();
 
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Toggle ReRoot:", settingsLabelLayout);
-                if (keyMapToUpdate == "reroot" && _lastKeyPressed != KeyCode.None)
+                GUILayout.Label(Localizer.Format("#LOC_EEX_119"), settingsLabelLayout);
+                if (keyMapToUpdate == Localizer.Format("#LOC_EEX_120") && _lastKeyPressed != KeyCode.None)
                 {
                     _config.KeyMap.ToggleReRoot = _lastKeyPressed;
                     keyMapToUpdate = string.Empty;
@@ -312,12 +313,12 @@ namespace EditorExtensionsRedux
                 if (GUILayout.Button(_config.KeyMap.ToggleReRoot.ToString()))
                 {
                     _lastKeyPressed = KeyCode.None;
-                    keyMapToUpdate = "reroot";
+                    keyMapToUpdate = Localizer.Format("#LOC_EEX_120");
                 }
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Toggle No Offset Limit:", settingsLabelLayout);
+                GUILayout.Label(Localizer.Format("#LOC_EEX_121"), settingsLabelLayout);
                 if (keyMapToUpdate == "nooffsetlimit" && _lastKeyPressed != KeyCode.None)
                 {
                     _config.KeyMap.ToggleNoOffsetLimit = _lastKeyPressed;
@@ -331,102 +332,102 @@ namespace EditorExtensionsRedux
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Reset camera:", settingsLabelLayout);
-				if (keyMapToUpdate == "rc" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_122"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_123") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.ResetCamera = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.ResetCamera.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "rc";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_123");
 				}
 				GUILayout.EndHorizontal ();
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Zoom Selected:", settingsLabelLayout);
-				if (keyMapToUpdate == "zs" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_124"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_125") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.ZoomSelected = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.ZoomSelected.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "zs";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_125");
 				}
 				GUILayout.EndHorizontal ();
 #if true
 
-                GUILayout.Label ("Fine Adjust Keys");
+                GUILayout.Label (Localizer.Format("#LOC_EEX_126"));
 
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Up:", settingsLabelLayout);
-				if (keyMapToUpdate == "up" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_127"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_128") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.Up = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.Up.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "up";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_128");
 				}
 				GUILayout.EndHorizontal ();
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Down:", settingsLabelLayout);
-				if (keyMapToUpdate == "down" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_129"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_130") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.Down = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.Down.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "down";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_130");
 				}
 				GUILayout.EndHorizontal ();
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Left:", settingsLabelLayout);
-				if (keyMapToUpdate == "left" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_131"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_132") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.Left = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.Left.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "left";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_132");
 				}
 				GUILayout.EndHorizontal ();
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Right:", settingsLabelLayout);
-				if (keyMapToUpdate == "right" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_133"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_134") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.Right = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.Right.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "right";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_134");
 				}
 				GUILayout.EndHorizontal ();
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Forward:", settingsLabelLayout);
-				if (keyMapToUpdate == "fwd" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_135"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_136") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.Forward = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.Forward.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "fwd";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_136");
 				}
 				GUILayout.EndHorizontal ();
 
 				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("Back:", settingsLabelLayout);
-				if (keyMapToUpdate == "back" && _lastKeyPressed != KeyCode.None) {
+				GUILayout.Label (Localizer.Format("#LOC_EEX_137"), settingsLabelLayout);
+				if (keyMapToUpdate == Localizer.Format("#LOC_EEX_138") && _lastKeyPressed != KeyCode.None) {
 					_config.KeyMap.Back = _lastKeyPressed;
 					keyMapToUpdate = string.Empty;
 				}
 				if (GUILayout.Button (_config.KeyMap.Back.ToString ())) {
 					_lastKeyPressed = KeyCode.None;
-					keyMapToUpdate = "back";
+					keyMapToUpdate = Localizer.Format("#LOC_EEX_138");
 				}
 				GUILayout.EndHorizontal ();
 #endif
@@ -443,7 +444,7 @@ namespace EditorExtensionsRedux
 							if (a != 0.0f) {
 								GUILayout.BeginHorizontal ();
 								GUILayout.Label (a.ToString (), settingsLabelLayout);
-								if (GUILayout.Button ("Remove")) {
+								if (GUILayout.Button (Localizer.Format("#LOC_EEX_139"))) {
 									_config.AngleSnapValues.Remove (a);
 								}
 								GUILayout.EndHorizontal ();
@@ -452,9 +453,9 @@ namespace EditorExtensionsRedux
 					}
 
 					GUILayout.BeginHorizontal ();
-					GUILayout.Label ("Add angle: ");
+					GUILayout.Label (Localizer.Format("#LOC_EEX_140"));
 					newAngleString = GUILayout.TextField (newAngleString);
-					if (GUILayout.Button ("Add")) {
+					if (GUILayout.Button (Localizer.Format("#LOC_EEX_141"))) {
 						float newAngle = 0.0f;
 
 						if (!string.IsNullOrEmpty (newAngleString) && float.TryParse (newAngleString, out newAngle)) {
@@ -488,20 +489,20 @@ namespace EditorExtensionsRedux
 			GUILayout.EndVertical ();//end main content
 
 			GUILayout.BeginHorizontal ();
-			if (GUILayout.Button ("Close")) {
+			if (GUILayout.Button (Localizer.Format("#LOC_EEX_51"))) {
 				//reload config to reset any unsaved changes?
 				//_config = ConfigManager.LoadConfig (_configFilePath);
 				CloseWindow ();
 			}
 
-			if (GUILayout.Button ("Defaults")) {
-				_config = ConfigManager.CreateDefaultConfig (_configFilePath, "DefaultSnap", _version);				
+			if (GUILayout.Button (Localizer.Format("#LOC_EEX_142"))) {
+				_config = ConfigManager.CreateDefaultConfig (_configFilePath, Localizer.Format("#LOC_EEX_6"), _version);				
 			}
-            if (GUILayout.Button("Stock"))
+            if (GUILayout.Button(Localizer.Format("#LOC_EEX_143")))
             {
-                _config = ConfigManager.CreateDefaultConfig(_configFilePath, "StockSnap", _version);
+                _config = ConfigManager.CreateDefaultConfig(_configFilePath, Localizer.Format("#LOC_EEX_144"), _version);
             }
-            if (GUILayout.Button ("Save")) {
+            if (GUILayout.Button (Localizer.Format("#LOC_EEX_145"))) {
 				ConfigManager.SaveConfig (_config, _configFilePath);
 				CloseWindow ();
 			}

@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,14 +99,14 @@ namespace EditorExtensionsRedux.StripSymmetry
         {
             if (obj == null)
             {
-                return "null";
+                return Localizer.Format("#LOC_EEX_161");
             }
             if (obj is IEnumerable)
             {
-                if (obj.GetType().GetMethod("ToString", new Type[] { }).IsOverride())
+                if (obj.GetType().GetMethod(Localizer.Format("#LOC_EEX_162"), new Type[] { }).IsOverride())
                 {
                     var e = obj as IEnumerable;
-                    return string.Format("[{0}]", string.Join(", ", e.Cast<object>().Select(a => a.PreFormat().ToString()).ToArray()));
+                    return string.Format( "[" + "{0}" +"]", string.Join(", ", e.Cast<object>().Select(a => a.PreFormat().ToString()).ToArray()));
                 }
             }
             return obj;
@@ -135,7 +136,7 @@ namespace EditorExtensionsRedux.StripSymmetry
             {
                 if (ex is InvalidCastException || ex is FormatException || ex is OverflowException || ex is ArgumentNullException)
                 {
-                    LogWf("Failed to convert string value \"{0}\" to type {1}", cfgValue, typeof(T).Name);
+                    LogWf( Localizer.Format("#LOC_EEX_163") + "{0}" + Localizer.Format("#LOC_EEX_164") + " {1}", cfgValue, typeof(T).Name);
                     return defaultValue;
                 }
                 throw;
@@ -177,7 +178,7 @@ namespace EditorExtensionsRedux.StripSymmetry
                 if (!(ex is InvalidCastException) && !(ex is FormatException) && !(ex is OverflowException) &&
                     !(ex is ArgumentNullException))
                     throw;
-                LogWf("Failed to convert string value \"{0}\" to type {1}", value, typeof(T).Name);
+                LogWf( Localizer.Format("#LOC_EEX_163") + "{0}" + Localizer.Format("#LOC_EEX_164") + " {1}", value, typeof(T).Name);
                 return defaultValue;
             }
         }

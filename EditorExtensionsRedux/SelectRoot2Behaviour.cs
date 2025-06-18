@@ -1,4 +1,5 @@
-﻿#if true
+#if true
+using KSP.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,7 +78,7 @@ namespace EditorExtensionsRedux {
 
                 //var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, "modeMsg");
                 var template = (ScreenMessage)Refl.GetValue(EditorLogic.fetch, EditorExtensions.c.MODEMSG);
-				ScreenMessages.PostScreenMessage("Select a new root part", template);
+				ScreenMessages.PostScreenMessage(Localizer.Format("#LOC_EEX_92"), template);
 			};
 
 			st_root_select.OnEnter += postNewMessageFn;

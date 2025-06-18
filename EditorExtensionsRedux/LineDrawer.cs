@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 #if false
+        #region NO_LOCALIZATION
+
 namespace EditorExtensionsRedux
 {
 	public class LineDrawer : MonoBehaviour
@@ -54,5 +56,5 @@ namespace EditorExtensionsRedux
 		}
 	}
 }
-
+#endregion
 #endif

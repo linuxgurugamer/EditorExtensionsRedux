@@ -16,9 +16,12 @@ namespace EditorExtensionsRedux
 	[KSPAddon(KSPAddon.Startup.EditorAny, true)]
 	class GizmoEvents : MonoBehaviour
 	{
-		public static readonly EventData<EditorGizmos.GizmoRotate> onRotateGizmoSpawned = new EventData<EditorGizmos.GizmoRotate>("onRotateGizmoSpawned");
+        #region NO_LOCALIZATION
+        public static readonly EventData<EditorGizmos.GizmoRotate> onRotateGizmoSpawned = new EventData<EditorGizmos.GizmoRotate>("onRotateGizmoSpawned");
 		public static readonly EventData<EditorGizmos.GizmoOffset> onOffsetGizmoSpawned = new EventData<EditorGizmos.GizmoOffset>("onOffsetGizmoSpawned");
-		public static bool rotateGizmoActive = false;
+        #endregion
+
+        public static bool rotateGizmoActive = false;
 		public static bool offsetGizmoActive = false;
 		public static EditorGizmos.GizmoOffset[] gizmosOffset = null;
 		public static EditorGizmos.GizmoOffsetHandle gizmoOffsetHandle = null;
@@ -52,17 +55,17 @@ namespace EditorExtensionsRedux
 			}
 		}
 
-
-		private void Awake()
+        #region NO_LOCALIZATION
+        private void Awake()
 		{
 			AddListenerToGizmo("RotateGizmo");
 			AddListenerToGizmo("OffsetGizmo");
 
 			Destroy(gameObject);
 		}
+        #endregion
 
-
-		private static void AddListenerToGizmo(string prefabName)
+        private static void AddListenerToGizmo(string prefabName)
 		{
 			var prefab = AssetBase.GetPrefab(prefabName);
 

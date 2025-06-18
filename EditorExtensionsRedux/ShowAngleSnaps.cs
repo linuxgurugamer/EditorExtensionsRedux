@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using UnityEngine;
 
 using ClickThroughFix;
@@ -68,7 +69,7 @@ namespace EditorExtensionsRedux
             if (Event.current.type == EventType.Layout)
             {
                 //_windowRect.yMax = _windowRect.yMin;
-                _windowRect = ClickThruBlocker.GUILayoutWindow(this.GetInstanceID(), _windowRect, WindowContent, "ASnaps");
+                _windowRect = ClickThruBlocker.GUILayoutWindow(this.GetInstanceID(), _windowRect, WindowContent, Localizer.Format("#LOC_EEX_146"));
             }
         }
 
@@ -102,7 +103,7 @@ namespace EditorExtensionsRedux
 
         void WindowContent(int windowID)
         {
-            GUILayout.BeginVertical("box");
+            GUILayout.BeginVertical(Localizer.Format("#LOC_EEX_66"));
 
             #region angle snap values settings
 
@@ -142,19 +143,19 @@ namespace EditorExtensionsRedux
             GUILayout.EndVertical();//end main content
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Close"))
+            if (GUILayout.Button(Localizer.Format("#LOC_EEX_51")))
             {
                 //reload config to reset any unsaved changes?
                 //_config = ConfigManager.LoadConfig (_configFilePath);
                 CloseWindow();
             }
 #if false
-            if (GUILayout.Button("Defaults"))
+            if (GUILayout.Button(Localizer.Format("#LOC_EEX_142")))
             {
                 _config = ConfigManager.CreateDefaultConfig(_configFilePath, _version);
             }
 
-            if (GUILayout.Button("Save"))
+            if (GUILayout.Button(Localizer.Format("#LOC_EEX_145")))
             {
                 ConfigManager.SaveConfig(_config, _configFilePath);
                 CloseWindow();

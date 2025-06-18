@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using UnityEngine;
 using KSP.UI.Screens; // has EditorPartList
 
@@ -42,7 +43,7 @@ namespace Rememberer
                 return;
             if (nodeFile == null)
             {
-                if (hasMod("PRUNE"))
+                if (hasMod(Localizer.Format("#LOC_EEX_156")))
                 {
                     EditorExtensionsRedux.Log.Info("Rememberer.Start, PRUNE found");
 

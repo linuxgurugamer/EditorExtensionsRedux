@@ -76,7 +76,6 @@
     <Compile Include="SelectRoot2Behaviour.cs" />
     <Compile Include="StripSymmetry\Enums.cs" />
     <Compile Include="StripSymmetry\ExtensionMethods.cs" />
-    <Compile Include="StripSymmetry\Hotkey.cs" />
     <Compile Include="StripSymmetry\OSD.cs" />
     <Compile Include="StripSymmetry\StripSymmetry.cs" />
     <Compile Include="StripSymmetry\Tools.cs" />

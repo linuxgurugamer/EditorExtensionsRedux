@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Reflection;
 using UnityEngine;
 
@@ -56,7 +57,7 @@ namespace EditorExtensionsRedux
                     return FI;
                 c++;
             }
-            throw new Exception("No such field: " + obj.GetType() + "#" + fieldNum.ToString());
+            throw new Exception(Localizer.Format("#LOC_EEX_154") + obj.GetType() + "#" + fieldNum.ToString());
         }
         public static object GetValue(object obj, int fieldNum)
         {
@@ -70,7 +71,7 @@ namespace EditorExtensionsRedux
 #if false
 		public static FieldInfo GetField(object obj, string name) {
 			var f = obj.GetType().GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-			if(f == null) throw new Exception("No such field: " + obj.GetType() + "#" + name);
+			if(f == null) throw new Exception(Localizer.Format("#LOC_EEX_154") + obj.GetType() + "#" + name);
 			return f;
 		}
 		public static object GetValue(object obj, string name) {
@@ -93,7 +94,7 @@ namespace EditorExtensionsRedux
                 c++;
             }
 
-            throw new Exception("No such method: " + obj.GetType() + "#" + methodnum);
+            throw new Exception(Localizer.Format("#LOC_EEX_155") + obj.GetType() + "#" + methodnum);
         }
         public static object Invoke(object obj, int methodnum, params object[] args)
         {
@@ -118,7 +119,7 @@ namespace EditorExtensionsRedux
 #if false
 		public static MethodInfo GetMethod(object obj, string name) {
 			var m = obj.GetType().GetMethod(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-			if(m == null) throw new Exception("No such method: " + obj.GetType() + "#" + name);
+			if(m == null) throw new Exception(Localizer.Format("#LOC_EEX_155") + obj.GetType() + "#" + name);
 			return m;
 		}
 		public static object Invoke(object obj, string name, params object[] args) {

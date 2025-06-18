@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C8B1248D-CC43-43E1-926E-EA62E44A2364}"
 	ProjectSection(SolutionItems) = preProject
 		buildRelease.bat = buildRelease.bat
+		ChangeLog.cfg = ChangeLog.cfg
 		ChangeLog.txt = ChangeLog.txt
 		deploy.bat = deploy.bat
 		EditorExtensionsRedux.version = EditorExtensionsRedux.version

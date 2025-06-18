@@ -1,4 +1,5 @@
-﻿using System;
+using KSP.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,16 +53,16 @@ namespace EditorExtensionsRedux.StripSymmetry
             if (p == null)
                 return;
 
-            print(String.Format("({0}).symMethod = {1}", p.partInfo.title, p.symMethod));
-            print(String.Format("({0}).symmetryCounterparts.Count = {1}", p.partInfo.title, p.symmetryCounterparts.Count));
+            print(String.Format( "(" + "{0}" + Localizer.Format("#LOC_EEX_157") + " {1}", p.partInfo.title, p.symMethod));
+            print(String.Format( "(" + "{0}" + Localizer.Format("#LOC_EEX_158") + " {1}", p.partInfo.title, p.symmetryCounterparts.Count));
             if (p.symmetryCounterparts.Count == 0 && !stripIsActive)
             {
-                _osd.Error("Part has no symmetry: " + p.partInfo.title);
+                _osd.Error(Localizer.Format("#LOC_EEX_159") + p.partInfo.title);
 				stripIsActive = true;
                 return;
             }
 			if (!stripIsActive) {
-				_osd.Info ("Removing symmetry...");
+				_osd.Info (Localizer.Format("#LOC_EEX_160"));
 				stripIsActive = true;
 				RemoveSymmetry (p);
 			}

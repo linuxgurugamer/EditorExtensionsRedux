@@ -31,6 +31,7 @@
 
 # 3:SOURCEFILE, DESTDIR
 3:EditorExtensionsRedux.version,GameData/EditorExtensionsRedux
+3:ChangeLog.cfg,GameData/EditorExtensionsRedux
 #3:LICENSE.md,GameData/KerbalHotSeat
 #3:README.md,GameData/KerbalHotSeat
 
